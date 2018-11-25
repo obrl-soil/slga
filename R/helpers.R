@@ -12,7 +12,7 @@
 #' it is assumed that it will be used to transform coordinates from a fairly
 #' limited list of known crs's, chiefly GDA94 (EPSG:4283) and its associated
 #' UTM and Albers equal area projections.
-#' @keywords Internal
+#' @keywords internal
 #' @importFrom sf st_bbox st_crs st_point st_sfc st_transform
 #'
 transform_bb <- function(bbox = NULL, crs = 4326) {
@@ -28,10 +28,10 @@ transform_bb <- function(bbox = NULL, crs = 4326) {
 #' Cheerfully stolen from raster package and adapted to sf bbox objects. This is
 #' designed to prevent WCS server-side interpolation.
 #' @param aoi `sf` bbox object
-#' @param product Character, one of the options from column 'Code' in
+#' @param product Character, one of the options from column 'Short_Name' in
 #'   `slga_product_info`.
 #' @param snap Character; 'near', 'in', or 'out'. Defaults to 'out'.
-#' @keywords Internal
+#' @keywords internal
 #' @importFrom utils data
 #'
 align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
@@ -41,11 +41,12 @@ align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
   utils::data('slga_product_info', envir = environment())
 
   res <- abs(
-    c(slga_product_info$offset_x[which(slga_product_info$Code == product)],
-      slga_product_info$offset_y[which(slga_product_info$Code == product)]))
+    c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
+      slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
 
-  orig <- c(slga_product_info$origin_x[which(slga_product_info$Code == product)],
-            slga_product_info$origin_y[which(slga_product_info$Code == product)])
+  orig <-
+    c(slga_product_info$origin_x[which(slga_product_info$Short_Name == product)],
+      slga_product_info$origin_y[which(slga_product_info$Short_Name == product)])
 
    if (snap == "near") {
     xmn <- round((aoi['xmin'] - orig[1])/res[1]) * res[1] +
@@ -105,9 +106,9 @@ align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
 #' Checks that an area of interest is of appropriate projection, size, and extent.
 #'
 #' @param aoi length 4 numeric vector, `raster` object, or `sf` object.
-#' @param product Character, one of the options from column 'Code' in
+#' @param product Character, one of the options from column 'Short_Name' in
 #'   `slga_product_info`.
-#' @keywords Internal
+#' @keywords internal
 #' @importFrom raster extent
 #' @importFrom sf st_crs st_as_sfc st_intersects
 #' @importFrom utils data
@@ -117,7 +118,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   # 1. for simple bounding vector, convert to sf style bbox
   if(all(length(aoi) == 4, inherits(aoi, 'numeric'))) {
     aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
-                     class = "bbox", crs = '+init=EPSG:4326')
+                     class = "bbox", crs = sf::st_crs(4326))
     message("Assuming AOI coordinates are in EPSG:4326 and ordered correctly.")
   }
 
@@ -127,19 +128,27 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
     aoi <- raster::extent(aoi)
     # low-dependency conversion to sf-style bbox pinched from sf/bbox.r
     aoi <- c(attr(aoi, 'xmin'), attr(aoi, 'ymin'),
-           attr(aoi, 'xmax'), attr(aoi, 'ymax'))
+             attr(aoi, 'xmax'), attr(aoi, 'ymax'))
     aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
                      class = "bbox", crs = aoi_crs)
+  }
+  # and bare extent objects jic but have to assume 4326 here
+  if(inherits(aoi, 'Extent')) {
+    aoi <- c(attr(aoi, 'xmin'), attr(aoi, 'ymin'),
+             attr(aoi, 'xmax'), attr(aoi, 'ymax'))
+    aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
+                     class = "bbox", crs = sf::st_crs(4326))
   }
   # note that EPSG code may be lost for some projections eg EPSG:3577
 
   # 3. Now assuming sf object here
-  # check crs, convert if not 4326
   ext <- if(inherits(aoi, 'sf')) {
     sf::st_bbox(aoi)
   } else {
     aoi
   }
+
+  # check crs, convert if not 4326
   ext <- if(is.na(attr(ext, 'crs')$epsg)) {
     if(grepl('+proj=lonlat|+datum=WGS84',
              attr(ext, 'crs')$proj4string) == FALSE) {
@@ -155,20 +164,17 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
     ext
   }
 
-  # check extent at least partly covers the requested data
-  # NOTE dependent on product requested so
+  # check extent at least partly covers the requested product
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
-  prd <- slga_product_info[which(slga_product_info$Code == product), ]
-  prd <-
-    structure(c(prd[['xmin']], prd[['ymin']], prd[['xmax']], prd[['ymax']]),
-              names = c("xmin", "ymin", "xmax", "ymax"),
-              class = "bbox", crs = '+init=EPSG:4326')
-
+  prd <- slga_product_info[which(slga_product_info$Short_Name == product), ]
+  prd <- c(prd[['xmin']], prd[['ymin']], prd[['xmax']], prd[['ymax']])
+  prd_aoi <- structure(prd, names = c("xmin", "ymin", "xmax", "ymax"),
+              class = "bbox", crs =  sf::st_crs(4326))
   # cast both extents to sfc and check intersect
   # note slightly dodgy as unprojected
   ol <- suppressMessages(
-    sf::st_intersects(sf::st_as_sfc(ext), sf::st_as_sfc(prd))
+    sf::st_intersects(sf::st_as_sfc(ext), sf::st_as_sfc(prd_aoi))
     )
   if(length(ol[[1]]) == 0L) {
     stop('AOI does not overlap requested product extent.')
@@ -179,12 +185,30 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   y_range <- abs(ext[2] - ext[4])
   if(any(x_range > 3, y_range > 3)) {
     stop('The requested aoi is too large;
-         please to restrict to a maximum of 3x3 decimal degrees.')
+         please restrict to a maximum of 3x3 decimal degrees.')
   }
 
   # Align extent to source to avoid server-side interpolation and grid shift
   align_aoi(aoi = ext, product = product)
   }
 
+#' Validate product/attribute combination
+#'
+#' Check whether the requested attribute is available for the requested product.
+#'
+#' @param product Character, one of the options from column 'Code' in
+#'   `slga_product_info`.
+#' @param attribute Character, one of the options from column 'Code' in
+#'   `slga_attribute_info`.
+#' @return Logical; TRUE if available
+#' @keywords internal
+#'
+check_avail <- function(product = NULL, attribute = NULL) {
 
+  slga_attribute_info <- NULL
+  utils::data('slga_attribute_info', envir = environment())
+
+  slga_attribute_info[which(slga_attribute_info$Code == attribute), product]
+
+}
 

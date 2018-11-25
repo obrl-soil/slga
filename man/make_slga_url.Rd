@@ -8,7 +8,7 @@ make_slga_url(product = NULL, attribute = NULL, component = NULL,
   depth = NULL, aoi = NULL)
 }
 \arguments{
-\item{product}{Character, one of the options from column 'Code' in
+\item{product}{Character, one of the options from column 'Short_Name' in
 `slga_product_info`.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
@@ -18,22 +18,22 @@ make_slga_url(product = NULL, attribute = NULL, component = NULL,
 
 \item{depth}{Integer, a number from 1 to 6. The numbers correspond to the
  following depth ranges:
-\itemize{
- \item{1}{0 to 5 cm.}
- \item{2}{5 to 15 cm.}
- \item{3}{15 to 30 cm.}
- \item{4}{30 to 60 cm.}
- \item{5}{60 to 100 cm.}
- \item{6}{100 to 200 cm.}
+\enumerate{
+ \item 0 to 5 cm.
+ \item 5 to 15 cm.
+ \item 15 to 30 cm.
+ \item 30 to 60 cm.
+ \item 60 to 100 cm.
+ \item 100 to 200 cm.
  }}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
-interest. The vector may be specified directly in the order xmin, xmax,
-ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
+interest. The vector may be specified directly in the order xmin, ymin,
+xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
 }
 \description{
 Generate the URL for a particular product, attribute, component and depth
 available from the Soil and Landscape Grid of Australia.
 }
-\keyword{Internal}
+\keyword{internal}

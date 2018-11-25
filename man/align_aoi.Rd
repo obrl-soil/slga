@@ -9,7 +9,7 @@ align_aoi(aoi = NULL, product = NULL, snap = "out")
 \arguments{
 \item{aoi}{`sf` bbox object}
 
-\item{product}{Character, one of the options from column 'Code' in
+\item{product}{Character, one of the options from column 'Short_Name' in
 `slga_product_info`.}
 
 \item{snap}{Character; 'near', 'in', or 'out'. Defaults to 'out'.}
@@ -18,4 +18,4 @@ align_aoi(aoi = NULL, product = NULL, snap = "out")
 Cheerfully stolen from raster package and adapted to sf bbox objects. This is
 designed to prevent WCS server-side interpolation.
 }
-\keyword{Internal}
+\keyword{internal}

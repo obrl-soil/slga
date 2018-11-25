@@ -2,13 +2,13 @@
 % Please edit documentation in R/get_data.R
 \name{get_single_raster}
 \alias{get_single_raster}
-\title{download SLGA datasets}
+\title{download single SLGA raster subset}
 \usage{
 get_single_raster(product = NULL, attribute = NULL, component = NULL,
   depth = NULL, aoi = NULL, write_out = TRUE)
 }
 \arguments{
-\item{product}{Character, one of the options from column 'Code' in
+\item{product}{Character, one of the options from column 'Short_Name' in
 `slga_product_info`.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
@@ -18,13 +18,13 @@ get_single_raster(product = NULL, attribute = NULL, component = NULL,
 
 \item{depth}{Integer, a number from 1 to 6. The numbers correspond to the
  following depth ranges:
-\itemize{
- \item{1}{0 to 5 cm.}
- \item{2}{5 to 15 cm.}
- \item{3}{15 to 30 cm.}
- \item{4}{30 to 60 cm.}
- \item{5}{60 to 100 cm.}
- \item{6}{100 to 200 cm.}
+\enumerate{
+ \item 0 to 5 cm.
+ \item 5 to 15 cm.
+ \item 15 to 30 cm.
+ \item 30 to 60 cm.
+ \item 60 to 100 cm.
+ \item 100 to 200 cm.
  }}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
@@ -46,3 +46,4 @@ service.
 \note{
 Output rasters are restricted to a maximum size of 3x3 decimal degrees.
 }
+\keyword{internal}

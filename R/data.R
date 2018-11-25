@@ -8,6 +8,11 @@
 #' \item{Code}{Short code for attribute}
 #' \item{Units}{Attribute measurement units}
 #' \item{Transformation}{Attribute measurement scaling}
+#' \item{NAT}{Whether the attribute is available as part of this product.}
+#' \item{NAT_3D}{Whether the attribute is available as part of this product.}
+#' \item{SA}{Whether the attribute is available as part of this product.}
+#' \item{TAS}{Whether the attribute is available as part of this product.}
+#' \item{WA}{Whether the attribute is available as part of this product.}
 #' }
 #' @source See also
 #' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
@@ -22,9 +27,10 @@
 #' All datasets are projected in EPSG:4326 (WGS84). Grid parameters have been
 #' retrieved from metadata viewable with WCS DescribeCoverage requests.
 #'
-#' #' @format A data frame with 5 observations and 8 variables \describe{
-#' \item{Region}{Region Name}
-#' \item{Code}{Short code for region}
+#' @format A data frame with 5 observations and 8 variables \describe{
+#' \item{Product}{Product Name}
+#' \item{Short_Name}{Product short name}
+#' \item{Code}{Product code}
 #' \item{xmin}{left bounding longitude in decimal degrees}
 #' \item{xmax}{right bounding longitude in decimal degrees}
 #' \item{ymin}{bottom latitude in decimal degrees}
@@ -33,35 +39,77 @@
 #' \item{offset_y}{Cell resolution in y dimension}
 #' \item{origin_x}{x coordinate result of `raster::origin()` for this dataset.}
 #' \item{origin_y}{y coordinate result of `raster::origin()` for this dataset.}
-#' \item{ncols}{number of raster cells in x dimension}
-#' \item{nrows}{number of raster cells in y dimension}
+#' \item{ncol}{number of raster cells in x dimension}
+#' \item{nrow}{number of raster cells in y dimension}
 #' }
 #' @source See also
 #' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 #'
 'slga_product_info'
 
+#' King Island surface clay content
+#'
+#' A `rasterStack` containing modelled estimated percent clay content for King
+#' Island, off the north-west coast of Tasmania.
+#'
+#' The dataset was retrieved from the Regional Soil Attributes - Tasmania -
+#' Clay WCS on 2018/11/25 using the demonstration code in
+#' \code{\link[slga:get_slga_data]{get_slga_data}}.
+#'
+#' The dataset has three named layers. The first is the estimated value, the
+#' second is the 5\% confidence limit, and the third is the 95\% confidence limit.
+#'
+#' The dataset is in WGS84 (EPSG:4326) and has a resolution of 3 arc seconds, which
+#' is approximately 70x90m when projected into EPSG:28355 or EPSG:3577.
+#'
+#' Note that some off-shore areas have a value of 0 rather than NA. A coastline
+#' masking layer will be required to safely remove these values.
+#'
+"ki_surface_clay"
+
+
 ## yo what about terrain atts???
 
-# Generated with
-#slga_attribute_info <- data.frame(
-#  "Name" = c('Depth_to_Rock', 'Rooting_Depth', 'Organic_Carbon',
-#             'pH_Soil_Water', 'PH_Soil_CaCl2', 'Clay', 'Silt', 'Sand',
-#             'ECEC', 'Bulk_Density', 'Available_Water_Capacity',
-#             'Electrical_Conductivity', 'Total_Phosphorus',
-#             'Total_Nitrogen'),
-#  "Code" = c('DER', 'DPE', 'SOC', 'PHW', 'PHC', 'CLY', 'SLT', 'SND',
-#             'ECE', 'BDW', 'AWC', 'ECD', 'PTO', 'NTO'),
-#  "Units" = c('Meters', 'Meters', '%', '', '', '%', '%', '%',
-#              'meq/100g', 'g/cm', 'load%', 'dS/m', '%', '%'),
-#  "Transformation" = c('None', 'None', 'Log', 'None', 'None', 'None',
-#                       'None', 'None', 'Log', 'None', 'None', 'Log',
-#                       'Log', 'Log'),
-#  stringsAsFactors = FALSE)
+## Generated with
+#slga_attribute_info <-
+#  data.frame(
+#    "Name" =
+#       c('Available Water Capacity', 'Bulk Density (Fine Earth)',
+#         'Bulk Density (Whole Earth)', 'Cation Exchange Capacity',
+#         'Cation Exchange Capacity (Effective)', 'Clay',  'Coarse Fragments',
+#         'Depth of Regolith', 'Depth of Soil', 'Electrical Conductivity',
+#         'Organic Carbon', 'pH CaCl2',  'pH Water', 'Sand', 'Silt',
+#         'Total Nitrogen', 'Total Phosphorus'),
+#    "Code" =
+#      c('AWC', 'BDF', 'BDW', 'CEC', 'ECE', 'CLY', 'CFG', 'DER', 'DES', 'ECD',
+#        'SOC', 'PHC', 'PHW', 'SND', 'SLT', 'NTO', 'PTO'),
+#    "Units" =
+#      c('%', 'g/cm', 'g/cm', 'meq/100g', 'meq/100g', '%', '%', 'Meters',
+#        'Meters',  'dS/m', '%', 'pH Units', 'pH Units', '%', '%', '%', '%'),
+#    "Transformation" =
+#      c('None', 'None', 'None', 'Log', 'Log', 'None', 'None', 'None', 'None',
+#        'Log', 'Log', 'None', 'None', 'None', 'None', 'Log', 'Log'),
+#    'NAT' =
+#      c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE,
+#        TRUE, FALSE, TRUE, TRUE, TRUE, TRUE),
+#    'NAT_3D' =
+#      c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE,
+#        TRUE, FALSE, TRUE, TRUE, TRUE, TRUE),
+#    'SA' =
+#      c(TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE,
+#        TRUE, FALSE, TRUE, TRUE, FALSE, FALSE),
+#    'TAS' =
+#      c(FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE,
+#        FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
+#    'WA' =
+#      c(TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
+#        FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
+#    stringsAsFactors = FALSE)
 #
 #slga_product_info <- data.frame(
-#  'Region' = c("National_3D", "National", "South_Australia", "Tasmania",
+#  'Product' = c("National_3D", "National", "South_Australia", "Tasmania",
 #               "Western_Australia"),
+#  'Short_Name' = c('NAT_3D', 'NAT', 'SA', 'TAS', 'WA'),
 #  'Code' = c("ACLEP_AU_TRN_N", "ACLEP_AU_NAT_C", "ACLEP_AU_SAT_D",
 #             "ACLEP_AU_TAS_N", "ACLEP_AU_WAT_D"),
 #  'xmin'     = c(112.9995833334, 112.9995833334, 131.58708333370001, 143.73458333389601, 112.99958333299942),
@@ -77,5 +125,5 @@
 #  stringsAsFactors = FALSE
 #)
 #
-#usethis::use_data(slga_attribute_info)
+#usethis::use_data(slga_attribute_info, overwrite = TRUE)
 #usethis::use_data(slga_product_info, overwrite = TRUE)

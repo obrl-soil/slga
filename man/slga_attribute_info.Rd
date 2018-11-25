@@ -9,6 +9,11 @@
 \item{Code}{Short code for attribute}
 \item{Units}{Attribute measurement units}
 \item{Transformation}{Attribute measurement scaling}
+\item{NAT}{Whether the attribute is available as part of this product.}
+\item{NAT_3D}{Whether the attribute is available as part of this product.}
+\item{SA}{Whether the attribute is available as part of this product.}
+\item{TAS}{Whether the attribute is available as part of this product.}
+\item{WA}{Whether the attribute is available as part of this product.}
 }}
 \source{
 See also

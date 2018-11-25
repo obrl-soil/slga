@@ -4,7 +4,21 @@
 \name{slga_product_info}
 \alias{slga_product_info}
 \title{SLGA Product Information}
-\format{An object of class \code{data.frame} with 5 rows and 12 columns.}
+\format{A data frame with 5 observations and 8 variables \describe{
+\item{Product}{Product Name}
+\item{Short_Name}{Product short name}
+\item{Code}{Product code}
+\item{xmin}{left bounding longitude in decimal degrees}
+\item{xmax}{right bounding longitude in decimal degrees}
+\item{ymin}{bottom latitude in decimal degrees}
+\item{ymax}{top bounding latitude in decimal degrees}
+\item{offset_x}{Cell resolution in x dimension}
+\item{offset_y}{Cell resolution in y dimension}
+\item{origin_x}{x coordinate result of `raster::origin()` for this dataset.}
+\item{origin_y}{y coordinate result of `raster::origin()` for this dataset.}
+\item{ncol}{number of raster cells in x dimension}
+\item{nrow}{number of raster cells in y dimension}
+}}
 \source{
 See also
 \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
@@ -19,20 +33,5 @@ Soil and Landscape Grid of Australia.
 \details{
 All datasets are projected in EPSG:4326 (WGS84). Grid parameters have been
 retrieved from metadata viewable with WCS DescribeCoverage requests.
-
-#' @format A data frame with 5 observations and 8 variables \describe{
-\item{Region}{Region Name}
-\item{Code}{Short code for region}
-\item{xmin}{left bounding longitude in decimal degrees}
-\item{xmax}{right bounding longitude in decimal degrees}
-\item{ymin}{bottom latitude in decimal degrees}
-\item{ymax}{top bounding latitude in decimal degrees}
-\item{offset_x}{Cell resolution in x dimension}
-\item{offset_y}{Cell resolution in y dimension}
-\item{origin_x}{x coordinate result of `raster::origin()` for this dataset.}
-\item{origin_y}{y coordinate result of `raster::origin()` for this dataset.}
-\item{ncols}{number of raster cells in x dimension}
-\item{nrows}{number of raster cells in y dimension}
-}
 }
 \keyword{datasets}

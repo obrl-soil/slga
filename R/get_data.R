@@ -1,22 +1,22 @@
-#' download SLGA datasets
+#' download single SLGA raster subset
 #'
 #' Retrieves SLGA gridded soil and landscape data in raster format from WCS
 #' service.
 #'
-#' @param product Character, one of the options from column 'Code' in
+#' @param product Character, one of the options from column 'Short_Name' in
 #'   `slga_product_info`.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   `slga_attribute_info`.
 #' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
 #' @param depth Integer, a number from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
-#'  \itemize{
-#'   \item{1}{0 to 5 cm.}
-#'   \item{2}{5 to 15 cm.}
-#'   \item{3}{15 to 30 cm.}
-#'   \item{4}{30 to 60 cm.}
-#'   \item{5}{60 to 100 cm.}
-#'   \item{6}{100 to 200 cm.}
+#'  \enumerate{
+#'   \item 0 to 5 cm.
+#'   \item 5 to 15 cm.
+#'   \item 15 to 30 cm.
+#'   \item 30 to 60 cm.
+#'   \item 60 to 100 cm.
+#'   \item 100 to 200 cm.
 #'   }
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, xmax,
@@ -27,9 +27,9 @@
 #' @return Raster dataset for a single combination of product, attribute,
 #'   component, depth, and area of interest.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+#' @keywords internal
 #' @importFrom httr content GET
 #' @importFrom raster getValues raster writeRaster
-#' @export
 #'
 
 get_single_raster <- function(product   = NULL,
@@ -38,6 +38,12 @@ get_single_raster <- function(product   = NULL,
                               depth     = NULL,
                               aoi       = NULL,
                               write_out = TRUE) {
+
+  # check availability
+  if(check_avail(product, attribute) == FALSE) {
+    stop("The requested attribute is not available as part of the requested
+         product. Please check data('slga_attribute_info').")
+  }
 
   # generate URL
   this_url <- make_slga_url(product = product, attribute = attribute,
@@ -62,6 +68,9 @@ get_single_raster <- function(product   = NULL,
 
   # pull back in and tidy up
   r <- raster::raster(out_temp)
+  # NB on the coast there are sometimes patches of offshore '0' values
+  # they should be NA, but there's a risk of ditching onshore 0's
+  # so can't safely remove, particularly with ci_low datasets
   r[which(raster::getValues(r) == -9999)] <- NA_real_
 
   # write final product to working directory if directed
@@ -72,4 +81,167 @@ get_single_raster <- function(product   = NULL,
   } else {
     r
   }
+}
+
+#' Get SLGA data
+#'
+#' Downloads SLGA gridded soil and landscape data in raster format from public WCS
+#' services.
+#'
+#' @param product Character, one of the options from column 'Short_Name' in
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#' @param attribute Character, one of the options from column 'Code' in
+#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
+#' @param component Character, one of 'all', 'value', 'ci', 'ci_low', or
+#'   'ci_high'. Defaults to 'all'.
+#' @param depth Integer from 1 to 6. The numbers correspond to the
+#'   following depth ranges:
+#'  \enumerate{
+#'   \item 0 to 5 cm.
+#'   \item 5 to 15 cm.
+#'   \item 15 to 30 cm.
+#'   \item 30 to 60 cm.
+#'   \item 60 to 100 cm.
+#'   \item 100 to 200 cm.
+#'   }
+#' @param aoi Vector of WGS84 coordinates defining a rectangular area of
+#'   interest. The vector may be specified directly in the order xmin, ymin,
+#'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
+#'   or `raster` object.
+#' @param write_out Boolean, whether to write the retrieved dataset to the
+#'   working directory as a GeoTiff.
+#' @return Raster stack or single raster, depending on the value of `component`.
+#' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+#'   Outputs are also aligned to the parent dataset rather than the aoi. Further
+#'   resampling may be required for some applications.
+#' @examples \dontrun{
+#' # get surface clay data for King Island
+#' aoi <- c(143.75, -40.17, 144.18, -39.57)
+#' ki_surface_clay <- get_slga_data(product = 'TAS', attribute = 'CLY',
+#'                                  component = 'all', depth = 1,
+#'                                  aoi = aoi, write_out = FALSE)
+#'
+#' # get estimated clay by depth for King Island
+#' ki_all_clay <- lapply(seq.int(6), function(d) {
+#' get_slga_data(product = 'TAS', attribute = 'CLY',
+#'               component = 'value', depth = d,
+#'               aoi = aoi, write_out = F)
+#' })
+#' ki_all_clay <- raster::brick(ki_all_clay)
+#' }
+#' @importFrom raster raster stack writeRaster
+#' @export
+#'
+get_slga_data <- function(product   = NULL,
+                          attribute = NULL,
+                          component = 'all',
+                          depth     = NULL,
+                          aoi       = NULL,
+                          write_out = TRUE) {
+
+  component <- match.arg(component,
+                          c('all', 'ci', 'value', 'ci_low', 'ci_high'))
+  depth_pretty <-
+    switch(depth, `1` = "000_005", `2` = "005_015", `3` = "015_030",
+           `4` = "030_060", `5` = "060_100", `6` = "100_200")
+
+  switch(component, 'all' = {
+    val <- get_single_raster(product = product, attribute = attribute,
+                             component = 'value', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    clo <- suppressMessages(
+      get_single_raster(product = product, attribute = attribute,
+                             component = 'ci_low', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    )
+    chi <-  suppressMessages(
+      get_single_raster(product = product, attribute = attribute,
+                             component = 'ci_high', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    )
+
+    s <- raster::stack(val, clo, chi)
+    names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
+                      sep = '_')
+
+    if(write_out == TRUE) {
+      out_name <- paste(product, attribute, 'ALL', depth_pretty, sep = '_')
+      out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
+      raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
+      raster::stack(out_dest)
+    } else {
+      s
+    }
+  },
+  'ci' = {
+    clo <- get_single_raster(product = product, attribute = attribute,
+                             component = 'ci_low', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    chi <-  suppressMessages(
+      get_single_raster(product = product, attribute = attribute,
+                             component = 'ci_high', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    )
+
+    s <- raster::stack(clo, chi)
+    names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
+                      sep = '_')
+
+    if(write_out == TRUE) {
+      out_name <- paste(product, attribute, 'CIS', depth_pretty, sep = '_')
+      out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
+      raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
+      raster::stack(out_dest)
+    } else {
+      s
+    }
+  },
+  'value' = {
+    val <- get_single_raster(product = product, attribute = attribute,
+                             component = 'value', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    names(val) <- paste(product, attribute, 'VAL', depth_pretty,
+                      sep = '_')
+    if(write_out == TRUE) {
+      out_dest <- file.path(getwd(), paste0(names(val), '.tif'))
+      raster::writeRaster(val, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
+      raster::raster(out_dest)
+    } else {
+      val
+    }
+  },
+  'ci_low' = {
+    clo <- get_single_raster(product = product, attribute = attribute,
+                             component = 'ci_low', depth = depth,
+                             aoi = aoi, write_out = FALSE)
+    names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
+                        sep = '_')
+    if(write_out == TRUE) {
+      out_dest <- file.path(getwd(), paste0(names(clo), '.tif'))
+      raster::writeRaster(clo, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
+      raster::raster(out_dest)
+    } else {
+      clo
+    }
+  },
+  'ci_high' = {
+    chi <- get_single_raster(product = product, attribute = attribute,
+                      component = 'ci_high', depth = depth,
+                      aoi = aoi, write_out = FALSE)
+    names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
+                        sep = '_')
+    if(write_out == TRUE) {
+      out_dest <- file.path(getwd(), paste0(names(chi), '.tif'))
+      raster::writeRaster(chi, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
+      raster::raster(out_dest)
+    } else {
+      chi
+    }
+  }
+  )
 }

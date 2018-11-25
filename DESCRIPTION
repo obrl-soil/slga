@@ -1,13 +1,13 @@
 Package: slga
 Type: Package
 Title: Data access tools for the Soil and Landscape Grid of Australia
-Version: 0.1.0
-Date: 2018-03-18
+Version: 0.2.0
+Date: 2018-11-25
 Authors@R: c(
     person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre')),
-    person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('aut')))
+    person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant')))
 Description: Provides access to Soil and Landscape Grid raster datasets via existing WCS services. See www.csiro.au/soil-and-landscape-grid.
-License:  MIT + file LICENSE
+License: MIT + file LICENSE
 Depends:
     R (>= 2.10)
 Imports:
@@ -18,3 +18,8 @@ Imports:
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

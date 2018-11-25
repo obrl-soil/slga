@@ -26,4 +26,4 @@ it is assumed that it will be used to transform coordinates from a fairly
 limited list of known crs's, chiefly GDA94 (EPSG:4283) and its associated
 UTM and Albers equal area projections.
 }
-\keyword{Internal}
+\keyword{internal}

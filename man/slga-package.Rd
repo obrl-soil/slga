@@ -12,9 +12,9 @@ WCS services. See www.csiro.au/soil-and-landscape-grid.
 \author{
 \strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com}
 
-Authors:
+Other contributors:
 \itemize{
-  \item Ross Searle \email{ross.searle@csiro.au}
+  \item Ross Searle \email{ross.searle@csiro.au} [bibliographic antecedent]
 }
 
 }

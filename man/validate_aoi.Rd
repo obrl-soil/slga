@@ -9,10 +9,10 @@ validate_aoi(aoi = NULL, product = NULL)
 \arguments{
 \item{aoi}{length 4 numeric vector, `raster` object, or `sf` object.}
 
-\item{product}{Character, one of the options from column 'Code' in
+\item{product}{Character, one of the options from column 'Short_Name' in
 `slga_product_info`.}
 }
 \description{
 Checks that an area of interest is of appropriate projection, size, and extent.
 }
-\keyword{Internal}
+\keyword{internal}

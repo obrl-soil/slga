@@ -1,0 +1,84 @@
+---
+title: "Acessing SLGA Data"
+author: "@obrl_soil"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = 'center', fig.width = 8, fig.height = 5
+)
+```
+
+This is a quick overview of how to retrieve data from the Soil and Landscape Grid of Australia.
+
+```{r pkgs}
+library(raster)
+library(slga)
+options(stringsAsFactors = FALSE)
+```
+
+One high-level wrapper function, `get_slga_data()`, has been provided to manage downloads. To use it correctly, you should be aware of the package datasets `slga_attribute_info` and `slga_product_info`. They contain allowable values for some of the function inputs as well as key metadata.
+
+The two tables are derived from information on the [SLGA website](http://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html) and in the WCS metadata documents.
+
+Data is available in a large number of combinations - each product has a set of available attributes (soil and terrain properties). Not all attributes are available within each product, but you can check which ones are available in `slga_attribute_info`. Each attribute has six depth slices ranging from the land surface to 2m BGL. Each attribute also has three layers - the estimated attribute value, plus its lower and upper confidence limits.
+
+The function `get_slga_data` is capable of pulling out data for one combination of product, attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a `raster` or `rasterStack` object.
+
+As a demonstration, the surface (0-5 cm) percentage clay content for King Island is available with `data('ki_surface_clay')`:
+
+```{r kic}
+data('ki_surface_clay')
+ki_surface_clay
+```
+
+```{r kic_plot, echo = FALSE, results = 'hold'}
+plot(ki_surface_clay, zlim = c(0, 65), nc = 3)
+```
+
+Note that some offshore areas have 0 values rather than NA; these are difficult to remove safely without an adequate coastline mask. You may need to generate one yourself if you are working along the coast.
+
+### Defining queries
+
+The query to retrieve the above maps looked like:
+
+```{r 'qry', eval = FALSE}
+aoi <- c(143.75, -40.17, 144.18, -39.57)
+ki_surface_clay <- get_slga_data(product = 'TAS', attribute = 'CLY',
+                                 component = 'all', depth = 1,
+                                 aoi = aoi, write_out = FALSE)
+
+```
+
+Note that valid `product` parameters are defined in `slga_product_info$Short_Name`, and valid `attribute` parameters in `slga_attribute_info$Code`. If a particular combination is not available, the function will fail gracefully.
+
+### Area of interest
+
+The output datasets are always source-aligned - that is, the returned SLGA data will align with its parent coverage rather than your supplied `aoi` parameter. This is deliberate; WCS services default to target-alignment, which involves hidden server-side resampling behaviour when a geographical subset is supplied. If you need a dataset that aligns with other data, it is best practice to carry out any resampling and realignment at your end, after retrieving a 'clean' subset of SLGA data. Functions like `raster::resample()` may be useful at this point.
+
+## Advanced querying
+
+To retrieve data from e.g. more than one depth, you can use an interator like `base::lapply()` or `'purrr::map()`. For instance, to retrieve estimated clay values for all depths over King Island, you could do the following:
+
+```{r 'allclay', eval = FALSE}
+# not run
+ki_all_clay <- lapply(seq.int(6), function(d) {
+  get_slga_data(product = 'TAS', attribute = 'CLY',
+                component = 'value', depth = d,
+                aoi = aoi, write_out = F)
+})
+ki_all_clay <- raster::brick(ki_all_clay)
+
+```
+
+Similar iteration can be carried out with a vector of attributes or products.
+
+***
