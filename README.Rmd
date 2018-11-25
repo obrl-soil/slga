@@ -12,6 +12,9 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
+[![Travis build status](https://travis-ci.com/obrl-soil/slga.svg?branch=master)](https://travis-ci.com/obrl-soil/slga)
+
 # slga
 
 slga offers the ability to download geosgraphic subsets of raster data from the Soil and Landscape Grid of Australia.
@@ -26,4 +29,24 @@ devtools::install_github("obrl-soil/slga")
 
 ## Example
 
-TBA
+```{r pkgs}
+library(raster)
+library(slga)
+```
+
+```{r demo, eval = FALSE}
+# get surface clay content for King Island
+aoi <- c(143.75, -40.17, 144.18, -39.57)
+ki_surface_clay <- get_slga_data(product = 'TAS', attribute = 'CLY',
+                                 component = 'all', depth = 1,
+                                 aoi = aoi, write_out = FALSE)
+```
+
+```{r dplot, echo = FALSE, results = 'hold'}
+data('ki_surface_clay')
+plot(ki_surface_clay, zlim = c(0, 65), nc = 3)
+```
+
+See the package vignette for further detail.
+
+*** 

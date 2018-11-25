@@ -1,3 +1,9 @@
+# slga 0.3.0
+
+  * Update readme
+  * Added travis
+
+
 # slga 0.2.0
 
   * Retrieval functionality wrapped in `get_slga_data()` to get raster values and confidence intervals in one object. For more complex requests involving multiple depth ranges, attributes, products or combinations thereof, use this with a map-style function e.g. `base::lapply()` or `purrr::map()`.
