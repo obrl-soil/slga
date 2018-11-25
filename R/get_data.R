@@ -3,7 +3,7 @@
 #' Retrieves SLGA gridded soil and landscape data in raster format from WCS
 #' service.
 #'
-#' @params product Character, one of the options from column 'Code' in
+#' @param product Character, one of the options from column 'Code' in
 #'   `slga_product_info`.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   `slga_attribute_info`.
@@ -14,9 +14,10 @@
 #'   \item{1}{0 to 5 cm.}
 #'   \item{2}{5 to 15 cm.}
 #'   \item{3}{15 to 30 cm.}
-#'   \item{4}}{30 to 60 cm.}
+#'   \item{4}{30 to 60 cm.}
 #'   \item{5}{60 to 100 cm.}
-#'   \item{6}{100 to 200 cm.}}
+#'   \item{6}{100 to 200 cm.}
+#'   }
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, xmax,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
@@ -25,7 +26,7 @@
 #'   working directory as a GeoTiff.
 #' @return Raster dataset for a single combination of product, attribute,
 #'   component, depth, and area of interest.
-#' @Note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+#' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
 #' @importFrom httr content GET
 #' @importFrom raster getValues raster writeRaster
 #' @export

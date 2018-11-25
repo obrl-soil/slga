@@ -30,13 +30,14 @@ transform_bb <- function(bbox = NULL, crs = 4326) {
 #' @param aoi `sf` bbox object
 #' @param product Character, one of the options from column 'Code' in
 #'   `slga_product_info`.
-#' @snap Character; 'near', 'in', or 'out'. Defaults to 'out'.
+#' @param snap Character; 'near', 'in', or 'out'. Defaults to 'out'.
 #' @keywords Internal
 #' @importFrom utils data
 #'
 align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
 {
   snap <- match.arg(snap, c("near", "in", "out"))
+  slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
 
   res <- abs(
@@ -156,6 +157,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
 
   # check extent at least partly covers the requested data
   # NOTE dependent on product requested so
+  slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
   prd <- slga_product_info[which(slga_product_info$Code == product), ]
   prd <-
@@ -181,7 +183,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   }
 
   # Align extent to source to avoid server-side interpolation and grid shift
-  align_aoi(aoi = ext, product = product, snap = "out")
+  align_aoi(aoi = ext, product = product)
   }
 
 

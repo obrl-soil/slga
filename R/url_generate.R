@@ -14,9 +14,10 @@
 #'   \item{1}{0 to 5 cm.}
 #'   \item{2}{5 to 15 cm.}
 #'   \item{3}{15 to 30 cm.}
-#'   \item{4}}{30 to 60 cm.}
+#'   \item{4}{30 to 60 cm.}
 #'   \item{5}{60 to 100 cm.}
-#'   \item{6}{100 to 200 cm.}}
+#'   \item{6}{100 to 200 cm.}
+#'   }
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, xmax,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
@@ -29,7 +30,9 @@ make_slga_url <- function(product = NULL, attribute = NULL,
                           aoi = NULL) {
 
   url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
+  slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
+  slga_attribute_info <- NULL
   utils::data('slga_attribute_info', envir = environment())
 
   product   <- match.arg(product,   slga_product_info$Code)

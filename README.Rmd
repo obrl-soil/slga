@@ -1,0 +1,29 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# slga
+
+slga offers the ability to download geosgraphic subsets of raster data from the Soil and Landscape Grid of Australia.
+
+## Installation
+
+Install from github with
+
+```{r 'installation', eval = FALSE}
+devtools::install_github("obrl-soil/slga")
+```
+
+## Example
+
+TBA

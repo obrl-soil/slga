@@ -8,6 +8,7 @@
 #' \item{Code}{Short code for attribute}
 #' \item{Units}{Attribute measurement units}
 #' \item{Transformation}{Attribute measurement scaling}
+#' }
 #' @source See also
 #' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 #'
@@ -34,6 +35,7 @@
 #' \item{origin_y}{y coordinate result of `raster::origin()` for this dataset.}
 #' \item{ncols}{number of raster cells in x dimension}
 #' \item{nrows}{number of raster cells in y dimension}
+#' }
 #' @source See also
 #' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 #'
