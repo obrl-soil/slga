@@ -21,5 +21,6 @@ RoxygenNote: 6.1.1
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 VignetteBuilder: knitr

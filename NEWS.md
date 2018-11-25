@@ -1,8 +1,7 @@
 # slga 0.3.0
 
-  * Update readme
-  * Added travis
-
+  * Updated README.md
+  * Added travis and codecov
 
 # slga 0.2.0
 
