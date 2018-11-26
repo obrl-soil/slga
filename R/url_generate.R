@@ -1,12 +1,12 @@
 #' Make SLGA WCS URL
 #'
-#' Generate the URL for a particular product, attribute, component and depth
-#' available from the Soil and Landscape Grid of Australia.
+#' Generate the URL for a particular soils product, attribute, component and
+#' depth available from the Soil and Landscape Grid of Australia.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   `slga_product_info`.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
 #' @param attribute Character, one of the options from column 'Code' in
-#'   `slga_attribute_info`.
+#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
 #' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
 #' @param depth Integer, a number from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
@@ -25,7 +25,7 @@
 #' @keywords internal
 #' @importFrom utils data
 #'
-make_slga_url <- function(product = NULL, attribute = NULL,
+make_soils_url <- function(product = NULL, attribute = NULL,
                           component = NULL, depth = NULL,
                           aoi = NULL) {
 
@@ -55,7 +55,51 @@ make_slga_url <- function(product = NULL, attribute = NULL,
 
   product_long <-
     slga_product_info$Code[which(slga_product_info$Short_Name == product)]
+
   paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
+         "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
+         "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
+         "&WIDTH=", cols,
+         "&HEIGHT=", rows,
+         "&FORMAT=GeoTIFF")
+}
+
+#' Make SLGA Landscape URL
+#'
+#' Generate the URL for a particular landscape attribute available from the Soil
+#' and Landscape Grid of Australia.
+#'
+#' @param product Character, one of the options from column 'Short_Name' in
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#' @param aoi Vector of WGS84 coordinates defining a rectangular area of
+#'   interest. The vector may be specified directly in the order xmin, ymin,
+#'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
+#'   or `raster` object.
+#' @keywords internal
+#' @importFrom utils data
+#'
+make_lscape_url <- function(product = NULL, aoi = NULL) {
+
+  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
+  slga_product_info <- NULL
+  utils::data('slga_product_info', envir = environment())
+
+  product   <- match.arg(product, slga_product_info$Short_Name)
+  layers    <-
+    slga_product_info$Short_Name[which(slga_product_info$Type == 'Landscape')]
+  layer_id  <- which(layers == product)
+
+  # aoi extent checking handled in helper function
+  aoi <- validate_aoi(aoi, product)
+
+  res <- abs(
+    c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
+      slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
+
+  cols <- round(abs(aoi[1] - aoi[3]) / res[1])
+  rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+
+  paste0(url_root, "/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?",
          "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
          "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
          "&WIDTH=", cols,

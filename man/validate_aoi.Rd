@@ -13,6 +13,7 @@ validate_aoi(aoi = NULL, product = NULL)
 `slga_product_info`.}
 }
 \description{
-Checks that an area of interest is of appropriate projection, size, and extent.
+Checks that an area of interest is of appropriate projection, size, and
+extent.
 }
 \keyword{internal}

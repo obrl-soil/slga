@@ -1,6 +1,10 @@
 # slga 0.4.0
 
-  * Add access to terrain services
+  * Add access to landscape datasets - API change per below.
+  * Renamed `get_slga_data()` to `get_soils_data()`. 
+  * Added `get_lscape_data()` for landscape parameter retrieval, plus supporting internal functions.
+  * Modified `slga_product_info` to contain landscape parameters.
+  * Extended vignette to cover landscape dataset retrieval.  
 
 # slga 0.3.0
 
