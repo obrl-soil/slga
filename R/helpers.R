@@ -103,7 +103,8 @@ align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
 
 #' Validate AOI
 #'
-#' Checks that an area of interest is of appropriate projection, size, and extent.
+#' Checks that an area of interest is of appropriate projection, size, and
+#' extent.
 #'
 #' @param aoi length 4 numeric vector, `raster` object, or `sf` object.
 #' @param product Character, one of the options from column 'Short_Name' in

@@ -1,4 +1,4 @@
-context('url generator')
+context('url_generator')
 
 test_that(
   'url generates correctly',

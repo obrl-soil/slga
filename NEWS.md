@@ -1,3 +1,7 @@
+# slga 0.4.0
+
+  * Add access to terrain services
+
 # slga 0.3.0
 
   * Updated README.md
