@@ -3,9 +3,9 @@
 #' Retrieves SLGA gridded soil data in raster format from WCS service.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   `slga_product_info`.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
 #' @param attribute Character, one of the options from column 'Code' in
-#'   `slga_attribute_info`.
+#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}
 #' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
 #' @param depth Integer, a number from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
@@ -315,7 +315,7 @@ get_lscape_data <- function(product   = NULL,
 
   # write final product to working directory if directed
   if(write_out == TRUE) {
-    out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
+    out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
     if(product %in% c('RELCL', 'MRVBF')) {
       raster::writeRaster(r, out_dest, datatype = 'INT2S',
                           NAflag = -9999, overwrite = TRUE)

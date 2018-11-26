@@ -29,22 +29,26 @@ make_soils_url <- function(product = NULL, attribute = NULL,
                           component = NULL, depth = NULL,
                           aoi = NULL) {
 
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
   slga_attribute_info <- NULL
   utils::data('slga_attribute_info', envir = environment())
 
-  product   <- match.arg(product, slga_product_info$Short_Name)
+  product   <-
+    match.arg(product,
+              slga_product_info$Short_Name[which(slga_product_info$Type == 'Soil')])
   attribute <- match.arg(attribute, slga_attribute_info$Code)
   component <- match.arg(component, c('value', 'ci_low', 'ci_high'))
+  if(!(depth %in% seq.int(6))) {
+    stop('Please choose a value between 1 and 6 for depth.')
+  }
+  # aoi extent checking handled in helper function
+  aoi <- validate_aoi(aoi, product)
+
   component <- switch(component, 'value' = 0L, 'ci_high' = 1L, 'ci_low' = 2L)
   depth     <- switch(depth, `1` =  1L, `2` =  4L, `3` = 7L,
                              `4` = 10L, `5` = 13L, `6` = 16L)
   layer_id  <- component + depth
-
-  # aoi extent checking handled in helper function
-  aoi <- validate_aoi(aoi, product)
 
   res <- abs(
     c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
@@ -55,7 +59,7 @@ make_soils_url <- function(product = NULL, attribute = NULL,
 
   product_long <-
     slga_product_info$Code[which(slga_product_info$Short_Name == product)]
-
+  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
   paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
          "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
          "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
@@ -80,17 +84,18 @@ make_soils_url <- function(product = NULL, attribute = NULL,
 #'
 make_lscape_url <- function(product = NULL, aoi = NULL) {
 
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
 
-  product   <- match.arg(product, slga_product_info$Short_Name)
+  product   <-
+    match.arg(product,
+              slga_product_info$Short_Name[which(slga_product_info$Type
+                                                 == 'Landscape')])
+  aoi <- validate_aoi(aoi, product)
+
   layers    <-
     slga_product_info$Short_Name[which(slga_product_info$Type == 'Landscape')]
   layer_id  <- which(layers == product)
-
-  # aoi extent checking handled in helper function
-  aoi <- validate_aoi(aoi, product)
 
   res <- abs(
     c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
@@ -99,6 +104,7 @@ make_lscape_url <- function(product = NULL, aoi = NULL) {
   cols <- round(abs(aoi[1] - aoi[3]) / res[1])
   rows <- round(abs(aoi[2] - aoi[4]) / res[2])
 
+  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
   paste0(url_root, "/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?",
          "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
          "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),

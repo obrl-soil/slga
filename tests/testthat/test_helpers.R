@@ -55,7 +55,8 @@ test_that(
     expect_equivalent(val1[1], val2[1]),
     expect_equivalent(val1[2], val2[2]),
     expect_equivalent(val1[3], val2[3]),
-    expect_equivalent(val1[4], val2[4])
+    expect_equivalent(val1[4], val2[4]),
+    expect_error(slga:::validate_aoi(aoi, 'NAT', snap = 'wherever'))
   )
 )
 
@@ -77,8 +78,13 @@ test_that(
     expect_equal(val1, val3),
     aoi_raster <- raster::extent(sf::st_sf(sf::st_as_sfc(val1), 4326)),
     val4 <- slga:::validate_aoi(aoi_raster, 'NAT'),
-    expect_equal(val1, val4)
-    # can't test raster obj without demo data
+    expect_equal(val1, val4),
+    library(raster),
+    data('ki_surface_clay'),
+    val5 <- slga:::validate_aoi(ki_surface_clay, 'NAT'),
+    val6 <- slga:::validate_aoi(raster::extent(ki_surface_clay), 'NAT'),
+    expect_equal(val5, val6),
+    expect_error(slga:::validate_aoi('1', 'NAT'))
   )
 )
 
