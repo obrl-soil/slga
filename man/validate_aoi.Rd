@@ -10,7 +10,7 @@ validate_aoi(aoi = NULL, product = NULL)
 \item{aoi}{length 4 numeric vector, `raster` object, or `sf` object.}
 
 \item{product}{Character, one of the options from column 'Short_Name' in
-`slga_product_info`.}
+\code{\link[slga:slga_product_info]{slga_product_info}}.}
 }
 \description{
 Checks that an area of interest is of appropriate projection, size, and

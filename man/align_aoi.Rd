@@ -10,12 +10,13 @@ align_aoi(aoi = NULL, product = NULL, snap = "out")
 \item{aoi}{`sf` bbox object}
 
 \item{product}{Character, one of the options from column 'Short_Name' in
-`slga_product_info`.}
+\code{\link[slga:slga_product_info]{slga_product_info}}.}
 
 \item{snap}{Character; 'near', 'in', or 'out'. Defaults to 'out'.}
 }
 \description{
-Cheerfully stolen from raster package and adapted to sf bbox objects. This is
-designed to prevent WCS server-side interpolation.
+Cheerfully stolen from code{\link[raster:alignExtent]{raster::alignExtent}}
+and adapted to sf bbox objects. This is designed to prevent WCS server-side
+interpolation.
 }
 \keyword{internal}

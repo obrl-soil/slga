@@ -2,21 +2,22 @@
 % Please edit documentation in R/helpers.R
 \name{check_avail}
 \alias{check_avail}
-\title{Validate product/attribute combination}
+\title{Validate soils product/attribute combination}
 \usage{
 check_avail(product = NULL, attribute = NULL)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Code' in
-`slga_product_info`.}
+code{\link[slga:slga_product_info]{slga_product_info}}.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
-`slga_attribute_info`.}
+code{\link[slga:slga_attribute_info]{slga_attribute_info}}.}
 }
 \value{
 Logical; TRUE if available
 }
 \description{
-Check whether the requested attribute is available for the requested product.
+Check whether the requested soils attribute is available for the requested
+soils product.
 }
 \keyword{internal}

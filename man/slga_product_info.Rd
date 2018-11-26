@@ -15,8 +15,10 @@
 \item{ymax}{top bounding latitude in decimal degrees}
 \item{offset_x}{Cell resolution in x dimension}
 \item{offset_y}{Cell resolution in y dimension}
-\item{origin_x}{x coordinate result of `raster::origin()` for this dataset.}
-\item{origin_y}{y coordinate result of `raster::origin()` for this dataset.}
+\item{origin_x}{x coordinate result of
+  \code{\link[raster:origin]{raster::origin()}} for this dataset.}
+\item{origin_y}{y coordinate result of
+  \code{\link[raster:origin]{raster::origin()}} for this dataset.}
 \item{ncol}{number of raster cells in x dimension}
 \item{nrow}{number of raster cells in y dimension}
 }}

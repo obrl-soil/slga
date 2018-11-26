@@ -9,13 +9,13 @@
 ki_surface_clay
 }
 \description{
-A `rasterStack` containing modelled estimated percent clay content for King
+A rasterStack containing modelled estimated percent clay content for King
 Island, off the north-west coast of Tasmania.
 }
 \details{
 The dataset was retrieved from the Regional Soil Attributes - Tasmania -
 Clay WCS on 2018/11/25 using the demonstration code in
-\code{\link[slga:get_slga_data]{get_slga_data}}.
+\code{\link[slga:get_soils_data]{get_soils_data}}.
 
 The dataset has three named layers. The first is the estimated value, the
 second is the 5\% confidence limit, and the third is the 95\% confidence limit.
