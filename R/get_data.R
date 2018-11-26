@@ -264,7 +264,7 @@ get_soils_data <- function(product   = NULL,
 #' @return Raster dataset for a single landscape product.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
 #' @importFrom httr content GET
-#' @importFrom raster getValues raster writeRaster
+#' @importFrom raster getValues raster subs writeRaster
 #' @examples \dontrun{
 #' # get slope data for King Island
 #' aoi <- c(143.75, -40.17, 144.18, -39.57)
@@ -294,19 +294,25 @@ get_lscape_data <- function(product   = NULL,
 
   # pull back in and tidy up
   r <- raster::raster(out_temp)
-  # NA values vary for landscape products
-  # don't alter TPMSK/TPIND???
-  if(product %in% c('RELCL')) {
+
+  # TPMSK needs reclassifying so you can mask with tpi + tpm
+  if(product == 'TPMSK') {
+    df <- data.frame(c(0,1,255), c(NA_integer_, 0L, NA_integer_))
+    r <- raster::subs(r, df, by = 1, which = 2)
+  }
+
+  # NA values otherwise vary for landscape products
+  if(product %in% c('RELCL', 'TPIND')) {
     r[which(raster::getValues(r) == 0)] <- NA_integer_
   }
 
-  if(product == 'MRVBF') {
+  if(product %in% c('MRVBF')) {
     r[which(raster::getValues(r) == 255)] <- NA_integer_
   }
 
   if(product %in% c('SLPPC', 'SLMPC', 'ASPCT', 'REL1K', 'REL3C', 'TWIND',
                     'CAPRT', 'PLNCV', 'PRFCV')) {
-    r[which(raster::getValues(r) == -3.402823e+38)] <- NA_real_
+    r[which(raster::getValues(r) == -3.4028234663852886e+38)] <- NA_real_
   }
 
   if(product %in% c('PSIND', 'NRJAN', 'NRJUL', 'TSJAN', 'TSJUL')) {
