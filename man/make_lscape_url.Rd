@@ -4,16 +4,19 @@
 \alias{make_lscape_url}
 \title{Make SLGA Landscape URL}
 \usage{
-make_lscape_url(product = NULL, aoi = NULL)
+make_lscape_url(product = NULL, aoi = NULL, req_type = "cov")
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
-\code{\link[slga:slga_product_info]{slga_product_info}}.}
+\code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+'Landscape'.}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
 interest. The vector may be specified directly in the order xmin, ymin,
 xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
+
+\item{req_type}{Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.}
 }
 \description{
 Generate the URL for a particular landscape attribute available from the Soil

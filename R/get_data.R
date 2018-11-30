@@ -27,7 +27,7 @@
 #'   component, depth, and area of interest.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
 #' @keywords internal
-#' @importFrom httr content GET
+#' @importFrom httr content GET write_disk
 #' @importFrom raster getValues raster writeRaster
 #'
 get_soils_raster <- function(product   = NULL,
@@ -47,11 +47,8 @@ get_soils_raster <- function(product   = NULL,
   this_url <- make_soils_url(product = product, attribute = attribute,
                              component = component, depth = depth,
                              aoi = aoi)
-  # get data
-  got <- httr::GET(url = this_url)
 
-  # convert raw to GTiff
-  # code depth for filename
+  # code up filename
   depth_pretty <- switch(depth,
                          `1` = "000_005", `2` = "005_015", `3` = "015_030",
                          `4` = "030_060", `5` = "060_100", `6` = "100_200")
@@ -59,12 +56,10 @@ get_soils_raster <- function(product   = NULL,
                     sep = '_')
   out_temp <- file.path(tempdir(), paste0(out_name, '.tif'))
 
-  # write GET contents as GTiff to tmpdir
-  con <- file(out_temp, open = "wb")
-  writeBin(httr::content(got), con)
-  close(con)
+  # get data, send to temp file
+  suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
 
-  # pull back in and tidy up
+  # read in temp and tidy up
   r <- raster::raster(out_temp)
   # NB on the coast there are sometimes patches of offshore '0' values
   # they should be NA, but there's a risk of ditching onshore 0's
@@ -263,7 +258,7 @@ get_soils_data <- function(product   = NULL,
 #'   working directory as a GeoTiff.
 #' @return Raster dataset for a single landscape product.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
-#' @importFrom httr content GET
+#' @importFrom httr content GET write_disk
 #' @importFrom raster getValues raster subs writeRaster
 #' @examples \dontrun{
 #' # get slope data for King Island
@@ -283,14 +278,10 @@ get_lscape_data <- function(product   = NULL,
 
   # generate URL
   this_url <- make_lscape_url(product = product, aoi = aoi)
-  # get data
-  got <- httr::GET(url = this_url)
 
-  # convert raw to GTiff
+  # get data, send to temp file
   out_temp <- file.path(tempdir(), paste0('SLGA_', product, '.tif'))
-  con <- file(out_temp, open = "wb")
-  writeBin(httr::content(got), con)
-  close(con)
+  suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
 
   # pull back in and tidy up
   r <- raster::raster(out_temp)
@@ -322,7 +313,7 @@ get_lscape_data <- function(product   = NULL,
   # write final product to working directory if directed
   if(write_out == TRUE) {
     out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
-    if(product %in% c('RELCL', 'MRVBF')) {
+    if(product %in% c('RELCL', 'MRVBF', 'TPIND', 'TPMSK')) {
       raster::writeRaster(r, out_dest, datatype = 'INT2S',
                           NAflag = -9999, overwrite = TRUE)
     } else {

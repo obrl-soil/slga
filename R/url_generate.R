@@ -6,7 +6,8 @@
 #' @param product Character, one of the options from column 'Short_Name' in
 #'   \code{\link[slga:slga_product_info]{slga_product_info}}.
 #' @param attribute Character, one of the options from column 'Code' in
-#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
+#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
+#'   'Soil'.
 #' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
 #' @param depth Integer, a number from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
@@ -22,50 +23,85 @@
 #'   interest. The vector may be specified directly in the order xmin, ymin,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
+#' @param req_type Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.
 #' @keywords internal
 #' @importFrom utils data
 #'
 make_soils_url <- function(product = NULL, attribute = NULL,
                           component = NULL, depth = NULL,
-                          aoi = NULL) {
+                          aoi = NULL, req_type = 'cov') {
 
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
   slga_attribute_info <- NULL
   utils::data('slga_attribute_info', envir = environment())
 
+  req_type <- match.arg(req_type, c('cap', 'cov', 'desc'))
+  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
   product   <-
     match.arg(product,
               slga_product_info$Short_Name[which(slga_product_info$Type == 'Soil')])
+  product_long <-
+    slga_product_info$Code[which(slga_product_info$Short_Name == product)]
+  if(is.null(attribute)) { stop('Please specify an attribute.') } # fu match.arg
   attribute <- match.arg(attribute, slga_attribute_info$Code)
+
+  #getcap operates at a higher level so
+  if(req_type == 'cap') {
+    return(
+      paste0(url_root, "/", attribute, "_", product_long,
+           "/MapServer/WCSServer?",
+           "REQUEST=GetCapabilities&SERVICE=WCS&VERSION=1.0.0")
+    )
+  }
+
+  # desccov can operate at service or coverage level so
+  if(all(req_type == 'desc', is.null(depth))) {
+    return(
+    paste0(url_root, "/", attribute, "_", product_long,
+           "/MapServer/WCSServer?",
+           "REQUEST=DescribeCoverage&SERVICE=WCS&VERSION=1.0.0")
+    )
+  }
+
   component <- match.arg(component, c('value', 'ci_low', 'ci_high'))
   if(!(depth %in% seq.int(6))) {
     stop('Please choose a value between 1 and 6 for depth.')
   }
-  # aoi extent checking handled in helper function
-  aoi <- validate_aoi(aoi, product)
 
   component <- switch(component, 'value' = 0L, 'ci_high' = 1L, 'ci_low' = 2L)
   depth     <- switch(depth, `1` =  1L, `2` =  4L, `3` = 7L,
                              `4` = 10L, `5` = 13L, `6` = 16L)
   layer_id  <- component + depth
 
-  res <- abs(
-    c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
-      slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
+  switch(
+    req_type,
+    # layer level description
+    'desc' =
+      paste0(url_root, "/", attribute, "_", product_long,
+             "/MapServer/WCSServer?",
+             "REQUEST=DescribeCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=",
+             layer_id),
+    # actual data
+    'cov' = {
+      # aoi extent checking handled in helper function
+      aoi <- validate_aoi(aoi, product)
 
-  cols <- round(abs(aoi[1] - aoi[3]) / res[1])
-  rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+      res <- abs(
+        c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
+          slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
 
-  product_long <-
-    slga_product_info$Code[which(slga_product_info$Short_Name == product)]
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
-  paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
-         "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
-         "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
-         "&WIDTH=", cols,
-         "&HEIGHT=", rows,
-         "&FORMAT=GeoTIFF")
+      cols <- round(abs(aoi[1] - aoi[3]) / res[1])
+      rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+
+      paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
+             "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
+             "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
+             "&WIDTH=", cols,
+             "&HEIGHT=", rows,
+             "&FORMAT=GeoTIFF")
+    }
+  )
 }
 
 #' Make SLGA Landscape URL
@@ -74,28 +110,57 @@ make_soils_url <- function(product = NULL, attribute = NULL,
 #' and Landscape Grid of Australia.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+#'   'Landscape'.
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, ymin,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
+#' @param req_type Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.
 #' @keywords internal
 #' @importFrom utils data
 #'
-make_lscape_url <- function(product = NULL, aoi = NULL) {
+make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
+
+  req_type <- match.arg(req_type, c('cap', 'cov', 'desc'))
+  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
+  service_root <- "/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?"
+
+  if(req_type == 'cap') {
+    return(
+      paste0(url_root, service_root,
+             "REQUEST=GetCapabilities&SERVICE=WCS&VERSION=1.0.0")
+    )
+  }
+
+  if(all(req_type == 'desc', is.null(product))) {
+    return(
+      paste0(url_root, service_root,
+             "REQUEST=DescribeCoverage&SERVICE=WCS&VERSION=1.0.0")
+    )
+  }
 
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
 
+  if(is.null(product)) { stop('Please specify a product.')}
   product   <-
     match.arg(product,
               slga_product_info$Short_Name[which(slga_product_info$Type
                                                  == 'Landscape')])
-  aoi <- validate_aoi(aoi, product)
-
   layers    <-
     slga_product_info$Short_Name[which(slga_product_info$Type == 'Landscape')]
   layer_id  <- which(layers == product)
+
+  if(req_type == 'desc') {
+    return(
+      paste0(url_root, service_root,
+             "REQUEST=DescribeCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=",
+             layer_id)
+    )
+  }
+
+  aoi <- validate_aoi(aoi, product)
 
   res <- abs(
     c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
@@ -104,8 +169,7 @@ make_lscape_url <- function(product = NULL, aoi = NULL) {
   cols <- round(abs(aoi[1] - aoi[3]) / res[1])
   rows <- round(abs(aoi[2] - aoi[4]) / res[2])
 
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
-  paste0(url_root, "/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?",
+  paste0(url_root, service_root,
          "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
          "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
          "&WIDTH=", cols,

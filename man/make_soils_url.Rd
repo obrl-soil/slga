@@ -5,14 +5,15 @@
 \title{Make SLGA WCS URL}
 \usage{
 make_soils_url(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, aoi = NULL)
+  depth = NULL, aoi = NULL, req_type = "cov")
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
 \code{\link[slga:slga_product_info]{slga_product_info}}.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
-\code{\link[slga:slga_attribute_info]{slga_attribute_info}}.}
+\code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
+'Soil'.}
 
 \item{component}{Character, one of 'value', 'ci_low', or 'ci_high'.}
 
@@ -31,6 +32,8 @@ make_soils_url(product = NULL, attribute = NULL, component = NULL,
 interest. The vector may be specified directly in the order xmin, ymin,
 xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
+
+\item{req_type}{Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.}
 }
 \description{
 Generate the URL for a particular soils product, attribute, component and
