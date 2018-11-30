@@ -9,7 +9,8 @@ get_soils_raster(product = NULL, attribute = NULL, component = NULL,
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
-\code{\link[slga:slga_product_info]{slga_product_info}}.}
+\code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+'Soil'.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
 \code{\link[slga:slga_attribute_info]{slga_attribute_info}}}

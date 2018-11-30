@@ -2,6 +2,8 @@
 
 export(get_lscape_data)
 export(get_soils_data)
+export(metadata_lscape)
+export(metadata_soils)
 importFrom(httr,GET)
 importFrom(httr,content)
 importFrom(httr,write_disk)
@@ -19,3 +21,4 @@ importFrom(sf,st_point)
 importFrom(sf,st_sfc)
 importFrom(sf,st_transform)
 importFrom(utils,data)
+importFrom(xml2,as_list)

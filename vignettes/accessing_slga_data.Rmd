@@ -1,10 +1,10 @@
 ---
-title: "Acessing SLGA Data"
+title: "Accessing SLGA Data"
 author: "@obrl_soil"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Accessing SLGA Data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -76,7 +76,7 @@ The output datasets are always source-aligned - that is, the returned SLGA data 
 
 ## Advanced querying
 
-To retrieve data from e.g. more than one depth, you can use an interator like `base::lapply()` or `purrr::map()`. For instance, to retrieve estimated clay values for all depths over King Island, you could do the following:
+To retrieve data from e.g. more than one depth, you can use an iterator like `base::lapply()` or `purrr::map()`. For instance, to retrieve estimated clay values for all depths over King Island, you could do the following:
 
 ```{r 'allclay', eval = FALSE}
 # not run
@@ -90,5 +90,13 @@ ki_all_clay <- raster::brick(ki_all_clay)
 ```
 
 Similar iteration can be carried out with a vector of attributes or products.
+
+## Metadata
+
+Service and coverage level metadata for soil and landscape data can be retrieved with `metadata_soils()` and `metadata_lscape()`. For example, 
+
+```{r mdeg, eval = FALSE}
+tas_clay_mdc <- metadata_soils('TAS', 'CLY', req_type = 'cov')
+```
 
 ***

@@ -8,7 +8,8 @@ get_lscape_data(product = NULL, aoi = NULL, write_out = TRUE)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
-\code{\link[slga:slga_product_info]{slga_product_info}}.}
+\code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+'Landscape'.}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
 interest. The vector may be specified directly in the order xmin, xmax,
