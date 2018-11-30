@@ -3,7 +3,8 @@
 #' Retrieves SLGA gridded soil data in raster format from WCS service.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+#'   'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}
 #' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
@@ -82,7 +83,8 @@ get_soils_raster <- function(product   = NULL,
 #' services.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+#'   'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
 #' @param component Character, one of 'all', 'value', 'ci', 'ci_low', or
@@ -249,7 +251,8 @@ get_soils_data <- function(product   = NULL,
 #' services.
 #'
 #' @param product Character, one of the options from column 'Short_Name' in
-#'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+#'   'Landscape'.
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, xmax,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
