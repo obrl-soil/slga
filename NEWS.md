@@ -1,7 +1,7 @@
 # slga 0.5.0
 
   * data type fixes for lscape, more efficient download method
-  * Added `metadata_soil()` and `metadata_landscape()` to provide access to service metadata in XML or JSON format.
+  * Added `metadata_soils()` and `metadata_lscape()` to provide access to service metadata in XML or JSON format.
 
 # slga 0.4.0
 
