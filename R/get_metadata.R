@@ -29,23 +29,25 @@
 #' @export
 #'
 metadata_soils <- function(product = NULL, attribute = NULL,
-                           component= NULL, depth = NULL,
+                           component = NULL, depth = NULL,
                            req_type = 'desc', format = 'native') {
 
-  req_type = match.arg(req_type, c('cap' , 'desc'))
-  this_url <- switch(req_type,
-         'cap' = make_soils_url(product = product, attribute = attribute,
-                               req_type = 'cap'),
-         'desc' = make_soils_url(product = product, attribute = attribute,
-                                component = component, depth = depth,
-                                req_type = 'desc'))
+  req_type <- match.arg(req_type, c('cap' , 'desc'))
+  format <- match.arg(format, c('native', 'xml'))
+  this_url <-
+    switch(req_type,
+             'cap'  = make_soils_url(product = product, attribute = attribute,
+                                     req_type = 'cap'),
+             'desc' = make_soils_url(product = product, attribute = attribute,
+                                     component = component, depth = depth,
+                                     req_type = 'desc'))
 
   this_metadata <- httr::GET(url = this_url) # WCS < 2.0 won't return JSON ;_;
 
   if(format == 'native') {
-    xml2::as_list(content(this_metadata))
+    xml2::as_list(content(this_metadata, encoding = 'UTF-8'))
   } else {
-    content(this_metadata)
+    content(this_metadata, encoding = 'UTF-8')
   }
 }
 
@@ -74,7 +76,8 @@ metadata_lscape <- function(product  = NULL,
                             req_type = 'desc',
                             format   = 'native') {
 
-  req_type = match.arg(req_type, c('cap' , 'desc'))
+  req_type <- match.arg(req_type, c('cap' , 'desc'))
+  format <- match.arg(format, c('native', 'xml'))
   this_url <-
     switch(req_type,
            'cap'  = make_lscape_url(product = product, req_type = 'cap'),
@@ -83,8 +86,8 @@ metadata_lscape <- function(product  = NULL,
   this_metadata <- httr::GET(url = this_url) # WCS < 2.0 won't return JSON ;_;
 
   if(format == 'native') {
-    xml2::as_list(content(this_metadata))
+    xml2::as_list(content(this_metadata, encoding = 'UTF-8'))
   } else {
-    content(this_metadata)
+    content(this_metadata, encoding = 'UTF-8')
   }
 }
