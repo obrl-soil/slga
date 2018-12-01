@@ -37,13 +37,12 @@ test_that(
 
 test_that(
   'align_aoi functions as expected',
-  # only testing snap = 'out' for now as not using the others
   c(
     aoi <- structure(c(143.75, -40.17, 144.18, -39.57),
                       names = c("xmin", "ymin", "xmax", "ymax"),
                       class = "bbox", crs = sf::st_crs(4326)),
-    val1 <- slga:::validate_aoi(aoi, 'NAT'),
-    val2 <- slga:::validate_aoi(aoi, 'TAS'),
+    val1 <- slga:::align_aoi(aoi, 'NAT'),
+    val2 <- slga:::align_aoi(aoi, 'TAS'),
     expect_is(val1, 'bbox'),
     expect_equal(attr(val1, 'crs')$epsg, 4326),
     expect_is(val2, 'bbox'),
@@ -56,7 +55,22 @@ test_that(
     expect_equivalent(val1[2], val2[2]),
     expect_equivalent(val1[3], val2[3]),
     expect_equivalent(val1[4], val2[4]),
-    expect_error(slga:::validate_aoi(aoi, 'NAT', snap = 'wherever'))
+    val3 <- slga:::align_aoi(aoi, 'NAT', snap = 'in'),
+    # in is inside out
+    expect_true(val1[[1]] < val3[[1]]),
+    expect_true(val1[[2]] < val3[[2]]),
+    expect_true(val1[[3]] > val3[[3]]),
+    expect_true(val1[[4]] > val3[[4]]),
+    # by only one cell
+    expect_equivalent(val1[1] - val3[1], -0.0008333333),
+    expect_equivalent(val1[2] - val3[2], -0.0008333333),
+    expect_equivalent(val1[3] - val3[3], 0.0008333333),
+    expect_equivalent(val1[4] - val3[4], 0.0008333333),
+    val4 <- slga:::align_aoi(aoi, 'NAT', snap = 'near'),
+    # near is near
+    expect_true(val1[[1]] == val4[[1]]),
+    expect_true(val1[[2]] != val4[[2]]),
+    expect_error(slga:::align_aoi(aoi, 'NAT', snap = 'wherever'))
   )
 )
 
@@ -84,7 +98,14 @@ test_that(
     val5 <- slga:::validate_aoi(ki_surface_clay, 'NAT'),
     val6 <- slga:::validate_aoi(raster::extent(ki_surface_clay), 'NAT'),
     expect_equal(val5, val6),
-    expect_error(slga:::validate_aoi('1', 'NAT'))
+    expect_error(slga:::validate_aoi('1', 'NAT')),
+    val7 <- sf::st_as_sfc(aoi, crs = 4326),
+    expect_equal(slga:::validate_aoi(val7, 'NAT'), val1),
+    val8 <- st_bbox(sf::st_transform(sf::st_as_sfc(aoi, crs = 4326), 28356)),
+    val9 <- val8,
+    attr(val9, 'crs')$epsg <- NA,
+    expect_equal(slga:::validate_aoi(val8, 'NAT'), slga:::validate_aoi(val9, 'NAT')),
+    expect_equal(slga:::validate_aoi(val9, 'NAT'), slga:::validate_aoi(val9, 'NAT'))
   )
 )
 

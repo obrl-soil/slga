@@ -125,6 +125,7 @@ get_soils_raster <- function(product   = NULL,
 #' ki_all_clay <- raster::brick(ki_all_clay)
 #' }
 #' @importFrom raster raster stack writeRaster
+#' @importFrom utils data
 #' @export
 #'
 get_soils_data <- function(product   = NULL,
@@ -134,11 +135,13 @@ get_soils_data <- function(product   = NULL,
                            aoi       = NULL,
                            write_out = TRUE) {
 
-  if(nchar(product > 3)) {
-    stop('Please use get_lscape_data() for landscape attributes.')
-  }
   component <- match.arg(component,
                           c('all', 'ci', 'value', 'ci_low', 'ci_high'))
+
+  if(!(depth %in% seq.int(6))) {
+    stop('Please choose a value between 1 and 6 for depth.')
+  }
+
   depth_pretty <-
     switch(depth, `1` = "000_005", `2` = "005_015", `3` = "015_030",
            `4` = "030_060", `5` = "060_100", `6` = "100_200")

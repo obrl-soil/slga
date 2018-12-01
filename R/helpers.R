@@ -142,11 +142,12 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
              attr(aoi, 'xmax'), attr(aoi, 'ymax'))
     aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
                      class = "bbox", crs = sf::st_crs(4326))
+    message("Assuming AOI coordinates are in EPSG:4326.")
   }
   # note that EPSG code may be lost for some projections eg EPSG:3577
 
-  # 3. Now assuming sf object here
-  ext <- if(inherits(aoi, 'sf')) {
+  # 3. Now assuming sf objects are all that is left here
+  ext <- if(inherits(aoi, c('sf', 'sfc'))) {
     sf::st_bbox(aoi)
   } else {
     aoi
