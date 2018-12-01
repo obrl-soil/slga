@@ -5,7 +5,7 @@
 slga
 ====
 
-slga offers the ability to download geosgraphic subsets of raster data from the Soil and Landscape Grid of Australia.
+slga offers the ability to download geographic subsets of raster data from the Soil and Landscape Grid of Australia.
 
 Installation
 ------------
