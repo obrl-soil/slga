@@ -16,11 +16,9 @@
 #' @keywords internal
 #' @importFrom sf st_bbox st_crs st_point st_sfc st_transform
 #'
-transform_bb <- function(bbox = NULL, crs = 4326) {
-  ll <- sf::st_point(c(bbox[1], bbox[2]))
-  ur <- sf::st_point(c(bbox[3], bbox[4]))
-  pts <- sf::st_sfc(ll, ur, crs = sf::st_crs(bbox))
-  new <- sf::st_transform(pts, crs)
+transform_bb <- function(bbox = NULL, crs = 4283) {
+  box <- sf::st_as_sfc(bbox, crs = sf::st_crs(bbox))
+  new <- sf::st_transform(box, crs)
   sf::st_bbox(new)
 }
 
@@ -104,12 +102,85 @@ align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
   aoi
 }
 
+#' Convert AOI
+#'
+#' Converts an AOI from a variety of possible input types to an `sf` style bbox.
+#'
+#' @param aoi Numeric; bounding coordinates or an `sf` or `raster` object from
+#'   which they can be derived.
+#' @return `sf` bbox object with same crs as input.
+#' @keywords internal
+#' @rdname convert_aoi
+#' @importFrom raster extent
+#' @importFrom sf st_bbox st_crs st_as_sfc st_intersects
+#' @importFrom utils data
+#'
+convert_aoi <- function(aoi = NULL) {
+  UseMethod('convert_aoi')
+}
+
+#' @rdname convert_aoi
+#' @inherit convert_aoi return
+#' @method convert_aoi numeric
+#'
+convert_aoi.numeric <- function(aoi = NULL) {
+    # dumb check for malformed vectors
+    if(aoi[3] <= aoi[1]) {
+      stop('Please check that AOI coordinates are ordered correctly
+           - xmin, ymin, xmax, ymax.')
+    }
+
+    aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
+                     class = "bbox", crs = sf::st_crs(4283))
+    message("Assuming AOI coordinates are in EPSG:4283 and ordered correctly.")
+    aoi
+  }
+
+#' @rdname convert_aoi
+#' @inherit convert_aoi return
+#' @method convert_aoi Raster
+#'
+convert_aoi.Raster <- function(aoi = NULL) {
+
+    aoi_crs <- sf::st_crs(aoi@crs@projargs)
+    aoi <- raster::extent(aoi)
+    sf::st_bbox(aoi, crs = aoi_crs)
+}
+
+#' @rdname convert_aoi
+#' @inherit convert_aoi return
+#' @method convert_aoi Extent
+#'
+convert_aoi.Extent <- function(aoi = NULL) {
+    message("Assuming AOI coordinates are in EPSG:4283.")
+    sf::st_bbox(aoi, crs = sf::st_crs(4283))
+  }
+
+#' @rdname convert_aoi
+#' @inherit convert_aoi return
+#' @method convert_aoi sf
+#'
+convert_aoi.sf <- function(aoi = NULL) {
+  aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
+  sf::st_bbox(aoi)
+}
+
+#' @rdname convert_aoi
+#' @inherit convert_aoi return
+#' @method convert_aoi sfc
+#'
+convert_aoi.sfc <- function(aoi = NULL) {
+  aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
+  sf::st_bbox(aoi)
+}
+
 #' Validate AOI
 #'
 #' Checks that an area of interest is of appropriate projection, size, and
 #' extent.
 #'
-#' @param aoi length 4 numeric vector, `raster` object, or `sf` object.
+#' @param aoi Numeric; bounding coordinates or an `sf` or `raster` object from
+#'   which they can be derived.
 #' @param product Character, one of the options from column 'Short_Name' in
 #'   \code{\link[slga:slga_product_info]{slga_product_info}}.
 #' @keywords internal
@@ -119,52 +190,26 @@ align_aoi <- function(aoi = NULL, product = NULL, snap = "out")
 #'
 validate_aoi <- function(aoi = NULL, product = NULL) {
 
-  # 1. for simple bounding vector, convert to sf style bbox
-  if(all(length(aoi) == 4, inherits(aoi, 'numeric'))) {
-    aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
-                     class = "bbox", crs = sf::st_crs(4326))
-    message("Assuming AOI coordinates are in EPSG:4326 and ordered correctly.")
-  }
-
-  # 2. Do the same for rasters
-  if(inherits(aoi, 'Raster')) {
-    aoi_crs <- sf::st_crs(aoi@crs@projargs)
-    aoi <- raster::extent(aoi)
-    # low-dependency conversion to sf-style bbox pinched from sf/bbox.r
-    aoi <- c(attr(aoi, 'xmin'), attr(aoi, 'ymin'),
-             attr(aoi, 'xmax'), attr(aoi, 'ymax'))
-    aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
-                     class = "bbox", crs = aoi_crs)
-  }
-  # and bare extent objects jic but have to assume 4326 here
-  if(inherits(aoi, 'Extent')) {
-    aoi <- c(attr(aoi, 'xmin'), attr(aoi, 'ymin'),
-             attr(aoi, 'xmax'), attr(aoi, 'ymax'))
-    aoi <- structure(aoi, names = c("xmin", "ymin", "xmax", "ymax"),
-                     class = "bbox", crs = sf::st_crs(4326))
-    message("Assuming AOI coordinates are in EPSG:4326.")
-  }
-  # note that EPSG code may be lost for some projections eg EPSG:3577
-
-  # 3. Now assuming sf objects are all that is left here
-  ext <- if(inherits(aoi, c('sf', 'sfc'))) {
-    sf::st_bbox(aoi)
+  ext <- if(!inherits(aoi, 'bbox')) {
+    convert_aoi(aoi)
   } else {
     aoi
   }
 
-  # check crs, convert if not 4326
+  # check crs, transform if not in 4283
   ext <- if(is.na(attr(ext, 'crs')$epsg)) {
-    if(grepl('+proj=lonlat|+datum=WGS84',
-             attr(ext, 'crs')$proj4string) == FALSE) {
-      message('Transforming AOI coordinates to EPSG:4326')
-      transform_bb(ext, 4326)
+    crs_bits <- sort(unlist(strsplit(attr(ext, 'crs')$proj4string, ' ')))
+    gda94_bits <- sort(unlist(strsplit(
+      '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs', ' ')))
+    if(!identical(crs_bits, gda94_bits)) {
+      message('Transforming aoi coordinates to EPSG:4283')
+      transform_bb(ext, 4283)
     } else {
       ext
     }
-    } else if(attr(ext, 'crs')$epsg != 4326) {
-    message('Transforming aoi coordinates to EPSG:4326')
-    transform_bb(ext, 4326)
+    } else if(attr(ext, 'crs')$epsg != 4283) {
+    message('Transforming aoi coordinates to EPSG:4283')
+    transform_bb(ext, 4283)
   } else {
     ext
   }
@@ -175,7 +220,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   prd <- slga_product_info[which(slga_product_info$Short_Name == product), ]
   prd <- c(prd[['xmin']], prd[['ymin']], prd[['xmax']], prd[['ymax']])
   prd_aoi <- structure(prd, names = c("xmin", "ymin", "xmax", "ymax"),
-              class = "bbox", crs =  sf::st_crs(4326))
+              class = "bbox", crs =  sf::st_crs(4283))
   # cast both extents to sfc and check intersect
   # note slightly dodgy as unprojected
   ol <- suppressMessages(

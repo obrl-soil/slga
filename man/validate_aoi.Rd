@@ -7,7 +7,8 @@
 validate_aoi(aoi = NULL, product = NULL)
 }
 \arguments{
-\item{aoi}{length 4 numeric vector, `raster` object, or `sf` object.}
+\item{aoi}{Numeric; bounding coordinates or an `sf` or `raster` object from
+which they can be derived.}
 
 \item{product}{Character, one of the options from column 'Short_Name' in
 \code{\link[slga:slga_product_info]{slga_product_info}}.}
