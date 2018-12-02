@@ -55,7 +55,7 @@ get_soils_raster <- function(product   = NULL,
                          `4` = "030_060", `5` = "060_100", `6` = "100_200")
   out_name <- paste(product, attribute, toupper(component), depth_pretty,
                     sep = '_')
-  out_temp <- file.path(tempdir(), paste0(out_name, '.tif'))
+  out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
 
   # get data, send to temp file
   suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
@@ -286,7 +286,7 @@ get_lscape_data <- function(product   = NULL,
   this_url <- make_lscape_url(product = product, aoi = aoi)
 
   # get data, send to temp file
-  out_temp <- file.path(tempdir(), paste0('SLGA_', product, '.tif'))
+  out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
   suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
 
   # pull back in and tidy up
