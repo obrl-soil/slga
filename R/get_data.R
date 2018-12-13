@@ -28,7 +28,7 @@
 #'   component, depth, and area of interest.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
 #' @keywords internal
-#' @importFrom httr content GET write_disk
+#' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster writeRaster
 #'
 get_soils_raster <- function(product   = NULL,
@@ -58,7 +58,13 @@ get_soils_raster <- function(product   = NULL,
   out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
 
   # get data, send to temp file
-  suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
+  gr <- suppressMessages(
+    httr::GET(url = this_url, httr::write_disk(out_temp),
+                  httr::user_agent('https://github.com/obrl-soil/slga')))
+
+  if(httr::http_error(gr)) {
+    stop(paste0('http error ', httr::status_code(gr), '.'))
+  }
 
   # read in temp and tidy up
   r <- raster::raster(out_temp)
@@ -265,7 +271,7 @@ get_soils_data <- function(product   = NULL,
 #'   working directory as a GeoTiff.
 #' @return Raster dataset for a single landscape product.
 #' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
-#' @importFrom httr content GET write_disk
+#' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster subs writeRaster
 #' @examples \dontrun{
 #' # get slope data for King Island
@@ -283,14 +289,17 @@ get_lscape_data <- function(product   = NULL,
                             aoi       = NULL,
                             write_out = TRUE) {
 
-  # generate URL
   this_url <- make_lscape_url(product = product, aoi = aoi)
 
-  # get data, send to temp file
   out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
-  suppressMessages(httr::GET(url = this_url, httr::write_disk(out_temp)))
+  gr <- suppressMessages(
+    httr::GET(url = this_url, httr::write_disk(out_temp),
+              httr::user_agent('https://github.com/obrl-soil/slga')))
 
-  # pull back in and tidy up
+  if(httr::http_error(gr)) {
+    stop(paste0('http error ', httr::status_code(gr), '.'))
+  }
+
   r <- raster::raster(out_temp)
 
   # TPMSK needs reclassifying so you can mask with tpi + tpm
@@ -317,7 +326,6 @@ get_lscape_data <- function(product   = NULL,
     r[which(raster::getValues(r) == -9999)] <- NA_real_
   }
 
-  # write final product to working directory if directed
   if(write_out == TRUE) {
     out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
     if(product %in% c('RELCL', 'MRVBF', 'TPIND', 'TPMSK')) {
