@@ -44,6 +44,9 @@ Raster dataset for a single combination of product, attribute,
 Retrieves SLGA gridded soil data in raster format from WCS service.
 }
 \note{
-Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+aoi's wider or taller than 1 decimal degree are retrieveable, but be
+  aware that download file size will be large. If you want a dataset that
+  covers more than ~3x3', it will likely be faster to download the full
+  GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 }
 \keyword{internal}

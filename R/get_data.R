@@ -26,7 +26,10 @@
 #'   working directory as a GeoTiff.
 #' @return Raster dataset for a single combination of product, attribute,
 #'   component, depth, and area of interest.
-#' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+#' @note aoi's wider or taller than 1 decimal degree are retrieveable, but be
+#'   aware that download file size will be large. If you want a dataset that
+#'   covers more than ~3x3', it will likely be faster to download the full
+#'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #' @keywords internal
 #' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster writeRaster
@@ -55,19 +58,39 @@ get_soils_raster <- function(product   = NULL,
                          `4` = "030_060", `5` = "060_100", `6` = "100_200")
   out_name <- paste(product, attribute, toupper(component), depth_pretty,
                     sep = '_')
-  out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
 
-  # get data, send to temp file
-  gr <- suppressMessages(
-    httr::GET(url = this_url, httr::write_disk(out_temp),
+  # get data, send to temp file(s) - handle tiled requests
+  r <- if(is.list(this_url)) {
+    message("Requesting a large volume of data, please be patient.")
+
+    dat <- lapply(this_url, function(x) {
+      out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
+      gr <- suppressMessages(
+        httr::GET(url = x, httr::write_disk(out_temp),
                   httr::user_agent('https://github.com/obrl-soil/slga')))
 
-  if(httr::http_error(gr)) {
-    stop(paste0('http error ', httr::status_code(gr), '.'))
-  }
+      if(httr::http_error(gr)) {
+        stop(paste0('http error ', httr::status_code(gr), '.'))
+      }
+      Sys.sleep(0.2)
+    raster::raster(out_temp)
+    })
+    # https://gis.stackexchange.com/a/104109/76240 \o/
+    dat$fun <- mean
+    do.call(raster::mosaic, dat)
 
-  # read in temp and tidy up
-  r <- raster::raster(out_temp)
+  } else {
+    out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
+    gr <- suppressMessages(
+      httr::GET(url = this_url, httr::write_disk(out_temp),
+                httr::user_agent('https://github.com/obrl-soil/slga')))
+    if(httr::http_error(gr)) {
+      stop(paste0('http error ', httr::status_code(gr), '.'))
+      }
+    # read in temp and tidy up
+    raster::raster(out_temp)
+  }
+  names(r) <- out_name
   # NB on the coast there are sometimes patches of offshore '0' values
   # they should be NA, but there's a risk of ditching onshore 0's
   # so can't safely remove, particularly with ci_low datasets
@@ -113,9 +136,14 @@ get_soils_raster <- function(product   = NULL,
 #' @param write_out Boolean, whether to write the retrieved dataset to the
 #'   working directory as a GeoTiff.
 #' @return Raster stack or single raster, depending on the value of `component`.
-#' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
-#'   Outputs are also aligned to the parent dataset rather than the aoi. Further
-#'   resampling may be required for some applications.
+#' @note \itemize{
+#'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
+#'   aware that download file size will be large. If you want a dataset that
+#'   covers more than ~3x3', it will likely be faster to download the full
+#'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
+#'   \item Output rasters are aligned to the parent dataset rather than the aoi.
+#'   Further resampling may be required for some applications.
+#'   }
 #' @examples \dontrun{
 #' # get surface clay data for King Island
 #' aoi <- c(143.75, -40.17, 144.18, -39.57)
@@ -178,7 +206,10 @@ get_soils_data <- function(product   = NULL,
       out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
-      raster::stack(out_dest)
+      s <- raster::stack(out_dest)
+      names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
+                        sep = '_')
+      s
     } else {
       s
     }
@@ -202,7 +233,10 @@ get_soils_data <- function(product   = NULL,
       out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
-      raster::stack(out_dest)
+      s <- raster::stack(out_dest)
+      names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
+                        sep = '_')
+      s
     } else {
       s
     }
@@ -217,7 +251,10 @@ get_soils_data <- function(product   = NULL,
       out_dest <- file.path(getwd(), paste0(names(val), '.tif'))
       raster::writeRaster(val, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
-      raster::raster(out_dest)
+      val <- raster::raster(out_dest)
+      names(val) <- paste(product, attribute, 'VAL', depth_pretty,
+                          sep = '_')
+      val
     } else {
       val
     }
@@ -232,7 +269,10 @@ get_soils_data <- function(product   = NULL,
       out_dest <- file.path(getwd(), paste0(names(clo), '.tif'))
       raster::writeRaster(clo, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
-      raster::raster(out_dest)
+      clo <- raster::raster(out_dest)
+      names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
+                          sep = '_')
+      clo
     } else {
       clo
     }
@@ -247,7 +287,10 @@ get_soils_data <- function(product   = NULL,
       out_dest <- file.path(getwd(), paste0(names(chi), '.tif'))
       raster::writeRaster(chi, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
-      raster::raster(out_dest)
+      chi <- raster::raster(out_dest)
+      names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
+                          sep = '_')
+      chi
     } else {
       chi
     }
@@ -270,7 +313,14 @@ get_soils_data <- function(product   = NULL,
 #' @param write_out Boolean, whether to write the retrieved dataset to the
 #'   working directory as a GeoTiff.
 #' @return Raster dataset for a single landscape product.
-#' @note Output rasters are restricted to a maximum size of 3x3 decimal degrees.
+#' @note \itemize{
+#'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
+#'   aware that download file size will be large. If you want a dataset that
+#'   covers more than ~3x3', it will likely be faster to download the full
+#'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
+#'   \item Output rasters are aligned to the parent dataset rather than the aoi.
+#'   Further resampling may be required for some applications.
+#'   }
 #' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster subs writeRaster
 #' @examples \dontrun{
@@ -291,17 +341,39 @@ get_lscape_data <- function(product   = NULL,
 
   this_url <- make_lscape_url(product = product, aoi = aoi)
 
-  out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
-  gr <- suppressMessages(
-    httr::GET(url = this_url, httr::write_disk(out_temp),
-              httr::user_agent('https://github.com/obrl-soil/slga')))
+  # get data, send to temp file(s) - handle tiled requests
+  r <- if(is.list(this_url)) {
+    message("Requesting a large volume of data, please be patient.")
 
-  if(httr::http_error(gr)) {
-    stop(paste0('http error ', httr::status_code(gr), '.'))
+    dat <- lapply(this_url, function(x) {
+        out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
+        gr <- suppressMessages(
+          httr::GET(url = x, httr::write_disk(out_temp),
+                    httr::user_agent('https://github.com/obrl-soil/slga')))
+
+        if(httr::http_error(gr)) {
+          stop(paste0('http error ', httr::status_code(gr), '.'))
+        }
+        Sys.sleep(0.2)
+        raster::raster(out_temp)
+      })
+    dat$fun <- mean
+    do.call(raster::mosaic, dat)
+
+  } else {
+    out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
+    gr <- suppressMessages(
+      httr::GET(url = this_url, httr::write_disk(out_temp),
+                httr::user_agent('https://github.com/obrl-soil/slga')))
+
+    if(httr::http_error(gr)) {
+      stop(paste0('http error ', httr::status_code(gr), '.'))
+    }
+
+    raster::raster(out_temp)
   }
 
-  r <- raster::raster(out_temp)
-
+  names(r) <- paste0('SLGA_', product)
   # TPMSK needs reclassifying so you can mask with tpi + tpm
   if(product == 'TPMSK') {
     df <- data.frame(c(0,1,255), c(NA_integer_, 0L, NA_integer_))

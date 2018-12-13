@@ -174,6 +174,39 @@ convert_aoi.sfc <- function(aoi = NULL) {
   sf::st_bbox(aoi)
 }
 
+#' Tile AOI
+#'
+#' If an AOI is Large, chop it up so that a series of GETs can be sent
+#'
+#' @param aoi sf bbox already converted from user input and aligned to requrested
+#' product
+#' @param size Number, max side length of tiles in decimal degrees. Default 1.
+#' @return a list of bounding boxes subdividing the area of interest. Return
+#' list is not yet aligned to product (handled later).
+#'
+#' @keywords internal
+#' @importFrom sf st_crs
+tile_aoi <- function(aoi = NULL, size = 1) {
+
+  # at this point, aoi turned into an sf bbox and tweaked to align with
+  # requested product
+  xrng <- sort(unique(c(aoi[1], seq(aoi[1], aoi[3], by = size), aoi[3])))
+  yrng <- sort(unique(c(aoi[2], seq(aoi[2], aoi[4], by = size), aoi[4])))
+
+  # list of bboxes (unvalidated!!!)
+  mapply(function(llxi, llyi, urxi, uryi) {
+    structure(c(xrng[llxi], yrng[llyi], xrng[urxi], yrng[uryi]),
+              names = c("xmin", "ymin", "xmax", "ymax"),
+              class = "bbox", crs = sf::st_crs(4283))
+  },
+  llxi = rep(seq(length(xrng) - 1), times = length(yrng) - 1),
+  llyi = rep(seq(length(yrng) - 1), each = length(xrng) - 1),
+  urxi = rep(2:length(xrng), times = length(yrng) - 1),
+  uryi = rep(2:length(yrng), each = length(xrng) - 1),
+  SIMPLIFY = FALSE)
+
+}
+
 #' Validate AOI
 #'
 #' Checks that an area of interest is of appropriate projection, size, and
@@ -183,6 +216,7 @@ convert_aoi.sfc <- function(aoi = NULL) {
 #'   which they can be derived.
 #' @param product Character, one of the options from column 'Short_Name' in
 #'   \code{\link[slga:slga_product_info]{slga_product_info}}.
+#' @return sf style bbox or list of same, aligned to requested product.
 #' @keywords internal
 #' @importFrom raster extent
 #' @importFrom sf st_crs st_as_sfc st_intersects
@@ -230,17 +264,30 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
     stop('AOI does not overlap requested product extent.')
   }
 
-  # check extent isn't too big
+  # Align extent to source to avoid server-side interpolation and grid shift
+  ext <- align_aoi(aoi = ext, product = product)
+
+  # check extent isn't too big. If it is, tile
   x_range <- abs(ext[1] - ext[3])
   y_range <- abs(ext[2] - ext[4])
-  if(any(x_range > 3, y_range > 3)) {
-    stop('The requested aoi is too large;
-         please restrict to a maximum of 3x3 decimal degrees.')
+  # 0.001 below prevents unneccessary tiling due to aoi snap
+  if(any(x_range > 1.001, y_range > 1.001)) {
+   # returns a list of (max size) 1x1' ish bboxes
+   exts <- lapply(tile_aoi(ext), function(x) { align_aoi(x, product) })
+   # chuck out any tiles that don't overlap the requested product
+   keep <- sapply(exts, function(x) {
+     ol <- suppressMessages(
+         sf::st_intersects(sf::st_as_sfc(x), sf::st_as_sfc(prd_aoi))
+       )
+     if(length(ol[[1]]) == 0L) { FALSE } else { TRUE }
+   })
+   exts <- exts[keep]
+   if(length(exts) == 1) { exts[[1]] } else { exts }
+  } else {
+    # returns a bbox
+    ext
   }
-
-  # Align extent to source to avoid server-side interpolation and grid shift
-  align_aoi(aoi = ext, product = product)
-  }
+}
 
 #' Validate soils product/attribute combination
 #'

@@ -1,3 +1,8 @@
+# slga 0.7.0
+
+  * http error handling
+  * staged requests where aoi larger than 1x1 degrees
+
 # slga 0.6.0
 
   * S3 methods for validating aoi (internal only). Covered: numeric vector, raster, rasterExtent, sf, sfc.

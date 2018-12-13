@@ -84,22 +84,34 @@ make_soils_url <- function(product = NULL, attribute = NULL,
              layer_id),
     # actual data
     'cov' = {
-      # aoi extent checking handled in helper function
-      aoi <- validate_aoi(aoi, product)
-
       res <- abs(
         c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
           slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
 
-      cols <- round(abs(aoi[1] - aoi[3]) / res[1])
-      rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+      # aoi extent checking handled in helper function
+      aoi <- validate_aoi(aoi, product)
 
-      paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
+      if(is.list(aoi)) {
+        lapply(aoi, function(x) {
+          cols <- round(abs(x[1] - x[3]) / res[1])
+          rows <- round(abs(x[2] - x[4]) / res[2])
+          paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
+                 "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
+                 "&CRS=EPSG:4283&BBOX=", paste(x, collapse = ','),
+                 "&WIDTH=", cols,
+                 "&HEIGHT=", rows,
+                 "&FORMAT=GeoTIFF")
+        })
+        } else {
+          cols <- round(abs(aoi[1] - aoi[3]) / res[1])
+          rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+          paste0(url_root, "/", attribute, "_", product_long, "/MapServer/WCSServer?",
              "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
              "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
              "&WIDTH=", cols,
              "&HEIGHT=", rows,
              "&FORMAT=GeoTIFF")
+      }
     }
   )
 }
@@ -160,19 +172,31 @@ make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
     )
   }
 
-  aoi <- validate_aoi(aoi, product)
-
   res <- abs(
     c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
       slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
 
-  cols <- round(abs(aoi[1] - aoi[3]) / res[1])
-  rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+  aoi <- validate_aoi(aoi, product)
 
-  paste0(url_root, service_root,
-         "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
-         "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
-         "&WIDTH=", cols,
-         "&HEIGHT=", rows,
-         "&FORMAT=GeoTIFF")
+  if(is.list(aoi)) {
+    lapply(aoi, function(x) {
+      cols <- round(abs(x[1] - x[3]) / res[1])
+      rows <- round(abs(x[2] - x[4]) / res[2])
+      paste0(url_root, service_root,
+             "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
+             "&CRS=EPSG:4283&BBOX=", paste(x, collapse = ','),
+             "&WIDTH=", cols,
+             "&HEIGHT=", rows,
+             "&FORMAT=GeoTIFF")
+    })
+  } else {
+    cols <- round(abs(aoi[1] - aoi[3]) / res[1])
+    rows <- round(abs(aoi[2] - aoi[4]) / res[2])
+    paste0(url_root, service_root,
+           "REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=", layer_id,
+           "&CRS=EPSG:4283&BBOX=", paste(aoi, collapse = ','),
+           "&WIDTH=", cols,
+           "&HEIGHT=", rows,
+           "&FORMAT=GeoTIFF")
+  }
 }

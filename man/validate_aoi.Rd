@@ -13,6 +13,9 @@ which they can be derived.}
 \item{product}{Character, one of the options from column 'Short_Name' in
 \code{\link[slga:slga_product_info]{slga_product_info}}.}
 }
+\value{
+sf style bbox or list of same, aligned to requested product.
+}
 \description{
 Checks that an area of interest is of appropriate projection, size, and
 extent.
