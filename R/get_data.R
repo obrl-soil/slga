@@ -59,7 +59,7 @@ get_soils_raster <- function(product   = NULL,
   out_name <- paste(product, attribute, toupper(component), depth_pretty,
                     sep = '_')
 
-  # get data, send to temp file(s) - handle tiled requests
+  # get data, send to temp file(s)
   r <- if(is.list(this_url)) {
     message("Requesting a large volume of data, please be patient.")
 
