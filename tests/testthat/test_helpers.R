@@ -70,7 +70,9 @@ test_that(
     # near is near
     expect_true(val1[[1]] == val4[[1]]),
     expect_true(val1[[2]] != val4[[2]]),
-    expect_error(slga:::align_aoi(aoi, 'NAT', snap = 'wherever'))
+    expect_error(slga:::align_aoi(aoi, 'NAT', snap = 'wherever')),
+    val5 <- slga:::align_aoi(val1, 'NAT'),
+    expect_equal(val1, val5)
   )
 )
 
@@ -101,6 +103,8 @@ test_that(
     expect_error(slga:::validate_aoi('1', 'NAT')),
     val7 <- sf::st_as_sfc(aoi, crs = 4283),
     expect_equal(slga:::validate_aoi(val7, 'NAT'), val1),
+    val7a <- sf::st_sf(val7),
+    expect_equal(slga:::validate_aoi(val7a, 'NAT'), val1),
     val8 <- st_bbox(sf::st_transform(sf::st_as_sfc(aoi, crs = 4283), 28356)),
     val9 <- val8,
     attr(val9, 'crs')$epsg <- NA,
@@ -122,3 +126,13 @@ test_that(
   )
 )
 
+test_that(
+  'convert_aoi functions as expected',
+  c(badx_aoi <- c(c(144.18, -40.17, 143.75, -39.57)),
+    bady_aoi <- c(c(143.75, -39.57, 144.18, -40.17)),
+    bado_aoi <- c(c(143.75, 144.18, -40.17, -39.57)),
+    expect_error(slga:::convert_aoi(badx_aoi)),
+    expect_error(slga:::convert_aoi(bady_aoi)),
+    expect_error(slga:::convert_aoi(bado_aoi)),
+  )
+)

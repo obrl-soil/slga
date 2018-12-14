@@ -112,8 +112,8 @@ convert_aoi <- function(aoi = NULL) {
 #' @method convert_aoi numeric
 #'
 convert_aoi.numeric <- function(aoi = NULL) {
-    # dumb check for malformed vectors
-    if(aoi[3] <= aoi[1]) {
+    # check for common coord order fails
+    if(any(aoi[3] <= aoi[1], aoi[2] >= aoi[4], aoi[2] >= aoi[1])) {
       stop('Please check that AOI coordinates are ordered correctly
            - xmin, ymin, xmax, ymax.')
     }
