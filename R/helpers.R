@@ -187,12 +187,10 @@ convert_aoi.sfc <- function(aoi = NULL) {
 #' @keywords internal
 #' @importFrom sf st_crs
 tile_aoi <- function(aoi = NULL, size = 1) {
-
-  # at this point, aoi turned into an sf bbox and tweaked to align with
-  # requested product
+  # at this point, aoi has been turned into an sf bbox and tweaked to align with
+  # requested product. NB can do this with sf funs in 4 lines but its slower
   xrng <- sort(unique(c(aoi[1], seq(aoi[1], aoi[3], by = size), aoi[3])))
   yrng <- sort(unique(c(aoi[2], seq(aoi[2], aoi[4], by = size), aoi[4])))
-
   # list of bboxes (unvalidated!!!)
   mapply(function(llxi, llyi, urxi, uryi) {
     structure(c(xrng[llxi], yrng[llyi], xrng[urxi], yrng[uryi]),
@@ -204,7 +202,6 @@ tile_aoi <- function(aoi = NULL, size = 1) {
   urxi = rep(2:length(xrng), times = length(yrng) - 1),
   uryi = rep(2:length(yrng), each = length(xrng) - 1),
   SIMPLIFY = FALSE)
-
 }
 
 #' Validate AOI
@@ -295,18 +292,18 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
 #' soils product.
 #'
 #' @param product Character, one of the options from column 'Code' in
-#'   code{\link[slga:slga_product_info]{slga_product_info}}.
+#'   code{\link[slga:slga_product_info]{slga_product_info}} where Type = 'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
 #' @return Logical; TRUE if available
-#' @keywords internal
+#' @examples
+#' check_avail('NAT', 'CFG')
+#' check_avail('SA',  'CFG')
+#' @importFrom utils data
+#' @export
 #'
 check_avail <- function(product = NULL, attribute = NULL) {
-
   slga_attribute_info <- NULL
   utils::data('slga_attribute_info', envir = environment())
-
   slga_attribute_info[which(slga_attribute_info$Code == attribute), product]
-
 }
-
