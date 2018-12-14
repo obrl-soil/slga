@@ -2,6 +2,7 @@
 
   * http error handling
   * staged requests where aoi larger than 1x1 degrees
+  * exported `check_avail()` for making sure a given soil attribute is available on a given product.
 
 # slga 0.6.0
 
