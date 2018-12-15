@@ -13,7 +13,8 @@ transform_bb(bbox = NULL, crs = 4283)
 \item{crs}{EPSG code of desired coordinate reference system.}
 }
 \value{
-'bbox' object with the desired CRS.
+'bbox' object with the desired CRS, large enough to ensure returned
+dataset covers entire input object.
 }
 \description{
 Transforms an `sf` style bounding box object into the specified coordinate

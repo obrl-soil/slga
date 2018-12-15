@@ -133,6 +133,6 @@ test_that(
     bado_aoi <- c(c(143.75, 144.18, -40.17, -39.57)),
     expect_error(slga:::convert_aoi(badx_aoi)),
     expect_error(slga:::convert_aoi(bady_aoi)),
-    expect_error(slga:::convert_aoi(bado_aoi)),
+    expect_error(slga:::convert_aoi(bado_aoi))
   )
 )
