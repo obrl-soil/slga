@@ -85,21 +85,8 @@ get_soils_raster <- function(product   = NULL,
     # read in temp and tidy up
     raster::raster(out_temp)
   }
-  names(r) <- out_name
-  # NB on the coast there are sometimes patches of offshore '0' values
-  # they should be NA, but there's a risk of ditching onshore 0's
-  # so can't safely remove, particularly with ci_low datasets
-  r[which(raster::getValues(r) == -9999)] <- NA_real_
 
-  # write final product to working directory if directed
-  if(write_out == TRUE) {
-    out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
-    raster::writeRaster(r, out_dest, datatype = 'FLT4S',
-                        NAflag = -9999, overwrite = TRUE)
-    raster::raster(out_dest)
-  } else {
-    r
-  }
+  tidy_soils_data(r, out_name, write_out)
 }
 
 #' Get SLGA soils data

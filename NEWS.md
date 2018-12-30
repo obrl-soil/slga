@@ -2,6 +2,7 @@
   
   * Refactored aoi processing
   * Refactored main request functions
+  * Bugfix - EPSG:4283 should no longer be misinterpreted as EPSG:4151 in other software (e.g. QGIS)
 
 # slga 0.7.0
 
