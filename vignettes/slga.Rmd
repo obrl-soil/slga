@@ -25,13 +25,13 @@ library(slga)
 options(stringsAsFactors = FALSE)
 ```
 
-Two high-level wrapper functions, `get_soils_data()` and `get_lscape_data()`, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets `slga_attribute_info` and `slga_product_info`. They contain allowable values for some of the function inputs as well as key metadata.
+Two high-level wrapper functions, `get_soils_data()` and `get_lscape_data()`, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets `slga_attribute_info()` and `slga_product_info()`. They contain allowable values for some of the function inputs as well as key metadata.
 
 The two tables are derived from information on the [SLGA website](http://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html) and in the WCS metadata documents.
 
 ## Soils data
 
-Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info`. Each soil attribute has six depth slices ranging from the land surface to 2m depth. Each soil attribute also has three layers - the estimated value, plus its lower and upper confidence limits. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
+Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info()`. Each soil attribute has six depth slices ranging from the land surface to 2m depth. Each soil attribute also has three layers - the estimated value, plus its lower and upper confidence limits. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
 
 The function `get_soils_data()` is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a `raster` or `rasterStack` object.
 

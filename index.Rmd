@@ -24,4 +24,14 @@ Also available for download are a set of terrain and climate covariates consider
 
 All products are returned in GDA94 long/lat (EPSG:4283) and have a cell resolution of 3" (roughly 90m). 
 
+## Getting Started
+
+Install from github with
+
+```{r 'installation', eval = FALSE}
+devtools::install_github("obrl-soil/slga")
+```
+
+then read the package vignette.
+
 ***

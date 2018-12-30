@@ -1,0 +1,72 @@
+/* general */
+
+a {
+    color: #4d4d4d;
+    text-decoration: none;
+}
+
+a:active {
+    color: #4d4d4d;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #4d4d4d;
+    text-decoration: underline;
+}
+
+/* navbar mods */
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+	color: #ebb72f;
+	background-color: #4d4d4d;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border-color: #4d4d4d;
+}
+
+.navbar-default .navbar-link {
+	color: #ebb72f;
+	font-weight: bold
+}
+
+.navbar-default .navbar-brand {
+	color: #ebb72f;
+}
+
+.navbar-default {
+	background-color: #4d4d4d;
+	border-color: #4d4d4d;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: #ebb72f;
+	font-weight: bold
+}
+
+.fa-lg {
+	font-size: 1.33333333em;
+	line-height: .75em;
+	vertical-align: -15%;
+	color: #ebb72f;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #4d4d4d;
+    color: #ebb72f;
+}
+
+/* rhs pillbox mods */
+
+.nav-pills > li > a {
+	border-radius: 4px;
+	font-weight: bold
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+	color: #ebb72f;
+	background-color: #4d4d4d;
+	font-weight: bold
+}
+

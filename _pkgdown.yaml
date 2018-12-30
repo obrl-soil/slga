@@ -1,0 +1,55 @@
+title: slga
+url: http://obrl-soil.github.io/slga
+template:
+  params:
+    noindex: true
+
+reference:
+- title: Data Retrieval
+  desc: These are the main functions for downloading SLGA datasets.
+  contents:
+  - '`get_lscape_data`'
+  - '`get_soils_data`'
+- title: Metadata Retrieval
+  desc: Get information about the WCS services supplying SLGA data.
+  contents:
+  - '`metadata_lscape`'
+  - '`metadata_soils`'
+- title: Helper functions
+  desc: ~
+  contents:
+  - '`slga_product_info`'
+  - '`slga_attribute_info`'
+  - '`check_avail`'
+  - '`slga-package`'
+- title: Sample Dataset
+  desc: ~
+  contents:
+  - '`ki_surface_clay`'
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    intro:
+      text: Get started
+      href: articles/slga.html
+    news:
+      text: Changelog
+      href: news/index.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/obrl-soil/slga
