@@ -2,6 +2,8 @@
   
   * Refactored aoi processing and main request functions (all under-the-hood stuff)
   * Bugfix - EPSG:4283 should no longer be misinterpreted as EPSG:4151 in other software (e.g. QGIS)
+  * pkgdown doco
+  * progress bars for staged requests
 
 # slga 0.7.0
 

@@ -48,7 +48,7 @@ services.
 \itemize{
   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
   aware that download file size will be large. If you want a dataset that
-  covers more than ~3x3', it will likely be faster to download the full
+  covers more than ~3x3', it may be faster to download the full
   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
   \item Output rasters are aligned to the parent dataset rather than the aoi.
   Further resampling may be required for some applications.

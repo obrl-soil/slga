@@ -26,11 +26,12 @@
 #'   component, depth, and area of interest.
 #' @note aoi's wider or taller than 1 decimal degree are retrieveable, but be
 #'   aware that download file size will be large. If you want a dataset that
-#'   covers more than ~3x3', it will likely be faster to download the full
+#'   covers more than ~3x3', may be faster to download the full
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #' @keywords internal
 #' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster writeRaster
+#' @importFrom utils setTxtProgressBar txtProgressBar
 #'
 get_soils_raster <- function(product   = NULL,
                              attribute = NULL,
@@ -58,17 +59,19 @@ get_soils_raster <- function(product   = NULL,
 
   # get data, send to temp file(s)
   r <- if(is.list(this_url)) {
-    message("Requesting a large volume of data, please be patient.")
-
-    dat <- lapply(this_url, function(x) {
+    message("Requesting a large volume of data, please be patient...")
+    pb <- utils::txtProgressBar(min = 0, max = length(this_url), style = 3)
+    dat <- mapply(function(x, i) {
       out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
       gr <- get_slga_data(url = x, out_temp)
       if(httr::http_error(gr)) {
         stop(paste0('http error ', httr::status_code(gr), '.'))
       }
       Sys.sleep(0.2)
-    raster::raster(out_temp)
-    })
+      utils::setTxtProgressBar(pb, i)
+      raster::raster(out_temp)
+      }, x = this_url, i = seq_along(this_url))
+    close(pb)
     # https://gis.stackexchange.com/a/104109/76240 \o/
     dat$fun <- mean
     do.call(raster::mosaic, dat)
@@ -118,7 +121,7 @@ get_soils_raster <- function(product   = NULL,
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
 #'   aware that download file size will be large. If you want a dataset that
-#'   covers more than ~3x3', it will likely be faster to download the full
+#'   covers more than ~3x3', it may be faster to download the full
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #'   \item Output rasters are aligned to the parent dataset rather than the aoi.
 #'   Further resampling may be required for some applications.
@@ -292,13 +295,14 @@ get_soils_data <- function(product   = NULL,
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
 #'   aware that download file size will be large. If you want a dataset that
-#'   covers more than ~3x3', it will likely be faster to download the full
+#'   covers more than ~3x3', it may be faster to download the full
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #'   \item Output rasters are aligned to the parent dataset rather than the aoi.
 #'   Further resampling may be required for some applications.
 #'   }
 #' @importFrom httr content GET http_error status_code user_agent write_disk
 #' @importFrom raster getValues raster subs writeRaster
+#' @importFrom utils setTxtProgressBar txtProgressBar
 #' @examples \dontrun{
 #' # get slope data for King Island
 #' aoi <- c(143.75, -40.17, 144.18, -39.57)
@@ -319,9 +323,9 @@ get_lscape_data <- function(product   = NULL,
 
   # get data, send to temp file(s) - handle tiled requests
   r <- if(is.list(this_url)) {
-    message("Requesting a large volume of data, please be patient.")
-
-    dat <- lapply(this_url, function(x) {
+    message("Requesting a large volume of data, please be patient...")
+    pb <- utils::txtProgressBar(min = 0, max = length(this_url), style = 3)
+    dat <- mapply(function(x, i) {
         out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
         gr <- get_slga_data(url = x, out_temp)
 
@@ -329,8 +333,10 @@ get_lscape_data <- function(product   = NULL,
           stop(paste0('http error ', httr::status_code(gr), '.'))
         }
         Sys.sleep(0.2)
+        utils::setTxtProgressBar(pb, i)
         raster::raster(out_temp)
-      })
+    }, x = this_url, i = seq_along(this_url))
+    close(pb)
     dat$fun <- mean
     do.call(raster::mosaic, dat)
 
