@@ -15,12 +15,14 @@ Imports:
     raster,
     sf,
     utils,
-	xml2
+    xml2
 Suggests: 
-    testthat,
+    covr,
     knitr,
+    pkgdown,
     rmarkdown,
-    covr
+    testthat
+
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
