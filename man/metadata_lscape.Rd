@@ -23,10 +23,6 @@ Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
 endpoints in XML or list format.
 }
 \note{
-\itemize{
-  \item{WCS services < v 2.0 can only return XML formatted data; JSON is not an
-  option.}
-  \item{Parameter `product` is optional for `req_type = 'desc'`, leave out to
-  get metadata for all available landscape products.}
-  }
+Parameter `product` is optional for `req_type = 'desc'`, leave out to
+  get metadata for all available landscape products.
 }

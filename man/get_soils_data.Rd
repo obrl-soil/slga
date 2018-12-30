@@ -52,6 +52,8 @@ services.
   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
   \item Output rasters are aligned to the parent dataset rather than the aoi.
   Further resampling may be required for some applications.
+  \item specify `depth = 1` for attributes 'DES' and 'DER' as they are
+  whole-of-profile parameters.
   }
 }
 \examples{

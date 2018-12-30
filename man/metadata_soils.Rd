@@ -39,7 +39,3 @@ A list or xml document object, depending on the value of 'format'.
 Retrieves metadata from Soil and Landscape Grid of Australia soils WCS
 endpoints in XML or list format.
 }
-\note{
-WCS services < v 2.0 can only return XML formatted data; JSON is not an
-  option.
-}

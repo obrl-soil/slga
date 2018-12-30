@@ -23,7 +23,7 @@ devtools::install_github("obrl-soil/slga")
 How it works
 ------------
 
-slga uses the WCS endpoints provided by the SLGA to access data. The package endeavours to return requested products as simple subsets of the parent dataset, with no hidden server-side resampling.
+`slga` uses the WCS endpoints provided by the SLGA to access data. The package endeavours to return requested products as simple subsets of the parent dataset, with no hidden server-side resampling.
 
 Example
 -------
@@ -32,6 +32,7 @@ Example
 library(raster)
 #> Loading required package: sp
 library(slga)
+library(ggplot2)
 ```
 
 ``` r

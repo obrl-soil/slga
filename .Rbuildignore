@@ -4,3 +4,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 _slga_origins.R
+index.md
+^_pkgdown.yaml$
+^docs$
+^index.Rmd$
+^pkgdown$

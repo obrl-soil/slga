@@ -122,6 +122,8 @@ get_soils_raster <- function(product   = NULL,
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #'   \item Output rasters are aligned to the parent dataset rather than the aoi.
 #'   Further resampling may be required for some applications.
+#'   \item specify `depth = 1` for attributes 'DES' and 'DER' as they are
+#'   whole-of-profile parameters.
 #'   }
 #' @examples \dontrun{
 #' # get surface clay data for King Island
@@ -183,7 +185,7 @@ get_soils_data <- function(product   = NULL,
       s <- raster::stack(out_dest)
       names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
                         sep = '_')
-      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+      raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
@@ -209,7 +211,7 @@ get_soils_data <- function(product   = NULL,
       s <- raster::stack(out_dest)
       names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
                         sep = '_')
-      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+      raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
@@ -227,7 +229,7 @@ get_soils_data <- function(product   = NULL,
       val <- raster::raster(out_dest)
       names(val) <- paste(product, attribute, 'VAL', depth_pretty,
                           sep = '_')
-      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+      raster::crs(val) <- paste0('+init=EPSG:4283 ', raster::crs(val))
       val
     } else {
       val
@@ -245,7 +247,7 @@ get_soils_data <- function(product   = NULL,
       clo <- raster::raster(out_dest)
       names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
                           sep = '_')
-      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+      raster::crs(clo) <- paste0('+init=EPSG:4283 ', raster::crs(clo))
       clo
     } else {
       clo
@@ -263,7 +265,7 @@ get_soils_data <- function(product   = NULL,
       chi <- raster::raster(out_dest)
       names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
                           sep = '_')
-      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+      raster::crs(chi) <- paste0('+init=EPSG:4283 ', raster::crs(chi))
       chi
     } else {
       chi

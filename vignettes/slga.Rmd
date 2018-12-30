@@ -5,15 +5,17 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Accessing SLGA Data}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.align = 'center', fig.width = 8, fig.height = 5
+  fig.align = 'center', fig.width = 8, fig.height = 5, fig.caption = FALSE
 )
 ```
 
@@ -42,9 +44,7 @@ data('ki_surface_clay')
 ki_surface_clay
 ```
 
-```{r kic_plot, echo = FALSE, results = 'hold'}
-plot(ki_surface_clay, zlim = c(0, 65), nc = 3)
-```
+![](clayplot.png){width=95%}
 
 Note that some offshore areas have 0 values rather than NA; these are difficult to remove safely without an adequate coastline mask. You may need to generate one yourself if you are working along the coast.
 

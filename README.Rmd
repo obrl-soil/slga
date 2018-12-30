@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 # slga
 
-slga offers the ability to download geographic subsets of raster data from the [Soil and Landscape Grid of Australia](www.clw.csiro.au/aclep/soilandlandscapegrid/). The Grid was generated in 2014 from a compilation of Australian soil and landscape data and contains a set of modelled soil attributes that meet the [globalsoilmap.net](http://globalsoilmap.net/) specification. 
+`slga` offers the ability to download geographic subsets of raster data from the [Soil and Landscape Grid of Australia](www.clw.csiro.au/aclep/soilandlandscapegrid/). The Grid was generated in 2014 from a compilation of Australian soil and landscape data and contains a set of modelled soil attributes that meet the [globalsoilmap.net](http://globalsoilmap.net/) specification. 
 
 Also available for download are a set of terrain and climate covariates considered useful in soils modelling. These are primarily derived from [GeoScience Australia's](http://www.ga.gov.au/) [SRTM DEM products](http://www.ga.gov.au/scientific-topics/national-location-information/digital-elevation-data).
 
@@ -41,6 +41,7 @@ devtools::install_github("obrl-soil/slga")
 ```{r pkgs}
 library(raster)
 library(slga)
+library(ggplot2)
 ```
 
 ```{r demo, eval = FALSE}
@@ -53,7 +54,27 @@ ki_surface_clay <- get_slga_data(product = 'TAS', attribute = 'CLY',
 
 ```{r dplot, echo = FALSE, results = 'hold'}
 data('ki_surface_clay')
-plot(ki_surface_clay, zlim = c(0, 65), nc = 3)
+slga_fill <- scale_fill_gradientn(colors = c('#fdf7ea', '#ebb72f', '#4d4d4d'),
+                                  na.value = NA)
+kiscdf <- as.data.frame(ki_surface_clay, xy = T) 
+kiscdf <- kiscdf[!is.na(kiscdf$TAS_CLY_VAL_000_005), ]
+klong <- tidyr::gather(kiscdf, key = 'comp', value, -x, -y)
+klong$comp <- factor(klong$comp, 
+                     levels = c('TAS_CLY_CLO_000_005', 'TAS_CLY_VAL_000_005',
+                                'TAS_CLY_CHI_000_005'), 
+                     labels = c('5% Confidence Limit', 'Estimated Value',
+                                '95% Confidence Limit'), ordered = TRUE)
+
+ggplot() +
+  geom_raster(data = klong, aes(x = x, y = y, fill = value, group = comp)) +
+  facet_wrap('comp') +
+  slga_fill +
+  theme_minimal() +
+  labs(fill = 'Percent Clay') +
+  ggtitle('SLGA estimated percent clay content', 
+          subtitle = 'King Island, 0-5cm') +
+  theme(axis.title = element_blank()) +
+  coord_sf()
 ```
 
 See the package vignette for further detail.
