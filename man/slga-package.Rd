@@ -9,6 +9,14 @@
 Provides access to Soil and Landscape Grid raster datasets via existing 
 WCS services. See www.csiro.au/soil-and-landscape-grid.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/obrl-soil/slga}
+  \item Report bugs at \url{https://github.com/obrl-soil/slga/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com}
 

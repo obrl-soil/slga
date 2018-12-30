@@ -4,13 +4,10 @@
 \alias{tidy_soils_data}
 \title{tidy soils rasters}
 \usage{
-tidy_soils_data(r = NULL, out_name = NULL, write_out = NULL)
+tidy_soils_data(r = NULL, out_name = NULL)
 }
 \arguments{
 \item{r}{raster object downloaded over WCS}
-
-\item{write_out}{Boolean, whether to write the processed dataset to the
-working directory as a GeoTiff.}
 
 \item{product}{character; the SLGA soils product in question}
 }

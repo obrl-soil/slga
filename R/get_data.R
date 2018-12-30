@@ -183,6 +183,7 @@ get_soils_data <- function(product   = NULL,
       s <- raster::stack(out_dest)
       names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
                         sep = '_')
+      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
       s
     } else {
       s
@@ -208,6 +209,7 @@ get_soils_data <- function(product   = NULL,
       s <- raster::stack(out_dest)
       names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
                         sep = '_')
+      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
       s
     } else {
       s
@@ -225,6 +227,7 @@ get_soils_data <- function(product   = NULL,
       val <- raster::raster(out_dest)
       names(val) <- paste(product, attribute, 'VAL', depth_pretty,
                           sep = '_')
+      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
       val
     } else {
       val
@@ -242,6 +245,7 @@ get_soils_data <- function(product   = NULL,
       clo <- raster::raster(out_dest)
       names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
                           sep = '_')
+      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
       clo
     } else {
       clo
@@ -259,6 +263,7 @@ get_soils_data <- function(product   = NULL,
       chi <- raster::raster(out_dest)
       names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
                           sep = '_')
+      raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
       chi
     } else {
       chi

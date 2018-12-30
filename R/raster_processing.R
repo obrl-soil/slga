@@ -19,7 +19,6 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
 
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
   raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
-
   r
 }
 
@@ -63,8 +62,6 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
     r[which(raster::getValues(r) == -9999)] <- NA_real_
   }
 
-  raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
-
   if(write_out == TRUE) {
     out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
     if(product %in% c('RELCL', 'MRVBF', 'TPIND', 'TPMSK')) {
@@ -74,8 +71,12 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
       raster::writeRaster(r, out_dest, datatype = 'FLT4S',
                           NAflag = -9999, overwrite = TRUE)
     }
-    raster::raster(out_dest)
+    r <- raster::raster(out_dest)
+    # argh
+    raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+    r
   } else {
+    raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
     r
   }
 }

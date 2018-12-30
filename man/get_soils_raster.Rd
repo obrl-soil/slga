@@ -5,7 +5,7 @@
 \title{download single SLGA soils raster subset}
 \usage{
 get_soils_raster(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, aoi = NULL, write_out = TRUE)
+  depth = NULL, aoi = NULL)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -32,9 +32,6 @@ get_soils_raster(product = NULL, attribute = NULL, component = NULL,
 interest. The vector may be specified directly in the order xmin, xmax,
 ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
-
-\item{write_out}{Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff.}
 }
 \value{
 Raster dataset for a single combination of product, attribute,

@@ -31,7 +31,7 @@ The two tables are derived from information on the [SLGA website](http://www.clw
 
 ## Soils data
 
-Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info`. Each soil attribute has six depth slices ranging from the land surface to 2m BGL. Each soil attribute also has three layers - the estimated value, plus its lower and upper confidence limits. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
+Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info`. Each soil attribute has six depth slices ranging from the land surface to 2m depth. Each soil attribute also has three layers - the estimated value, plus its lower and upper confidence limits. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
 
 The function `get_soils_data()` is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a `raster` or `rasterStack` object.
 
@@ -72,7 +72,7 @@ ki_mrvbf <- get_lscape_data(product = 'MRVBF', aoi = aoi, write_out = FALSE)
 
 ## Area of interest
 
-The output datasets are always source-aligned - that is, the returned SLGA data will align with its parent coverage rather than your supplied `aoi` parameter. This is deliberate; WCS services default to target-alignment, which involves hidden server-side resampling behaviour when a geographical subset is supplied. If you need a dataset that aligns with other data, it is best practice to carry out any resampling and realignment at your end, after retrieving a 'clean' subset of SLGA data. Functions like `raster::resample()` may be useful at this point.
+`slga` output datasets are always source-aligned - that is, the returned SLGA data will align with its parent coverage rather than your supplied `aoi` parameter. This is deliberate; WCS services default to target-alignment, which involves hidden server-side resampling behaviour when a geographical subset is supplied. This behaviour is essential for WCS' primary use case - accessing data dynamically  in a GUI. For constructing reproducible workflows that start with rasters, however, it is not appropriate. If you need a dataset that aligns with other data, it is best practice to carry out any resampling and realignment at your end, after retrieving a 'clean' subset of SLGA data. This ensures that these operations are clearly documented. Functions like `raster::resample()` may be useful at this point.
 
 ## Advanced querying
 
@@ -81,22 +81,21 @@ To retrieve data from e.g. more than one depth, you can use an iterator like `ba
 ```{r 'allclay', eval = FALSE}
 # not run
 ki_all_clay <- lapply(seq.int(6), function(d) {
-  get_slga_data(product = 'TAS', attribute = 'CLY',
-                component = 'value', depth = d,
-                aoi = aoi, write_out = F)
+  get_soils_data(product = 'TAS', attribute = 'CLY', component = 'value',
+                 depth = d, aoi = aoi, write_out = FALSE)
 })
 ki_all_clay <- raster::brick(ki_all_clay)
 
 ```
 
-Similar iteration can be carried out with a vector of attributes or products.
+Similar iteration can be carried out with a vector of attributes or products. Note that while all the soils products align with each other, not all of the landscape products do. Stacking the latter together will require some pre-processing.
 
 ## Metadata
 
 Service and coverage level metadata for soil and landscape data can be retrieved with `metadata_soils()` and `metadata_lscape()`. For example, 
 
 ```{r mdeg, eval = FALSE}
-tas_clay_mdc <- metadata_soils('TAS', 'CLY', req_type = 'cov')
+tas_clay_mdc <- metadata_soils('TAS', 'CLY', req_type = 'desc')
 ```
 
 ***
