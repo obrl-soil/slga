@@ -5,13 +5,11 @@
 #'
 #' @param r raster object downloaded over WCS
 #' @param product character; the SLGA soils product in question
-#' @param write_out Boolean, whether to write the processed dataset to the
-#'   working directory as a GeoTiff.
 #' @return a raster, but a better one
 #' @keywords internal
 #' @importFrom raster crs getValues raster subs writeRaster
 #'
-tidy_soils_data <- function(r = NULL, out_name = NULL, write_out = NULL) {
+tidy_soils_data <- function(r = NULL, out_name = NULL) {
 
   names(r) <- out_name
   # NB on the coast there are sometimes patches of offshore '0' values
@@ -22,15 +20,7 @@ tidy_soils_data <- function(r = NULL, out_name = NULL, write_out = NULL) {
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
   raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
 
-  # write final product to working directory if directed
-  if(write_out == TRUE) {
-    out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
-    raster::writeRaster(r, out_dest, datatype = 'FLT4S',
-                        NAflag = -9999, overwrite = TRUE)
-    raster::raster(out_dest)
-  } else {
-    r
-  }
+  r
 }
 
 #' tidy landscape parameter rasters

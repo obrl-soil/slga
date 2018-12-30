@@ -22,8 +22,6 @@
 #'   interest. The vector may be specified directly in the order xmin, xmax,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
-#' @param write_out Boolean, whether to write the retrieved dataset to the
-#'   working directory as a GeoTiff.
 #' @return Raster dataset for a single combination of product, attribute,
 #'   component, depth, and area of interest.
 #' @note aoi's wider or taller than 1 decimal degree are retrieveable, but be
@@ -38,8 +36,7 @@ get_soils_raster <- function(product   = NULL,
                              attribute = NULL,
                              component = NULL,
                              depth     = NULL,
-                             aoi       = NULL,
-                             write_out = TRUE) {
+                             aoi       = NULL) {
 
   # check availability
   if(check_avail(product, attribute) == FALSE) {
@@ -86,7 +83,7 @@ get_soils_raster <- function(product   = NULL,
     raster::raster(out_temp)
   }
 
-  tidy_soils_data(r, out_name, write_out)
+  tidy_soils_data(r, out_name)
 }
 
 #' Get SLGA soils data
@@ -159,24 +156,19 @@ get_soils_data <- function(product   = NULL,
     stop('Please choose a value between 1 and 6 for depth.')
   }
 
-  depth_pretty <-
-    switch(depth, `1` = "000_005", `2` = "005_015", `3` = "015_030",
-           `4` = "030_060", `5` = "060_100", `6` = "100_200")
-
+  depth_pretty <- switch(depth,
+                         `1` = "000_005", `2` = "005_015", `3` = "015_030",
+                         `4` = "030_060", `5` = "060_100", `6` = "100_200")
   switch(component, 'all' = {
     val <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'value', depth = depth,
-                            aoi = aoi, write_out = FALSE)
+                            component = 'value', depth = depth, aoi = aoi)
     clo <- suppressMessages(
       get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_low', depth = depth,
-                       aoi = aoi, write_out = FALSE)
+                       component = 'ci_low', depth = depth, aoi = aoi)
       )
-
     chi <-  suppressMessages(
       get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_high', depth = depth,
-                       aoi = aoi, write_out = FALSE)
+                       component = 'ci_high', depth = depth, aoi = aoi)
       )
 
     s <- raster::stack(val, clo, chi)
@@ -198,12 +190,10 @@ get_soils_data <- function(product   = NULL,
   },
   'ci' = {
     clo <- get_soils_raster(product = product, attribute = attribute,
-                             component = 'ci_low', depth = depth,
-                             aoi = aoi, write_out = FALSE)
+                             component = 'ci_low', depth = depth, aoi = aoi)
     chi <-  suppressMessages(
       get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_high', depth = depth,
-                       aoi = aoi, write_out = FALSE)
+                       component = 'ci_high', depth = depth, aoi = aoi)
     )
 
     s <- raster::stack(clo, chi)
@@ -225,8 +215,7 @@ get_soils_data <- function(product   = NULL,
   },
   'value' = {
     val <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'value', depth = depth,
-                            aoi = aoi, write_out = FALSE)
+                            component = 'value', depth = depth, aoi = aoi)
     names(val) <- paste(product, attribute, 'VAL', depth_pretty,
                       sep = '_')
     if(write_out == TRUE) {
@@ -243,8 +232,7 @@ get_soils_data <- function(product   = NULL,
   },
   'ci_low' = {
     clo <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'ci_low', depth = depth,
-                            aoi = aoi, write_out = FALSE)
+                            component = 'ci_low', depth = depth, aoi = aoi)
     names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
                         sep = '_')
     if(write_out == TRUE) {
@@ -261,8 +249,7 @@ get_soils_data <- function(product   = NULL,
   },
   'ci_high' = {
     chi <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'ci_high', depth = depth,
-                            aoi = aoi, write_out = FALSE)
+                            component = 'ci_high', depth = depth, aoi = aoi)
     names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
                         sep = '_')
     if(write_out == TRUE) {
