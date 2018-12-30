@@ -62,6 +62,7 @@ test_that(
     val4 <- slga:::make_lscape_url(req_type = 'cap'),
     expect_equal(val4, "http://www.asris.csiro.au/ArcGis/services/TERN/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?REQUEST=GetCapabilities&SERVICE=WCS&VERSION=1.0.0"),
     expect_error(slga:::make_lscape_url(req_type = 'capybara')),
+    expect_error(slga:::make_lscape_url(aoi = aoi)),
     # big areas
     big_aoi <- c(145, -29, 146.8, -24.6),
     val5 <- slga:::make_lscape_url('SLPPC', big_aoi),

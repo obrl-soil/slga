@@ -1,3 +1,8 @@
+# slga 0.8.0
+  
+  * Refactored aoi processing
+  * Refactored main request functions
+
 # slga 0.7.0
 
   * http error handling

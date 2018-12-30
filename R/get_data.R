@@ -65,10 +65,7 @@ get_soils_raster <- function(product   = NULL,
 
     dat <- lapply(this_url, function(x) {
       out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
-      gr <- suppressMessages(
-        httr::GET(url = x, httr::write_disk(out_temp),
-                  httr::user_agent('https://github.com/obrl-soil/slga')))
-
+      gr <- get_slga_data(url = x, out_temp)
       if(httr::http_error(gr)) {
         stop(paste0('http error ', httr::status_code(gr), '.'))
       }
@@ -81,9 +78,7 @@ get_soils_raster <- function(product   = NULL,
 
   } else {
     out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
-    gr <- suppressMessages(
-      httr::GET(url = this_url, httr::write_disk(out_temp),
-                httr::user_agent('https://github.com/obrl-soil/slga')))
+    gr <- get_slga_data(url = this_url, out_temp)
     if(httr::http_error(gr)) {
       stop(paste0('http error ', httr::status_code(gr), '.'))
       }
@@ -347,9 +342,7 @@ get_lscape_data <- function(product   = NULL,
 
     dat <- lapply(this_url, function(x) {
         out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
-        gr <- suppressMessages(
-          httr::GET(url = x, httr::write_disk(out_temp),
-                    httr::user_agent('https://github.com/obrl-soil/slga')))
+        gr <- get_slga_data(url = x, out_temp)
 
         if(httr::http_error(gr)) {
           stop(paste0('http error ', httr::status_code(gr), '.'))
@@ -362,9 +355,7 @@ get_lscape_data <- function(product   = NULL,
 
   } else {
     out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
-    gr <- suppressMessages(
-      httr::GET(url = this_url, httr::write_disk(out_temp),
-                httr::user_agent('https://github.com/obrl-soil/slga')))
+    gr <- get_slga_data(url = this_url, out_temp)
 
     if(httr::http_error(gr)) {
       stop(paste0('http error ', httr::status_code(gr), '.'))
@@ -373,42 +364,5 @@ get_lscape_data <- function(product   = NULL,
     raster::raster(out_temp)
   }
 
-  names(r) <- paste0('SLGA_', product)
-  # TPMSK needs reclassifying so you can mask with tpi + tpm
-  if(product == 'TPMSK') {
-    df <- data.frame(c(0,1,255), c(NA_integer_, 0L, NA_integer_))
-    r <- raster::subs(r, df, by = 1, which = 2)
-  }
-
-  # NA values otherwise vary for landscape products
-  if(product %in% c('RELCL', 'TPIND')) {
-    r[which(raster::getValues(r) == 0)] <- NA_integer_
-  }
-
-  if(product %in% c('MRVBF')) {
-    r[which(raster::getValues(r) == 255)] <- NA_integer_
-  }
-
-  if(product %in% c('SLPPC', 'SLMPC', 'ASPCT', 'REL1K', 'REL3C', 'TWIND',
-                    'CAPRT', 'PLNCV', 'PRFCV')) {
-    r[which(raster::getValues(r) == -3.4028234663852886e+38)] <- NA_real_
-  }
-
-  if(product %in% c('PSIND', 'NRJAN', 'NRJUL', 'TSJAN', 'TSJUL')) {
-    r[which(raster::getValues(r) == -9999)] <- NA_real_
-  }
-
-  if(write_out == TRUE) {
-    out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
-    if(product %in% c('RELCL', 'MRVBF', 'TPIND', 'TPMSK')) {
-      raster::writeRaster(r, out_dest, datatype = 'INT2S',
-                          NAflag = -9999, overwrite = TRUE)
-    } else {
-      raster::writeRaster(r, out_dest, datatype = 'FLT4S',
-                          NAflag = -9999, overwrite = TRUE)
-    }
-    raster::raster(out_dest)
-  } else {
-    r
-  }
+  tidy_lscape_data(r, product, write_out)
 }

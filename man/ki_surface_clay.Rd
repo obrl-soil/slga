@@ -18,10 +18,11 @@ Clay WCS on 2018/11/25 using the demonstration code in
 \code{\link[slga:get_soils_data]{get_soils_data}}.
 
 The dataset has three named layers. The first is the estimated value, the
-second is the 5\% confidence limit, and the third is the 95\% confidence limit.
+second is the 5\% confidence limit, and the third is the 95\% confidence
+limit.
 
-The dataset is in WGS84 (EPSG:4326) and has a resolution of 3 arc seconds, which
-is approximately 70x90m when projected into EPSG:28355 or EPSG:3577.
+The dataset is in WGS84 (EPSG:4326) and has a resolution of 3 arc seconds,
+which is approximately 70x90m when projected into EPSG:28355 or EPSG:3577.
 
 Note that some off-shore areas have a value of 0 rather than NA. A coastline
 masking layer will be required to safely remove these values.
