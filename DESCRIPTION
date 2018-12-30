@@ -22,7 +22,6 @@ Suggests:
     pkgdown,
     rmarkdown,
     testthat
-
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
