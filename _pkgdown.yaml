@@ -3,6 +3,7 @@ url: http://obrl-soil.github.io/slga
 template:
   params:
     noindex: true
+    ganalytics: UA-108472319-3 
 
 reference:
 - title: Data Retrieval
