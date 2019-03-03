@@ -8,17 +8,8 @@
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
 #'   'Soil'.
-#' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
-#' @param depth Integer, a number from 1 to 6. The numbers correspond to the
-#'   following depth ranges:
-#'  \enumerate{
-#'   \item 0 to 5 cm.
-#'   \item 5 to 15 cm.
-#'   \item 15 to 30 cm.
-#'   \item 30 to 60 cm.
-#'   \item 60 to 100 cm.
-#'   \item 100 to 200 cm.
-#'   }
+#' @param component Character, one of 'VAL', 'CLO', or 'CHI'.
+#' @param depth Integer, a number from 1 to 6.
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, ymin,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
@@ -64,12 +55,12 @@ make_soils_url <- function(product = NULL, attribute = NULL,
     )
   }
 
-  component <- match.arg(component, c('value', 'ci_low', 'ci_high'))
+  component <- match.arg(component, c('VAL', 'CLO', 'CHI'))
   if(!(depth %in% seq.int(6))) {
     stop('Please choose a value between 1 and 6 for depth.')
   }
 
-  component <- switch(component, 'value' = 0L, 'ci_high' = 1L, 'ci_low' = 2L)
+  component <- switch(component, 'VAL' = 0L, 'CHI' = 1L, 'CLO' = 2L)
   depth     <- switch(depth, `1` =  1L, `2` =  4L, `3` = 7L,
                              `4` = 10L, `5` = 13L, `6` = 16L)
   layer_id  <- component + depth
@@ -87,9 +78,6 @@ make_soils_url <- function(product = NULL, attribute = NULL,
       res <- abs(
         c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
           slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
-
-      # aoi extent checking handled in helper function
-      aoi <- validate_aoi(aoi, product)
 
       if(is.list(aoi)) {
         lapply(aoi, function(x) {
@@ -128,7 +116,8 @@ make_soils_url <- function(product = NULL, attribute = NULL,
 #'   interest. The vector may be specified directly in the order xmin, ymin,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
-#' @param req_type Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.
+#' @param req_type Character; one of 'cap', 'cov', or 'desc'. Defaults to
+#'   'cov'.
 #' @keywords internal
 #' @importFrom utils data
 #'
@@ -176,7 +165,7 @@ make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
     c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
       slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
 
-  aoi <- validate_aoi(aoi, product)
+  #### else if coverage request: ###
 
   if(is.list(aoi)) {
     lapply(aoi, function(x) {
@@ -199,4 +188,33 @@ make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
            "&HEIGHT=", rows,
            "&FORMAT=GeoTIFF")
   }
+}
+
+#' Make point URL
+#'
+#' Generate the URL for a point data query on the Soil and Landscape Grid of
+#' Australia.
+#'
+#' @param product Character, one of the options from column 'Short_Name' in
+#'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
+#'   'Landscape'.
+#' @param poi Vector of WGS84 coordinates defining a point area of
+#'   interest. The vector may be specified directly in the order x, y,
+#'   or the function can take in `sf` point objects.
+#  @param buffer Boolean, whether to retrieve summary values for a buffered area
+#   around each point.
+#  @param stat Character; when buffer = TRUE, which summary to use. Defaults to
+#    median.
+#' @return URL string containing supplied parameters. NB not using this one yet.
+#' @keywords internal
+#' @importFrom utils data
+#'
+make_point_url <- function(product = NULL, poi = NULL) {
+
+  url_root <- "http://www.asris.csiro.au/ASRISApi/api/SLGA/simple/Drill?"
+
+  paste0(url_root,
+         'longitude=', poi[1], '&latitude=', poi[2],
+         '&layers=ALL', '&kernal=0', '&json=true')
+
 }

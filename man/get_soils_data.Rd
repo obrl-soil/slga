@@ -4,8 +4,8 @@
 \alias{get_soils_data}
 \title{Get SLGA soils data}
 \usage{
-get_soils_data(product = NULL, attribute = NULL, component = "all",
-  depth = NULL, aoi = NULL, write_out = TRUE)
+get_soils_data(product = NULL, attribute = NULL, component = "ALL",
+  depth = NULL, aoi = NULL, write_out = FALSE)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -15,8 +15,15 @@ get_soils_data(product = NULL, attribute = NULL, component = "all",
 \item{attribute}{Character, one of the options from column 'Code' in
 \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.}
 
-\item{component}{Character, one of 'all', 'value', 'ci', 'ci_low', or
-'ci_high'. Defaults to 'all'.}
+\item{component}{Character, one of the following:
+\itemize{
+ \item 'VAL' - predicted value surface.
+ \item 'CLO' - lower 95\% confidence interval surface.
+ \item 'CHI' - upper 95\% confidence interval surface.
+ \item 'CIS' - both confidence interval surfaces.
+ \item 'ALL' - value and both confidence interval surfaces.
+ }
+ Defaults to 'ALL'.}
 
 \item{depth}{Integer from 1 to 6. The numbers correspond to the
  following depth ranges:
@@ -35,7 +42,7 @@ xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
 
 \item{write_out}{Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff.}
+working directory as a GeoTiff. Defaults to FALSE.}
 }
 \value{
 Raster stack or single raster, depending on the value of `component`.
@@ -61,13 +68,13 @@ services.
 # get surface clay data for King Island
 aoi <- c(143.75, -40.17, 144.18, -39.57)
 ki_surface_clay <- get_soils_data(product = 'TAS', attribute = 'CLY',
-                                  component = 'all', depth = 1,
+                                  component = 'ALL', depth = 1,
                                   aoi = aoi, write_out = FALSE)
 
 # get estimated clay by depth for King Island
 ki_all_clay <- lapply(seq.int(6), function(d) {
   get_soils_data(product = 'TAS', attribute = 'CLY',
-                 component = 'value', depth = d,
+                 component = 'VAL', depth = d,
                  aoi = aoi, write_out = FALSE)
 })
 ki_all_clay <- raster::brick(ki_all_clay)

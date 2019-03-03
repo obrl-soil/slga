@@ -54,7 +54,7 @@ aoi_convert.Extent <- function(aoi = NULL) {
 #' @method aoi_convert sf
 #'
 aoi_convert.sf <- function(aoi = NULL) {
-  aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
+  #aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
   sf::st_bbox(aoi)
 }
 
@@ -63,8 +63,19 @@ aoi_convert.sf <- function(aoi = NULL) {
 #' @method aoi_convert sfc
 #'
 aoi_convert.sfc <- function(aoi = NULL) {
-  aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
+  #aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
   sf::st_bbox(aoi)
+}
+
+#' @rdname aoi_convert
+#' @inherit aoi_convert return
+#' @method aoi_convert sfg
+#'
+aoi_convert.sfg <- function(aoi = NULL) {
+  message("Assuming AOI coordinates are in EPSG:4283.")
+  new <- sf::st_as_sfc(sf::st_bbox(aoi))
+  new <- sf::st_set_crs(new, 4283)
+  sf::st_bbox(new)
 }
 
 #' Transform an AOI's CRS
@@ -301,4 +312,81 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
     # returns a bbox
     ext
   }
+}
+
+#' bbox from center point
+#'
+#' Get a bounding box from an x,y point and desired buffer distance
+#'
+#' @param product Character, one of the options from column 'Short_Name' in
+#'  \code{\link[slga:slga_product_info]{slga_product_info}}.
+#' @param poi Numeric; length-2 vector of x, y coordinates or `sf` style point.
+#' @param buff Integer, cell buffer around point. Defaults to 0 (single cell).
+#' @return sf style bbox or list of same, aligned to requested product, centered
+#'   on `point` and extending `buff` cells away from centre.
+#' @keywords internal
+#' @note This is for buffered data requests around a point.
+#' @importFrom sf st_crs st_coordinates
+#' @importFrom utils data
+#' @examples \dontrun{
+#'
+#' library(raster)
+#' library(sf)
+#' library(slga)
+#'
+#' # buff 0 = extent of single cell
+#' poi <- c(152, -27)
+#' aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 0)
+#'
+#' # size 3 = 7x7 cells (centre cell and 3 in each direction)
+#' aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 3)
+#' slope <- get_lscape_data('SLPPC', aoi)
+#' plot(slope)
+#' plot(st_point(poi), add = TRUE, pch = 19, col = 'red')
+#' }
+#'
+validate_poi <- function(poi = NULL, product = NULL, buff = 0) {
+
+  slga_product_info <- NULL
+  utils::data('slga_product_info', envir = environment())
+
+  # too lazy for full methods just now
+  if(inherits(poi, c('XY', 'XYZ', 'XYM', 'XYZM', 'sfc_POINT', 'sf'))) {
+    poi <- as.vector(sf::st_coordinates(poi))
+  }
+
+  res <- abs(
+    c(slga_product_info$offset_x[which(slga_product_info$Short_Name == product)],
+      slga_product_info$offset_y[which(slga_product_info$Short_Name == product)]))
+  orig <-
+    c(slga_product_info$origin_x[which(slga_product_info$Short_Name == product)],
+      slga_product_info$origin_y[which(slga_product_info$Short_Name == product)])
+
+  # nb to snap point to nearest cell center,
+  #p_x <- floor((poi[1] - orig[1])/res[1]) * res[1] + orig[1] + (res[1] / 2)
+  #p_y <- floor((poi[2] - orig[2])/res[2]) * res[2] + orig[2] + (res[2] / 2)
+
+  # 1-cell bbox from snap = 'out'
+  xmn <- floor((poi[1]   - orig[1])/res[1]) * res[1] + orig[1]
+  ymn <- floor((poi[2]   - orig[2])/res[2]) * res[2] + orig[2]
+  xmx <- ceiling((poi[1] - orig[1])/res[1]) * res[1] + orig[1]
+  ymx <- ceiling((poi[2] - orig[2])/res[2]) * res[2] + orig[2]
+
+  # for size > 1, buffer res * size
+  if(buff > 0) {
+    xmn <- xmn - (res[1] * buff)
+    ymn <- ymn - (res[2] * buff)
+    xmx <- xmx + (res[1] * buff)
+    ymx <- ymx + (res[2] * buff)
+  }
+
+  ext <- structure(c(xmn, ymn, xmx, ymx),
+                   names = c("xmin", "ymin", "xmax", "ymax"),
+                   class = "bbox", crs = sf::st_crs(4283))
+
+  if(aoi_overlaps(ext, product) == FALSE) {
+    stop('POI does not intersect requested product extent.')
+  }
+
+  ext
 }

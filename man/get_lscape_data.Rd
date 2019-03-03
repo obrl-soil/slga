@@ -4,7 +4,7 @@
 \alias{get_lscape_data}
 \title{Get SLGA landscape data}
 \usage{
-get_lscape_data(product = NULL, aoi = NULL, write_out = TRUE)
+get_lscape_data(product = NULL, aoi = NULL, write_out = FALSE)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -17,7 +17,7 @@ ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
 
 \item{write_out}{Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff.}
+working directory as a GeoTiff. Defaults to FALSE.}
 }
 \value{
 Raster dataset for a single landscape product.

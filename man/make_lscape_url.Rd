@@ -16,7 +16,8 @@ interest. The vector may be specified directly in the order xmin, ymin,
 xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
 
-\item{req_type}{Character; one of 'cap', 'cov' or 'desc'. Defaults to 'cov'.}
+\item{req_type}{Character; one of 'cap', 'cov', or 'desc'. Defaults to
+'cov'.}
 }
 \description{
 Generate the URL for a particular landscape attribute available from the Soil

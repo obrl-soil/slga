@@ -1,30 +1,22 @@
 #' download single SLGA soils raster subset
 #'
 #' Retrieves SLGA gridded soil data in raster format from WCS service.
-#'
 #' @param product Character, one of the options from column 'Short_Name' in
 #'   \code{\link[slga:slga_product_info]{slga_product_info}}, where Type =
 #'   'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}
-#' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
-#' @param depth Integer, a number from 1 to 6. The numbers correspond to the
-#'   following depth ranges:
-#'  \enumerate{
-#'   \item 0 to 5 cm.
-#'   \item 5 to 15 cm.
-#'   \item 15 to 30 cm.
-#'   \item 30 to 60 cm.
-#'   \item 60 to 100 cm.
-#'   \item 100 to 200 cm.
-#'   }
+#' @param component Character, one of 'VAL', 'CLO', or 'CHI'.
+#' @param depth Integer, a number from 1 to 6.
 #' @param aoi Vector of WGS84 coordinates defining a rectangular area of
 #'   interest. The vector may be specified directly in the order xmin, xmax,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
+#' @param skip_val boolean, filthy hack for point data requests, prevents double
+#' validation expanding bbox size
 #' @return Raster dataset for a single combination of product, attribute,
 #'   component, depth, and area of interest.
-#' @note aoi's wider or taller than 1 decimal degree are retrieveable, but be
+#' @note aoi's wider or taller than 1 decimal degree are retrievable, but be
 #'   aware that download file size will be large. If you want a dataset that
 #'   covers more than ~3x3', may be faster to download the full
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
@@ -37,12 +29,18 @@ get_soils_raster <- function(product   = NULL,
                              attribute = NULL,
                              component = NULL,
                              depth     = NULL,
-                             aoi       = NULL) {
+                             aoi       = NULL,
+                             skip_val  = FALSE) {
 
   # check availability
   if(check_avail(product, attribute) == FALSE) {
     stop("The requested attribute is not available as part of the requested
          product. Please check data('slga_attribute_info').")
+  }
+
+  # validate aoi
+  if(skip_val == FALSE) {
+    aoi <- validate_aoi(aoi, product)
   }
 
   # generate URL
@@ -51,12 +49,8 @@ get_soils_raster <- function(product   = NULL,
                              aoi = aoi)
 
   # code up filename
-  depth_pretty <- switch(depth,
-                         `1` = "000_005", `2` = "005_015", `3` = "015_030",
-                         `4` = "030_060", `5` = "060_100", `6` = "100_200")
-  out_name <- paste(product, attribute, toupper(component), depth_pretty,
-                    sep = '_')
-
+  out_name <- slga_filenamer(product = product, attribute = attribute,
+                             component = component, depth = depth)
   # get data, send to temp file(s)
   r <- if(is.list(this_url)) {
     message("Requesting a large volume of data, please be patient...")
@@ -99,8 +93,15 @@ get_soils_raster <- function(product   = NULL,
 #'   'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
-#' @param component Character, one of 'all', 'value', 'ci', 'ci_low', or
-#'   'ci_high'. Defaults to 'all'.
+#' @param component Character, one of the following:
+#' \itemize{
+#'  \item 'VAL' - predicted value surface.
+#'  \item 'CLO' - lower 95\% confidence interval surface.
+#'  \item 'CHI' - upper 95\% confidence interval surface.
+#'  \item 'CIS' - both confidence interval surfaces.
+#'  \item 'ALL' - value and both confidence interval surfaces.
+#'  }
+#'  Defaults to 'ALL'.
 #' @param depth Integer from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
 #'  \enumerate{
@@ -116,7 +117,7 @@ get_soils_raster <- function(product   = NULL,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
 #' @param write_out Boolean, whether to write the retrieved dataset to the
-#'   working directory as a GeoTiff.
+#'   working directory as a GeoTiff. Defaults to FALSE.
 #' @return Raster stack or single raster, depending on the value of `component`.
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
@@ -132,13 +133,13 @@ get_soils_raster <- function(product   = NULL,
 #' # get surface clay data for King Island
 #' aoi <- c(143.75, -40.17, 144.18, -39.57)
 #' ki_surface_clay <- get_soils_data(product = 'TAS', attribute = 'CLY',
-#'                                   component = 'all', depth = 1,
+#'                                   component = 'ALL', depth = 1,
 #'                                   aoi = aoi, write_out = FALSE)
 #'
 #' # get estimated clay by depth for King Island
 #' ki_all_clay <- lapply(seq.int(6), function(d) {
 #'   get_soils_data(product = 'TAS', attribute = 'CLY',
-#'                  component = 'value', depth = d,
+#'                  component = 'VAL', depth = d,
 #'                  aoi = aoi, write_out = FALSE)
 #' })
 #' ki_all_clay <- raster::brick(ki_all_clay)
@@ -149,125 +150,108 @@ get_soils_raster <- function(product   = NULL,
 #'
 get_soils_data <- function(product   = NULL,
                            attribute = NULL,
-                           component = 'all',
+                           component = 'ALL',
                            depth     = NULL,
                            aoi       = NULL,
-                           write_out = TRUE) {
+                           write_out = FALSE) {
 
   component <- match.arg(component,
-                          c('all', 'ci', 'value', 'ci_low', 'ci_high'))
+                          c('ALL', 'VAL', 'CIS', 'CLO', 'CHI'))
 
   if(!(depth %in% seq.int(6))) {
     stop('Please choose a value between 1 and 6 for depth.')
   }
 
-  depth_pretty <- switch(depth,
-                         `1` = "000_005", `2` = "005_015", `3` = "015_030",
-                         `4` = "030_060", `5` = "060_100", `6` = "100_200")
-  switch(component, 'all' = {
-    val <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'value', depth = depth, aoi = aoi)
-    clo <- suppressMessages(
-      get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_low', depth = depth, aoi = aoi)
+  switch(component, 'ALL' = {
+    rs <- lapply(c('VAL', 'CLO', 'CHI'), function(l) {
+      suppressMessages(
+        get_soils_raster(product = product, attribute = attribute,
+                         component = l, depth = depth, aoi = aoi)
       )
-    chi <-  suppressMessages(
-      get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_high', depth = depth, aoi = aoi)
-      )
-
-    s <- raster::stack(val, clo, chi)
-    names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
-                      sep = '_')
+    })
+    s <- raster::stack(rs)
+    s_names <- names(s)
 
     if(write_out == TRUE) {
-      out_name <- paste(product, attribute, 'ALL', depth_pretty, sep = '_')
+      out_name <- slga_filenamer(product = product, attribute = attribute,
+                                 component = 'ALL', depth = depth)
       out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
-      names(s) <- paste(product, attribute, c('VAL', 'CLO', 'CHI'), depth_pretty,
-                        sep = '_')
+      names(s) <- s_names
       raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
     }
   },
-  'ci' = {
-    clo <- get_soils_raster(product = product, attribute = attribute,
-                             component = 'ci_low', depth = depth, aoi = aoi)
-    chi <-  suppressMessages(
-      get_soils_raster(product = product, attribute = attribute,
-                       component = 'ci_high', depth = depth, aoi = aoi)
-    )
-
-    s <- raster::stack(clo, chi)
-    names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
-                      sep = '_')
+  'CIS' = {
+    rs <- lapply(c('CLO', 'CHI'), function(l) {
+      suppressMessages(
+        get_soils_raster(product = product, attribute = attribute,
+                         component = l, depth = depth, aoi = aoi)
+      )
+    })
+    s <- raster::stack(rs)
+    s_names <- names(s)
 
     if(write_out == TRUE) {
-      out_name <- paste(product, attribute, 'CIS', depth_pretty, sep = '_')
+      out_name <- slga_filenamer(product = product, attribute = attribute,
+                                 component = 'CIS', depth = depth)
       out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
-      names(s) <- paste(product, attribute, c('CLO', 'CHI'), depth_pretty,
-                        sep = '_')
+      names(s) <- s_names
       raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
     }
   },
-  'value' = {
+  'VAL' = {
     val <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'value', depth = depth, aoi = aoi)
-    names(val) <- paste(product, attribute, 'VAL', depth_pretty,
-                      sep = '_')
+                            component = 'VAL', depth = depth, aoi = aoi)
+    v_name <- names(val)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(names(val), '.tif'))
+      out_dest <- file.path(getwd(), paste0(v_name, '.tif'))
       raster::writeRaster(val, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       val <- raster::raster(out_dest)
-      names(val) <- paste(product, attribute, 'VAL', depth_pretty,
-                          sep = '_')
+      names(val) <- v_name
       raster::crs(val) <- paste0('+init=EPSG:4283 ', raster::crs(val))
       val
     } else {
       val
     }
   },
-  'ci_low' = {
+  'CLO' = {
     clo <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'ci_low', depth = depth, aoi = aoi)
-    names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
-                        sep = '_')
+                            component = 'CLO', depth = depth, aoi = aoi)
+    c_nm <- names(clo)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(names(clo), '.tif'))
+      out_dest <- file.path(getwd(), paste0(c_nm, '.tif'))
       raster::writeRaster(clo, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       clo <- raster::raster(out_dest)
-      names(clo) <- paste(product, attribute, 'CLO', depth_pretty,
-                          sep = '_')
+      names(clo) <- c_nm
       raster::crs(clo) <- paste0('+init=EPSG:4283 ', raster::crs(clo))
       clo
     } else {
       clo
     }
   },
-  'ci_high' = {
+  'CHI' = {
     chi <- get_soils_raster(product = product, attribute = attribute,
-                            component = 'ci_high', depth = depth, aoi = aoi)
-    names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
-                        sep = '_')
+                            component = 'CHI', depth = depth, aoi = aoi)
+    c_nm <- names(chi)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(names(chi), '.tif'))
+      out_dest <- file.path(getwd(), paste0(c_nm, '.tif'))
       raster::writeRaster(chi, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       chi <- raster::raster(out_dest)
-      names(chi) <- paste(product, attribute, 'CHI', depth_pretty,
-                          sep = '_')
+      names(chi) <- c_nm
       raster::crs(chi) <- paste0('+init=EPSG:4283 ', raster::crs(chi))
       chi
     } else {
@@ -290,7 +274,7 @@ get_soils_data <- function(product   = NULL,
 #'   ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
 #' @param write_out Boolean, whether to write the retrieved dataset to the
-#'   working directory as a GeoTiff.
+#'   working directory as a GeoTiff. Defaults to FALSE.
 #' @return Raster dataset for a single landscape product.
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
@@ -317,7 +301,9 @@ get_soils_data <- function(product   = NULL,
 #'
 get_lscape_data <- function(product   = NULL,
                             aoi       = NULL,
-                            write_out = TRUE) {
+                            write_out = FALSE) {
+
+  aoi <- validate_aoi(aoi, product)
 
   this_url <- make_lscape_url(product = product, aoi = aoi)
 

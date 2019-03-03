@@ -1,3 +1,9 @@
+# slga 1.0.0
+
+  * Added functions `get_soils_point()` and `get_lscape_point()`, which return non-spatial data summaries. The value for a pixel directly under a point can be requested, or statistical summaries of the area within `n` pixels of a point. 
+  * API change in `get_soils_data()` - component names for requesting soils data are different ('VAL' vs 'value' etc)
+  * Functions `get_soils_data()` and `get_lscape_data()` no longer write rasters to your working directory unless you tell them to (use option `write_out = TRUE`). 
+
 # slga 0.8.0
   
   * Refactored aoi processing and main request functions (all under-the-hood stuff)

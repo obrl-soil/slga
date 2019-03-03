@@ -15,7 +15,7 @@ metadata_soils(product = NULL, attribute = NULL, component = NULL,
 \code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
 'Soil'.}
 
-\item{component}{Character, one of 'value', 'ci_low', or 'ci_high'.}
+\item{component}{Character, one of 'VAL', 'CLO', or 'CHI'.}
 
 \item{depth}{Integer, a number from 1 to 6. The numbers correspond to the
  following depth ranges:

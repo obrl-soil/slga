@@ -1,8 +1,8 @@
 Package: slga
 Type: Package
 Title: Data access tools for the Soil and Landscape Grid of Australia
-Version: 0.8.0
-Date: 2018-12-30
+Version: 1.0.0
+Date: 2019-03-03	
 Authors@R: c(
     person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre')),
     person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant')))

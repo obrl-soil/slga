@@ -8,7 +8,7 @@
 #' @param attribute Character, one of the options from column 'Code' in
 #'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
 #'   'Soil'.
-#' @param component Character, one of 'value', 'ci_low', or 'ci_high'.
+#' @param component Character, one of 'VAL', 'CLO', or 'CHI'.
 #' @param depth Integer, a number from 1 to 6. The numbers correspond to the
 #'   following depth ranges:
 #'  \enumerate{

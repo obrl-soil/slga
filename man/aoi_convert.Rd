@@ -7,6 +7,7 @@
 \alias{aoi_convert.Extent}
 \alias{aoi_convert.sf}
 \alias{aoi_convert.sfc}
+\alias{aoi_convert.sfg}
 \title{Convert AOI}
 \usage{
 aoi_convert(aoi = NULL)
@@ -20,6 +21,8 @@ aoi_convert(aoi = NULL)
 \method{aoi_convert}{sf}(aoi = NULL)
 
 \method{aoi_convert}{sfc}(aoi = NULL)
+
+\method{aoi_convert}{sfg}(aoi = NULL)
 }
 \arguments{
 \item{aoi}{Numeric vector of bounding coordinates in xmin, ymin, xmax, ymax

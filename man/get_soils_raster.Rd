@@ -5,7 +5,7 @@
 \title{download single SLGA soils raster subset}
 \usage{
 get_soils_raster(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, aoi = NULL)
+  depth = NULL, aoi = NULL, skip_val = FALSE)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -15,23 +15,17 @@ get_soils_raster(product = NULL, attribute = NULL, component = NULL,
 \item{attribute}{Character, one of the options from column 'Code' in
 \code{\link[slga:slga_attribute_info]{slga_attribute_info}}}
 
-\item{component}{Character, one of 'value', 'ci_low', or 'ci_high'.}
+\item{component}{Character, one of 'VAL', 'CLO', or 'CHI'.}
 
-\item{depth}{Integer, a number from 1 to 6. The numbers correspond to the
- following depth ranges:
-\enumerate{
- \item 0 to 5 cm.
- \item 5 to 15 cm.
- \item 15 to 30 cm.
- \item 30 to 60 cm.
- \item 60 to 100 cm.
- \item 100 to 200 cm.
- }}
+\item{depth}{Integer, a number from 1 to 6.}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
 interest. The vector may be specified directly in the order xmin, xmax,
 ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
+
+\item{skip_val}{boolean, filthy hack for point data requests, prevents double
+validation expanding bbox size}
 }
 \value{
 Raster dataset for a single combination of product, attribute,
@@ -41,7 +35,7 @@ Raster dataset for a single combination of product, attribute,
 Retrieves SLGA gridded soil data in raster format from WCS service.
 }
 \note{
-aoi's wider or taller than 1 decimal degree are retrieveable, but be
+aoi's wider or taller than 1 decimal degree are retrievable, but be
   aware that download file size will be large. If you want a dataset that
   covers more than ~3x3', may be faster to download the full
   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.

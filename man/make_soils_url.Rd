@@ -15,18 +15,9 @@ make_soils_url(product = NULL, attribute = NULL, component = NULL,
 \code{\link[slga:slga_attribute_info]{slga_attribute_info}}, where 'Type' =
 'Soil'.}
 
-\item{component}{Character, one of 'value', 'ci_low', or 'ci_high'.}
+\item{component}{Character, one of 'VAL', 'CLO', or 'CHI'.}
 
-\item{depth}{Integer, a number from 1 to 6. The numbers correspond to the
- following depth ranges:
-\enumerate{
- \item 0 to 5 cm.
- \item 5 to 15 cm.
- \item 15 to 30 cm.
- \item 30 to 60 cm.
- \item 60 to 100 cm.
- \item 100 to 200 cm.
- }}
+\item{depth}{Integer, a number from 1 to 6.}
 
 \item{aoi}{Vector of WGS84 coordinates defining a rectangular area of
 interest. The vector may be specified directly in the order xmin, ymin,
