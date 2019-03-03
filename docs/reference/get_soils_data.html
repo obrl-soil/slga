@@ -50,6 +50,16 @@ services." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108472319-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108472319-3');
+</script>
+
   </head>
 
   <body>
@@ -66,7 +76,7 @@ services." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -120,8 +130,8 @@ services.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>"all"</span>,
-  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>"ALL"</span>,
+  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,8 +149,13 @@ services.</p>
     </tr>
     <tr>
       <th>component</th>
-      <td><p>Character, one of 'all', 'value', 'ci', 'ci_low', or
-'ci_high'. Defaults to 'all'.</p></td>
+      <td><p>Character, one of the following:</p><ul>
+<li><p>'VAL' - predicted value surface.</p></li>
+<li><p>'CLO' - lower 95% confidence interval surface.</p></li>
+<li><p>'CHI' - upper 95% confidence interval surface.</p></li>
+<li><p>'CIS' - both confidence interval surfaces.</p></li>
+<li><p>'ALL' - value and both confidence interval surfaces.</p></li>
+</ul><p>Defaults to 'ALL'.</p></td>
     </tr>
     <tr>
       <th>depth</th>
@@ -164,7 +179,7 @@ or `raster` object.</p></td>
     <tr>
       <th>write_out</th>
       <td><p>Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff.</p></td>
+working directory as a GeoTiff. Defaults to FALSE.</p></td>
     </tr>
     </table>
     
@@ -191,13 +206,13 @@ working directory as a GeoTiff.</p></td>
 <span class='co'># get surface clay data for King Island</span>
 <span class='no'>aoi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>143.75</span>, -<span class='fl'>40.17</span>, <span class='fl'>144.18</span>, -<span class='fl'>39.57</span>)
 <span class='no'>ki_surface_clay</span> <span class='kw'>&lt;-</span> <span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'TAS'</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='st'>'CLY'</span>,
-                                  <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'all'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+                                  <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'ALL'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                                   <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='no'>aoi</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># get estimated clay by depth for King Island</span>
 <span class='no'>ki_all_clay</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq.int</a></span>(<span class='fl'>6</span>), <span class='kw'>function</span>(<span class='no'>d</span>) {
   <span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'TAS'</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='st'>'CLY'</span>,
-                 <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'value'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='no'>d</span>,
+                 <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'VAL'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='no'>d</span>,
                  <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='no'>aoi</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 })
 <span class='no'>ki_all_clay</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/brick'>brick</a></span>(<span class='no'>ki_all_clay</span>)

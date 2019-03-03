@@ -49,6 +49,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108472319-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108472319-3');
+</script>
+
   </head>
 
   <body>
@@ -65,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -119,7 +129,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>get_soils_raster</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>component</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>skip_val</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -137,19 +147,11 @@
     </tr>
     <tr>
       <th>component</th>
-      <td><p>Character, one of 'value', 'ci_low', or 'ci_high'.</p></td>
+      <td><p>Character, one of 'VAL', 'CLO', or 'CHI'.</p></td>
     </tr>
     <tr>
       <th>depth</th>
-      <td><p>Integer, a number from 1 to 6. The numbers correspond to the
- following depth ranges:</p><ol>
-<li><p>0 to 5 cm.</p></li>
-<li><p>5 to 15 cm.</p></li>
-<li><p>15 to 30 cm.</p></li>
-<li><p>30 to 60 cm.</p></li>
-<li><p>60 to 100 cm.</p></li>
-<li><p>100 to 200 cm.</p></li>
-</ol></td>
+      <td><p>Integer, a number from 1 to 6.</p></td>
     </tr>
     <tr>
       <th>aoi</th>
@@ -157,6 +159,11 @@
 interest. The vector may be specified directly in the order xmin, xmax,
 ymin, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.</p></td>
+    </tr>
+    <tr>
+      <th>skip_val</th>
+      <td><p>boolean, filthy hack for point data requests, prevents double
+validation expanding bbox size</p></td>
     </tr>
     </table>
     
@@ -167,7 +174,7 @@ or `raster` object.</p></td>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>aoi's wider or taller than 1 decimal degree are retrieveable, but be
+    <p>aoi's wider or taller than 1 decimal degree are retrievable, but be
   aware that download file size will be large. If you want a dataset that
   covers more than ~3x3', may be faster to download the full
   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.</p>

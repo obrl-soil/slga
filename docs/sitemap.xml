@@ -25,10 +25,16 @@
     <loc>http://obrl-soil.github.io/slga/reference/get_lscape_data.html</loc>
   </url>
   <url>
+    <loc>http://obrl-soil.github.io/slga/reference/get_lscape_point.html</loc>
+  </url>
+  <url>
     <loc>http://obrl-soil.github.io/slga/reference/get_slga_data.html</loc>
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/get_soils_data.html</loc>
+  </url>
+  <url>
+    <loc>http://obrl-soil.github.io/slga/reference/get_soils_point.html</loc>
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/get_soils_raster.html</loc>
@@ -37,7 +43,13 @@
     <loc>http://obrl-soil.github.io/slga/reference/ki_surface_clay.html</loc>
   </url>
   <url>
+    <loc>http://obrl-soil.github.io/slga/reference/make_circ_mask.html</loc>
+  </url>
+  <url>
     <loc>http://obrl-soil.github.io/slga/reference/make_lscape_url.html</loc>
+  </url>
+  <url>
+    <loc>http://obrl-soil.github.io/slga/reference/make_point_url.html</loc>
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/make_soils_url.html</loc>
@@ -55,6 +67,9 @@
     <loc>http://obrl-soil.github.io/slga/reference/slga_attribute_info.html</loc>
   </url>
   <url>
+    <loc>http://obrl-soil.github.io/slga/reference/slga_filenamer.html</loc>
+  </url>
+  <url>
     <loc>http://obrl-soil.github.io/slga/reference/slga_product_info.html</loc>
   </url>
   <url>
@@ -65,6 +80,9 @@
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/validate_aoi.html</loc>
+  </url>
+  <url>
+    <loc>http://obrl-soil.github.io/slga/reference/validate_poi.html</loc>
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/articles/slga.html</loc>

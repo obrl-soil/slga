@@ -50,6 +50,16 @@ endpoints in XML or list format." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108472319-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108472319-3');
+</script>
+
   </head>
 
   <body>
@@ -66,7 +76,7 @@ endpoints in XML or list format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -139,7 +149,7 @@ endpoints in XML or list format.</p>
     </tr>
     <tr>
       <th>component</th>
-      <td><p>Character, one of 'value', 'ci_low', or 'ci_high'.</p></td>
+      <td><p>Character, one of 'VAL', 'CLO', or 'CHI'.</p></td>
     </tr>
     <tr>
       <th>depth</th>

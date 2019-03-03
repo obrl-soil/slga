@@ -50,6 +50,16 @@ depth available from the Soil and Landscape Grid of Australia." />
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108472319-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108472319-3');
+</script>
+
   </head>
 
   <body>
@@ -66,7 +76,7 @@ depth available from the Soil and Landscape Grid of Australia." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -139,19 +149,11 @@ depth available from the Soil and Landscape Grid of Australia.</p>
     </tr>
     <tr>
       <th>component</th>
-      <td><p>Character, one of 'value', 'ci_low', or 'ci_high'.</p></td>
+      <td><p>Character, one of 'VAL', 'CLO', or 'CHI'.</p></td>
     </tr>
     <tr>
       <th>depth</th>
-      <td><p>Integer, a number from 1 to 6. The numbers correspond to the
- following depth ranges:</p><ol>
-<li><p>0 to 5 cm.</p></li>
-<li><p>5 to 15 cm.</p></li>
-<li><p>15 to 30 cm.</p></li>
-<li><p>30 to 60 cm.</p></li>
-<li><p>60 to 100 cm.</p></li>
-<li><p>100 to 200 cm.</p></li>
-</ol></td>
+      <td><p>Integer, a number from 1 to 6.</p></td>
     </tr>
     <tr>
       <th>aoi</th>

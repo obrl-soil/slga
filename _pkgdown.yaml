@@ -11,6 +11,8 @@ reference:
   contents:
   - '`get_lscape_data`'
   - '`get_soils_data`'
+  - '`get_lscape_point`'
+  - '`get_soils_point`'
 - title: Metadata Retrieval
   desc: Get information about the WCS services supplying SLGA data.
   contents:
