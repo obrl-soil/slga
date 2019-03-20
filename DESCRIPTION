@@ -1,12 +1,12 @@
 Package: slga
 Type: Package
-Title: Data access tools for the Soil and Landscape Grid of Australia
-Version: 1.0.0
-Date: 2019-03-03	
+Title: Data Access Tools for the Soil and Landscape Grid of Australia
+Version: 1.0.1
+Date: 2019-03-20
 Authors@R: c(
     person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre')),
     person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant')))
-Description: Provides access to Soil and Landscape Grid raster datasets via existing WCS services. See www.csiro.au/soil-and-landscape-grid.
+Description: Provides access to Soil and Landscape Grid of Australia raster datasets via existing Open GeoSpatial Consortium Web Coverage Services (OGC-WCS). See www.csiro.au/soil-and-landscape-grid.
 License: MIT + file LICENSE
 Depends:
     R (>= 2.10)

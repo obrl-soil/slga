@@ -33,13 +33,13 @@ The two tables are derived from information on the [SLGA website](http://www.clw
 
 ## Soils data
 
-Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info()`. Each soil attribute has six depth slices ranging from the land surface to 2m depth. Each soil attribute also has three layers - the estimated value, plus its lower and upper 95% confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 95 of those samples would return values within those limits.
+Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info()`. Each soil attribute has six depth slices extending from the land surface to 2.0 metres below. Each soil attribute also has three associated values - the estimated value, plus its lower (5%) and upper (95%) confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 90 of those samples would return values within those limits.
 
 Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
 
 The function `get_soils_data()` is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a `raster` or `rasterStack` object.
 
-As a demonstration, the surface (0-5 cm) percentage clay content for King Island is available with `data('ki_surface_clay')`:
+As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for King Island is available with `data('ki_surface_clay')`:
 
 ```{r kic}
 data('ki_surface_clay')
@@ -74,7 +74,7 @@ ki_mrvbf <- get_lscape_data(product = 'MRVBF', aoi = aoi, write_out = FALSE)
 
 ## Area of interest
 
-`slga` output datasets are always source-aligned - that is, the returned SLGA data will align with its parent coverage rather than your supplied `aoi` parameter. This is deliberate; WCS services default to target-alignment, which involves hidden server-side resampling behaviour when a geographical subset is supplied. This behaviour is essential for WCS' primary use case - accessing data dynamically  in a GUI. For constructing reproducible workflows that start with rasters, however, it is not appropriate. If you need a dataset that aligns with other data, it is best practice to carry out any resampling and realignment at your end, after retrieving a 'clean' subset of SLGA data. This ensures that these operations are clearly documented. Functions like `raster::resample()` may be useful at this point.
+`slga` output datasets are always source-aligned - that is, the returned SLGA data will align with its parent coverage rather than your supplied `aoi` parameter. This is deliberate; WCS services default to target-alignment, which involves hidden server-side resampling behaviour when a geographical subset is supplied. This behaviour is essential for WCS' primary use case - accessing data dynamically in a GUI. For constructing reproducible workflows that start with rasters, however, it is not appropriate. If you need a dataset that aligns with other data, it is best practice to carry out any resampling and realignment at your end, after retrieving a 'clean' subset of SLGA data. This ensures that these operations are clearly documented. Functions like `raster::resample()` may be useful at this point.
 
 ## Saving data
 
@@ -102,8 +102,8 @@ Data values for single-point locations within the grid can be retrieved using `g
 
 ```{r 'pt0', eval = FALSE}
 #not run
-clay_pt  <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151,-27))
-slope_pt <- get_lscape_point('SLPPC', c(151,-27))
+clay_pt  <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151, -27))
+slope_pt <- get_lscape_point('SLPPC', c(151, -27))
 ```
 
 A non-spatial dataframe of values is returned. Summaries of the area around a point can also be retrieved. The summary can be of a square or circular window around a point.
@@ -115,9 +115,9 @@ avg_clay <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151, -27),
 
 ```
 
-Buffering is defined in terms of cells, not meters. A buffer of `n` cells implies that the raster extracted will be `2n + 1` cells wide and high, centered on the cell into which the supplied point of interest falls. 
+Buffering is defined in terms of cells, not metres. A buffer of `n` cells implies that the raster extracted will be `2n + 1` cells wide and high, centered on the cell into which the supplied point of interest falls. 
 
-Note that for datasets that have many points within a small area, it will be more efficient to extract rasters covering the dataset bounding box before extracting point summaries using existing `raster` package functions.
+Note that for datasets that have many points within a small area, it will be more efficient to download rasters covering the dataset bounding box before extracting point summaries using existing `raster` package functions.
 
 ## Metadata
 

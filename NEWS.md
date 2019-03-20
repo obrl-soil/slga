@@ -1,3 +1,7 @@
+# slga 1.0.1
+
+  * Little tweaks and tidyups
+
 # slga 1.0.0
 
   * Added functions `get_soils_point()` and `get_lscape_point()`, which return non-spatial data summaries. The value for a pixel directly under a point can be requested, or statistical summaries of the area within `n` pixels of a point. 

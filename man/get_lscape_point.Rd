@@ -42,7 +42,7 @@ summary values yourself.
 \examples{
 \dontrun{
 
-# get slope for 60-100cm at a point
+# get the slope at a point
 slope_pt <- get_lscape_point('SLPPC', c(151,-27))
 
 # get the average slope within ~300m of a point
