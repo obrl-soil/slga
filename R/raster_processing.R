@@ -55,7 +55,7 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
 
   if(product %in% c('SLPPC', 'SLMPC', 'ASPCT', 'REL1K', 'REL3C', 'TWIND',
                     'CAPRT', 'PLNCV', 'PRFCV')) {
-    r[which(raster::getValues(r) == -3.4028234663852886e+38)] <- NA_real_
+    r[which(raster::getValues(r) < -3.4e+38)] <- NA_real_
   }
 
   if(product %in% c('PSIND', 'NRJAN', 'NRJUL', 'TSJAN', 'TSJUL')) {

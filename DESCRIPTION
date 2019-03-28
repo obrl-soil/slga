@@ -6,7 +6,7 @@ Date: 2019-03-20
 Authors@R: c(
     person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre')),
     person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant')))
-Description: Provides access to Soil and Landscape Grid of Australia raster datasets via existing Open GeoSpatial Consortium Web Coverage Services (OGC-WCS). See www.csiro.au/soil-and-landscape-grid.
+Description: Provides access to Soil and Landscape Grid of Australia raster datasets via existing Open Geospatial Consortium Web Coverage Services. See <http://www.csiro.au/soil-and-landscape-grid>.  
 License: MIT + file LICENSE
 Depends:
     R (>= 2.10)
