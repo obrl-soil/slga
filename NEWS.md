@@ -1,3 +1,7 @@
+# slga 1.0.2
+
+  * slight change to crs string fix - inconsistent behaviour across proj versions
+
 # slga 1.0.1
 
   * Little tweaks and tidyups

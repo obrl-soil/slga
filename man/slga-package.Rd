@@ -4,10 +4,11 @@
 \name{slga-package}
 \alias{slga}
 \alias{slga-package}
-\title{slga: Soil and Landscape Grid of Australia services}
+\title{slga: Data Access Tools for the Soil and Landscape Grid of Australia}
 \description{
-Provides access to Soil and Landscape Grid raster datasets via existing 
-WCS services. See www.csiro.au/soil-and-landscape-grid.
+Provides access to Soil and Landscape Grid of Australia raster datasets via
+existing Open Geospatial Consortium Web Coverage Services. See
+<http://www.csiro.au/soil-and-landscape-grid>.
 }
 \seealso{
 Useful links:

@@ -18,7 +18,7 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
   r[which(raster::getValues(r) == -9999)] <- NA_real_
 
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
-  raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+  r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
   r
 }
 
@@ -73,10 +73,10 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
     }
     r <- raster::raster(out_dest)
     # argh
-    raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+    r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
     r
   } else {
-    raster::crs(r) <- paste0('+init=EPSG:4283 ', raster::crs(r))
+    r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
     r
   }
 }
