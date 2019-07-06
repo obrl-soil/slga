@@ -2,7 +2,7 @@
 % Please edit documentation in R/raster_processing.R
 \name{tidy_soils_data}
 \alias{tidy_soils_data}
-\title{tidy soils rasters}
+\title{Tidy soils rasters}
 \usage{
 tidy_soils_data(r = NULL, out_name = NULL)
 }

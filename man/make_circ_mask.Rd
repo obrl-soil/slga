@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{make_circ_mask}
 \alias{make_circ_mask}
-\title{make a circular mask}
+\title{Make a circular mask}
 \usage{
 make_circ_mask(buff = NULL)
 }

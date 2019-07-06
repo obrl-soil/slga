@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_data.R
 \name{get_soils_raster}
 \alias{get_soils_raster}
-\title{download single SLGA soils raster subset}
+\title{Download single SLGA soils raster subset}
 \usage{
 get_soils_raster(product = NULL, attribute = NULL, component = NULL,
   depth = NULL, aoi = NULL, skip_val = FALSE)

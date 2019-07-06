@@ -2,7 +2,7 @@
 % Please edit documentation in R/helpers.R
 \name{slga_filenamer}
 \alias{slga_filenamer}
-\title{filename generator}
+\title{Filename generator}
 \usage{
 slga_filenamer(product = NULL, attribute = NULL, component = NULL,
   depth = NULL)

@@ -24,6 +24,9 @@
 #' @return A list or xml document object, depending on the value of 'format'.
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list
+#' @examples \dontrun{
+#'
+#' }
 #' @export
 #'
 metadata_soils <- function(product = NULL, attribute = NULL,

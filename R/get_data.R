@@ -1,4 +1,4 @@
-#' download single SLGA soils raster subset
+#' Download single SLGA soils raster subset
 #'
 #' Retrieves SLGA gridded soil data in raster format from WCS service.
 #' @param product Character, one of the options from column 'Short_Name' in
@@ -130,19 +130,19 @@ get_soils_raster <- function(product   = NULL,
 #'   whole-of-profile parameters.
 #'   }
 #' @examples \dontrun{
-#' # get surface clay data for King Island
-#' aoi <- c(143.75, -40.17, 144.18, -39.57)
-#' ki_surface_clay <- get_soils_data(product = 'TAS', attribute = 'CLY',
-#'                                   component = 'ALL', depth = 1,
-#'                                   aoi = aoi, write_out = FALSE)
+#' # get surface clay data for central Brisbane
+#' aoi <- c(152.95, -27.55, 153.07, -27.45)
+#' bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+#'                                    component = 'ALL', depth = 1,
+#'                                    aoi = aoi, write_out = FALSE)
 #'
-#' # get estimated clay by depth for King Island
-#' ki_all_clay <- lapply(seq.int(6), function(d) {
-#'   get_soils_data(product = 'TAS', attribute = 'CLY',
+#' # get estimated clay by depth for central Brisbane
+#' bne_all_clay <- lapply(seq.int(6), function(d) {
+#'   get_soils_data(product = 'NAT', attribute = 'CLY',
 #'                  component = 'VAL', depth = d,
 #'                  aoi = aoi, write_out = FALSE)
 #' })
-#' ki_all_clay <- raster::brick(ki_all_clay)
+#' bne_all_clay <- raster::brick(bne_all_clay)
 #' }
 #' @importFrom raster raster stack writeRaster
 #' @importFrom utils data
@@ -288,12 +288,12 @@ get_soils_data <- function(product   = NULL,
 #' @importFrom raster getValues raster subs writeRaster
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @examples \dontrun{
-#' # get slope data for King Island
-#' aoi <- c(143.75, -40.17, 144.18, -39.57)
-#' ki_slope <- get_lscape_data(product = 'SLPPC', aoi = aoi, write_out = FALSE)
+#' # get slope data for central Brisbane
+#' aoi <- c(152.95, -27.55, 153.07, -27.45)
+#' bne_slope <- get_lscape_data(product = 'SLPPC', aoi = aoi, write_out = FALSE)
 #'
-#' # get slope, aspect and relief class data for King Island
-#' ki_SAR <- lapply(c('SLPPC', 'ASPCT', 'RELCL'), function(t) {
+#' # get slope, aspect and relief class data for central Brisbane
+#' bne_SAR <- lapply(c('SLPPC', 'ASPCT', 'RELCL'), function(t) {
 #'   get_lscape_data(product = t, aoi = aoi, write_out = FALSE)
 #' })
 #' }

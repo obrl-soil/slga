@@ -1,6 +1,7 @@
 # slga 1.0.2
 
-  * slight change to crs string fix - inconsistent behaviour across proj versions
+  * slight change to crs string fix addressing inconsistent behaviour across proj versions
+  * smaller example dataset for CRAN
 
 # slga 1.0.1
 

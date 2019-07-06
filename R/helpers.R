@@ -20,7 +20,7 @@ check_avail <- function(product = NULL, attribute = NULL) {
   slga_attribute_info[which(slga_attribute_info$Code == attribute), product]
 }
 
-#' filename generator
+#' Filename generator
 #'
 #' generates a filename for an SLGA raster request
 #' @param product Character, one of the options from column 'Code' in
@@ -43,7 +43,7 @@ slga_filenamer <- function(product = NULL, attribute = NULL,
 
 #' GET soil or landscape data
 #'
-#' Quietly sends a httr GET request to SLGA web service endpoint.
+#' Quietly sends a httr GET request to an SLGA web service endpoint.
 #'
 #' @param url valid output from \code{\link[slga:make_soils_url]{make_soils_url}}
 #'  or \code{\link[slga:make_lscape_url]{make_lscape_url}}
@@ -60,7 +60,7 @@ get_slga_data <- function(url = NULL, out_temp = NULL) {
             httr::user_agent('https://github.com/obrl-soil/slga')))
 }
 
-#' make a circular mask
+#' Make a circular mask
 #'
 #' Generates a circular masking matrix
 #' @param buff The number of cells away from the central cell to mask. The

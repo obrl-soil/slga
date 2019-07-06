@@ -1,4 +1,4 @@
-#' tidy soils rasters
+#' Tidy soils rasters
 #'
 #' Does some post-processing on soils datasets downloaded from SLGA - mostly
 #' about setting NA correctly
@@ -18,7 +18,10 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
   r[which(raster::getValues(r) == -9999)] <- NA_real_
 
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
-  r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
+  fx <- '+init=EPSG:4283 '
+  # PROJ versioning shenanigans resolved by
+  if(.Platform$OS.type != 'windows') { fx <- tolower(fx) }
+  r@crs@projargs <- paste0(fx, r@crs@projargs)
   r
 }
 
@@ -73,10 +76,14 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
     }
     r <- raster::raster(out_dest)
     # argh
-    r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
+    fx <- '+init=EPSG:4283 '
+    if(.Platform$OS.type != 'windows') { fx <- tolower(fx) }
+    r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   } else {
-    r@crs@projargs <- paste0('+init=EPSG:4283 ', r@crs@projargs)
+    fx <- '+init=EPSG:4283 '
+    if(.Platform$OS.type != 'windows') { fx <- tolower(fx) }
+    r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   }
 }

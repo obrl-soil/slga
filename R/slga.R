@@ -2,6 +2,6 @@
 #'
 #' Provides access to Soil and Landscape Grid of Australia raster datasets via
 #' existing Open Geospatial Consortium Web Coverage Services. See
-#' <http://www.csiro.au/soil-and-landscape-grid>.
+#' <http://www.clw.csiro.au/aclep/soilandlandscapegrid>.
 #'
 "_PACKAGE"

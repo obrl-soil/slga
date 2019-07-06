@@ -39,3 +39,8 @@ A list or xml document object, depending on the value of 'format'.
 Retrieves metadata from Soil and Landscape Grid of Australia soils WCS
 endpoints in XML or list format.
 }
+\examples{
+\dontrun{
+
+}
+}

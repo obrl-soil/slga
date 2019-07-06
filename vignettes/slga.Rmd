@@ -29,34 +29,34 @@ options(stringsAsFactors = FALSE)
 
 Two high-level wrapper functions, `get_soils_data()` and `get_lscape_data()`, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets `slga_attribute_info()` and `slga_product_info()`. They contain allowable values for some of the function inputs as well as key metadata.
 
-The two tables are derived from information on the [SLGA website](http://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html) and in the WCS metadata documents.
+The two tables are derived from information on the [SLGA website](http://www.clw.csiro.au/aclep/soilandlandscapegrid) and in the WCS metadata documents.
 
 ## Soils data
 
 Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in `slga_attribute_info()`. Each soil attribute has six depth slices extending from the land surface to 2.0 metres below. Each soil attribute also has three associated values - the estimated value, plus its lower (5%) and upper (95%) confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 90 of those samples would return values within those limits.
 
-Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1)
+Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap)
 
 The function `get_soils_data()` is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a `raster` or `rasterStack` object.
 
-As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for King Island is available with `data('ki_surface_clay')`:
+As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for central Brisbane is available with `data('bne_surface_clay')`:
 
-```{r kic}
-data('ki_surface_clay')
-ki_surface_clay
+```{r bnec}
+data('bne_surface_clay')
+bne_surface_clay
 ```
 
 ![](clayplot.png){width=95%}
 
-Note that some offshore areas have 0 values rather than NA; these are difficult to remove safely without an adequate coastline mask. You may need to generate one yourself if you are working along the coast.
+Note that some open-water areas have 0 values rather than NA; these are difficult to remove safely without an adequate mask. You may need to generate one yourself, particularly if you are working along the coast.
 
 The query to retrieve the above maps looked like:
 
 ```{r 'qry', eval = FALSE}
-aoi <- c(143.75, -40.17, 144.18, -39.57)
-ki_surface_clay <- get_soils_data(product = 'TAS', attribute = 'CLY',
-                                  component = 'ALL', depth = 1,
-                                  aoi = aoi, write_out = FALSE)
+aoi <- c(152.95, -27.55, 153.07, -27.45)
+bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+                                   component = 'ALL', depth = 1,
+                                   aoi = aoi, write_out = FALSE)
 
 ```
 
@@ -64,12 +64,12 @@ Note that valid `product` parameters are defined in `slga_product_info$Short_Nam
 
 ## Landscape data
 
-18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e3s1).
+18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap).
 
-`get_lscape_data()` only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for King Island is given by
+`get_lscape_data()` only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for central Brisbane is given by
 
 ```{r 'qry2', eval = FALSE}
-ki_mrvbf <- get_lscape_data(product = 'MRVBF', aoi = aoi, write_out = FALSE)
+bne_mrvbf <- get_lscape_data(product = 'MRVBF', aoi = aoi, write_out = FALSE)
 ```
 
 ## Area of interest
@@ -86,11 +86,11 @@ To retrieve data from e.g. more than one depth, you can use an iterator like `ba
 
 ```{r 'allclay', eval = FALSE}
 # not run
-ki_all_clay <- lapply(seq.int(6), function(d) {
-  get_soils_data(product = 'TAS', attribute = 'CLY', component = 'VAL',
+bne_all_clay <- lapply(seq.int(6), function(d) {
+  get_soils_data(product = 'NAT', attribute = 'CLY', component = 'VAL',
                  depth = d, aoi = aoi, write_out = FALSE)
 })
-ki_all_clay <- raster::brick(ki_all_clay)
+bne_all_clay <- raster::brick(bne_all_clay)
 
 ```
 
@@ -102,15 +102,15 @@ Data values for single-point locations within the grid can be retrieved using `g
 
 ```{r 'pt0', eval = FALSE}
 #not run
-clay_pt  <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151, -27))
-slope_pt <- get_lscape_point('SLPPC', c(151, -27))
+clay_pt  <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153, -27.5))
+slope_pt <- get_lscape_point('SLPPC', c(153, -27.5))
 ```
 
 A non-spatial dataframe of values is returned. Summaries of the area around a point can also be retrieved. The summary can be of a square or circular window around a point.
 
 ```{r 'ptb', eval = FALSE}
 # get the average predicted clay content for 60-100cm within ~300m of a point
-avg_clay <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151, -27),
+avg_clay <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153, -27.5),
                             buff = 3, buff_shp = 'circle', stat = 'mean')
 
 ```
@@ -124,7 +124,7 @@ Note that for datasets that have many points within a small area, it will be mor
 Service and coverage level metadata for soil and landscape data can be retrieved with `metadata_soils()` and `metadata_lscape()`. For example, 
 
 ```{r mdeg, eval = FALSE}
-tas_clay_mdc <- metadata_soils('TAS', 'CLY', req_type = 'desc')
+nat_clay_mdc <- metadata_soils('NAT', 'CLY', req_type = 'desc')
 ```
 
 ***

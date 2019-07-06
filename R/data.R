@@ -50,13 +50,13 @@
 #'
 'slga_product_info'
 
-#' King Island surface clay content
+#' Central Brisbane surface clay content
 #'
-#' A rasterStack containing modelled estimated percent clay content for King
-#' Island, off the north-west coast of Tasmania.
+#' A rasterStack containing modelled estimated percent clay content for central
+#' Brisbane, in South East Queensland.
 #'
-#' The dataset was retrieved from the Regional Soil Attributes - Tasmania -
-#' Clay WCS on 2018/11/25 using the demonstration code in
+#' The dataset was retrieved from the National Soil Attributes Clay WCS on
+#' 2019/07/07 using the demonstration code in
 #' \code{\link[slga:get_soils_data]{get_soils_data}}.
 #'
 #' The dataset has three named layers. The first is the estimated value, the
@@ -64,12 +64,12 @@
 #' limit.
 #'
 #' The dataset is in WGS84 (EPSG:4326) and has a resolution of 3 arc seconds,
-#' which is approximately 70x90m when projected into EPSG:28355 or EPSG:3577.
+#' which is approximately 80x90m when projected into EPSG:28355 or EPSG:3577.
 #'
 #' Note that some off-shore areas have a value of 0 rather than NA. A coastline
 #' masking layer will be required to safely remove these values.
 #'
-"ki_surface_clay"
+"bne_surface_clay"
 
 ## Generated with
 #slga_attribute_info <-
@@ -198,5 +198,10 @@
 #
 #slga_product_info <- rbind(slga_product_info, slga_terrain_info)
 #
+# aoi <- c(152.95, -27.55, 153.07, -27.45)
+# bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+#                                    component = 'ALL', depth = 1,
+#                                    aoi = aoi, write_out = FALSE)
 #usethis::use_data(slga_attribute_info, overwrite = TRUE)
 #usethis::use_data(slga_product_info, overwrite = TRUE)
+#x

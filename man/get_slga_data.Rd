@@ -18,6 +18,6 @@ httr \code{\link[httr:response]{response()}} object with content
   stored on disk
 }
 \description{
-Quietly sends a httr GET request to SLGA web service endpoint.
+Quietly sends a httr GET request to an SLGA web service endpoint.
 }
 \keyword{internal}

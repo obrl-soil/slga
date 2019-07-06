@@ -46,10 +46,10 @@
 #' @examples \dontrun{
 #'
 #' # get predicted clay value for 60-100cm at a point
-#' clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(151,-27))
+#' clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
 #'
 #' # get the average predicted clay content for 60-100cm within ~300m of a point
-#' avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(151, -27),
+#' avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(153, -27.5),
 #'                             buff = 3, buff_shp = 'circle', stat = 'mean')
 #' }
 #' @export
@@ -157,10 +157,10 @@ get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
 #' @examples \dontrun{
 #'
 #' # get the slope at a point
-#' slope_pt <- get_lscape_point('SLPPC', c(151,-27))
+#' slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
 #'
 #' # get the average slope within ~300m of a point
-#' avg_slope <- get_lscape_point('SLPPC', c(151, -27),
+#' avg_slope <- get_lscape_point('SLPPC', c(153, -27.5),
 #'                               buff = 3, buff_shp = 'circle', stat = 'mean')
 #' }
 #' @export

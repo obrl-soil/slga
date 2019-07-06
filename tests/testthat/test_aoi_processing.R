@@ -153,9 +153,9 @@ test_that(
     expect_equal(val1, val4),
     # convert from actual raster
     library(raster),
-    data('ki_surface_clay'),
-    val5 <- slga:::validate_aoi(ki_surface_clay, 'NAT'),
-    val6 <- slga:::validate_aoi(raster::extent(ki_surface_clay), 'NAT'),
+    data('bne_surface_clay'),
+    val5 <- slga:::validate_aoi(bne_surface_clay, 'NAT'),
+    val6 <- slga:::validate_aoi(raster::extent(bne_surface_clay), 'NAT'),
     expect_equivalent(val5, val6),
     expect_error(slga:::validate_aoi('1', 'NAT')),
     # convert from sfc
@@ -177,8 +177,8 @@ test_that(
 test_that(
   'validate_poi functions as expected',
   c(
-    expect_error(slga:::validate_poi(c(151, 27), 'NAT')),
-    poi <- c(151, -27),
+    expect_error(slga:::validate_poi(c(153, 27.5), 'NAT')),
+    poi <- c(153, -27.5),
     v1 <- slga:::validate_poi(poi, 'NAT'),
     v2 <- slga:::validate_poi(poi, 'NAT', buff = 3),
     expect_is(v1, 'bbox'),
@@ -196,7 +196,7 @@ test_that(
     expect_true(v2[3] > v1[3]),
     expect_true(v2[4] > v1[4]),
     # poi is an sf point
-    poi_xy <- st_point(c(151, -27)),
+    poi_xy <- st_point(c(153, -27.5)),
     v3 <- slga:::validate_poi(poi_xy, 'NAT'),
     expect_equal(v1, v3),
     # poi is an sfc_POINT of length 1 (e.g. from splitting an sfc)
