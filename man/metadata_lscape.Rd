@@ -26,3 +26,8 @@ endpoints in XML or list format.
 Parameter `product` is optional for `req_type = 'desc'`, leave out to
   get metadata for all available landscape products.
 }
+\examples{
+\dontrun{
+ slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
+}
+}

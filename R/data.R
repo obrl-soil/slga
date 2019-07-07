@@ -204,4 +204,5 @@
 #                                    aoi = aoi, write_out = FALSE)
 #usethis::use_data(slga_attribute_info, overwrite = TRUE)
 #usethis::use_data(slga_product_info, overwrite = TRUE)
-#x
+#usethis::use_data(bne_surface_clay, overwrite = TRUE, compress = 'xz')
+

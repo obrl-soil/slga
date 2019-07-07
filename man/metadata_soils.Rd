@@ -41,6 +41,6 @@ endpoints in XML or list format.
 }
 \examples{
 \dontrun{
-
+ cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
 }
 }
