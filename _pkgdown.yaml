@@ -28,7 +28,7 @@ reference:
 - title: Sample Dataset
   desc: ~
   contents:
-  - '`ki_surface_clay`'
+  - '`bne_surface_clay`'
 
 navbar:
   structure:
