@@ -36,7 +36,7 @@ aoi_convert.numeric <- function(aoi = NULL) {
 #'
 aoi_convert.Raster <- function(aoi = NULL) {
   # PROJ version thing augh ffs
-  if(all(grepl('^5', sf::sf_extSoftVersion()[[3]]),
+  if(all(grepl('^5|^6', sf::sf_extSoftVersion()[[3]]),
          grepl('EPSG', aoi@crs@projargs))
     ) {
     aoi@crs@projargs <- gsub('EPSG', 'epsg', aoi@crs@projargs)
