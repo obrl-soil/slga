@@ -8,7 +8,7 @@
 #' @keywords internal
 #' @rdname aoi_convert
 #' @importFrom raster extent
-#' @importFrom sf st_bbox st_crs st_as_sfc
+#' @importFrom sf st_bbox st_crs st_as_sfc sf_extSoftVersion
 #' @importFrom utils data
 #'
 aoi_convert <- function(aoi = NULL) {
@@ -35,6 +35,12 @@ aoi_convert.numeric <- function(aoi = NULL) {
 #' @method aoi_convert Raster
 #'
 aoi_convert.Raster <- function(aoi = NULL) {
+  # PROJ version thing augh ffs
+  if(all(grepl('^4', sf::sf_extSoftVersion()[[3]]),
+         grepl('EPSG', aoi@crs@projargs))
+    ) {
+    aoi@crs@projargs <- gsub('EPSG', 'epsg', aoi@crs@projargs)
+    }
   aoi_crs <- sf::st_crs(aoi@crs@projargs)
   aoi <- raster::extent(aoi)
   sf::st_bbox(aoi, crs = aoi_crs)
