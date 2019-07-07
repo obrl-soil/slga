@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
       <h1>Accessing SLGA Data</h1>
                         <h4 class="author"><span class="citation">@obrl_soil</span></h4>
             
-            <h4 class="date">2019-03-03</h4>
+            <h4 class="date">2019-07-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obrl-soil/slga/blob/master/vignettes/slga.Rmd"><code>vignettes/slga.Rmd</code></a></small>
       <div class="hidden name"><code>slga.Rmd</code></div>
@@ -92,46 +92,44 @@
     
     
 <p>This is a quick overview of how to retrieve data from the Soil and Landscape Grid of Australia.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)
-<span class="co">#&gt; Loading required package: sp</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slga)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(raster)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">#&gt; Loading required package: sp</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(slga)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Two high-level wrapper functions, <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> and <code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code>, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code> and <code><a href="../reference/slga_product_info.html">slga_product_info()</a></code>. They contain allowable values for some of the function inputs as well as key metadata.</p>
-<p>The two tables are derived from information on the <a href="http://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html">SLGA website</a> and in the WCS metadata documents.</p>
+<p>The two tables are derived from information on the <a href="http://www.clw.csiro.au/aclep/soilandlandscapegrid">SLGA website</a> and in the WCS metadata documents.</p>
 <div id="soils-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#soils-data" class="anchor"></a>Soils data</h2>
-<p>Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code>. Each soil attribute has six depth slices ranging from the land surface to 2m depth. Each soil attribute also has three layers - the estimated value, plus its lower and upper 95% confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 95 of those samples would return values within those limits.</p>
-<p>Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap/home?execution=e3s1">CSIRO Data Access Portal</a></p>
+<p>Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code>. Each soil attribute has six depth slices extending from the land surface to 2.0 metres below. Each soil attribute also has three associated values - the estimated value, plus its lower (5%) and upper (95%) confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 90 of those samples would return values within those limits.</p>
+<p>Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a></p>
 <p>The function <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a <code>raster</code> or <code>rasterStack</code> object.</p>
-<p>As a demonstration, the surface (0-5 cm) percentage clay content for King Island is available with <code><a href="https://www.rdocumentation.org/packages/utils/topics/data">data('ki_surface_clay')</a></code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">'ki_surface_clay'</span>)
-ki_surface_clay
-<span class="co">#&gt; class       : RasterStack </span>
-<span class="co">#&gt; dimensions  : 721, 517, 372757, 3  (nrow, ncol, ncell, nlayers)</span>
-<span class="co">#&gt; resolution  : 0.0008333333, 0.0008333333  (x, y)</span>
-<span class="co">#&gt; extent      : 143.7496, 144.1804, -40.17042, -39.56958  (xmin, xmax, ymin, ymax)</span>
-<span class="co">#&gt; coord. ref. : +proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs </span>
-<span class="co">#&gt; names       : TAS_CLY_VAL_000_005, TAS_CLY_CLO_000_005, TAS_CLY_CHI_000_005 </span>
-<span class="co">#&gt; min values  :                   0,                   0,                   0 </span>
-<span class="co">#&gt; max values  :            32.45988,            11.47951,            60.94624</span></code></pre></div>
-<div class="figure">
-<img src="clayplot.png" style="width:95.0%">
-</div>
-<p>Note that some offshore areas have 0 values rather than NA; these are difficult to remove safely without an adequate coastline mask. You may need to generate one yourself if you are working along the coast.</p>
+<p>As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for central Brisbane is available with <code><a href="https://www.rdocumentation.org/packages/utils/topics/data">data('bne_surface_clay')</a></code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">'bne_surface_clay'</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">bne_surface_clay</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; class      : RasterStack </span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; dimensions : 121, 145, 17545, 3  (nrow, ncol, ncell, nlayers)</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; resolution : 0.0008333333, 0.0008333333  (x, y)</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; extent     : 152.9496, 153.0704, -27.55042, -27.44958  (xmin, xmax, ymin, ymax)</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; crs        : +init=EPSG:4283 +proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs </span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; names      : NAT_CLY_VAL_000_005, NAT_CLY_CLO_000_005, NAT_CLY_CHI_000_005 </span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; min values :           10.100820,           -3.681541,           23.713245 </span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; max values :            33.95562,            19.32191,            48.78592</span></a></code></pre></div>
+<p><img src="clayplot.png" style="width:95.0%"></p>
+<p>Note that some open-water areas have 0 values rather than NA; these are difficult to remove safely without an adequate mask. You may need to generate one yourself, particularly if you are working along the coast.</p>
 <p>The query to retrieve the above maps looked like:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aoi &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">143.75</span>, <span class="op">-</span><span class="fl">40.17</span>, <span class="fl">144.18</span>, <span class="op">-</span><span class="fl">39.57</span>)
-ki_surface_clay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_data.html">get_soils_data</a></span>(<span class="dt">product =</span> <span class="st">'TAS'</span>, <span class="dt">attribute =</span> <span class="st">'CLY'</span>,
-                                  <span class="dt">component =</span> <span class="st">'ALL'</span>, <span class="dt">depth =</span> <span class="dv">1</span>,
-                                  <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">aoi &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">152.95</span>, <span class="fl">-27.55</span>, <span class="fl">153.07</span>, <span class="fl">-27.45</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2">bne_surface_clay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_data.html">get_soils_data</a></span>(<span class="dt">product =</span> <span class="st">'NAT'</span>, <span class="dt">attribute =</span> <span class="st">'CLY'</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">                                   <span class="dt">component =</span> <span class="st">'ALL'</span>, <span class="dt">depth =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                                   <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Note that valid <code>product</code> parameters are defined in <code>slga_product_info$Short_Name</code>, and valid <code>attribute</code> parameters in <code>slga_attribute_info$Code</code>. If a particular combination is not available, the function will fail gracefully.</p>
 </div>
 <div id="landscape-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#landscape-data" class="anchor"></a>Landscape data</h2>
-<p>18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap/home?execution=e3s1">CSIRO Data Access Portal</a>.</p>
-<p><code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code> only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for King Island is given by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ki_mrvbf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_lscape_data.html">get_lscape_data</a></span>(<span class="dt">product =</span> <span class="st">'MRVBF'</span>, <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a>.</p>
+<p><code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code> only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for central Brisbane is given by</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">bne_mrvbf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_lscape_data.html">get_lscape_data</a></span>(<span class="dt">product =</span> <span class="st">'MRVBF'</span>, <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 </div>
 <div id="area-of-interest" class="section level2">
 <h2 class="hasAnchor">
@@ -147,33 +145,33 @@ ki_surface_clay &lt;-<span class="st"> </span><span class="kw"><a href="../refer
 <h2 class="hasAnchor">
 <a href="#advanced-querying" class="anchor"></a>Advanced querying</h2>
 <p>To retrieve data from e.g. more than one depth, you can use an iterator like <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">base::lapply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>. For instance, to retrieve estimated clay values for all depths over King Island, you could do the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># not run</span>
-ki_all_clay &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq.int</a></span>(<span class="dv">6</span>), <span class="cf">function</span>(d) {
-  <span class="kw"><a href="../reference/get_soils_data.html">get_soils_data</a></span>(<span class="dt">product =</span> <span class="st">'TAS'</span>, <span class="dt">attribute =</span> <span class="st">'CLY'</span>, <span class="dt">component =</span> <span class="st">'VAL'</span>,
-                 <span class="dt">depth =</span> d, <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)
-})
-ki_all_clay &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/brick">brick</a></span>(ki_all_clay)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># not run</span></a>
+<a class="sourceLine" id="cb5-2" title="2">bne_all_clay &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq.int</a></span>(<span class="dv">6</span>), <span class="cf">function</span>(d) {</a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="kw"><a href="../reference/get_soils_data.html">get_soils_data</a></span>(<span class="dt">product =</span> <span class="st">'NAT'</span>, <span class="dt">attribute =</span> <span class="st">'CLY'</span>, <span class="dt">component =</span> <span class="st">'VAL'</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">                 <span class="dt">depth =</span> d, <span class="dt">aoi =</span> aoi, <span class="dt">write_out =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb5-5" title="5">})</a>
+<a class="sourceLine" id="cb5-6" title="6">bne_all_clay &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/raster/topics/brick">brick</a></span>(bne_all_clay)</a></code></pre></div>
 <p>Similar iteration can be carried out with a vector of attributes or products. Note that while all the soils products align with each other, not all of the landscape products do. Stacking the latter together will require some pre-processing.</p>
 </div>
 <div id="point-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#point-data" class="anchor"></a>Point data</h2>
 <p>Data values for single-point locations within the grid can be retrieved using <code><a href="../reference/get_soils_point.html">get_soils_point()</a></code> or <code><a href="../reference/get_lscape_point.html">get_lscape_point()</a></code>, as follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#not run</span>
-clay_pt  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_point.html">get_soils_point</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="dv">5</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">151</span>,<span class="op">-</span><span class="dv">27</span>))
-slope_pt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_lscape_point.html">get_lscape_point</a></span>(<span class="st">'SLPPC'</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">151</span>,<span class="op">-</span><span class="dv">27</span>))</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co">#not run</span></a>
+<a class="sourceLine" id="cb6-2" title="2">clay_pt  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_point.html">get_soils_point</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="dv">5</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">153</span>, <span class="fl">-27.5</span>))</a>
+<a class="sourceLine" id="cb6-3" title="3">slope_pt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_lscape_point.html">get_lscape_point</a></span>(<span class="st">'SLPPC'</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">153</span>, <span class="fl">-27.5</span>))</a></code></pre></div>
 <p>A non-spatial dataframe of values is returned. Summaries of the area around a point can also be retrieved. The summary can be of a square or circular window around a point.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the average predicted clay content for 60-100cm within ~300m of a point</span>
-avg_clay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_point.html">get_soils_point</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="dv">5</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">151</span>, <span class="op">-</span><span class="dv">27</span>),
-                            <span class="dt">buff =</span> <span class="dv">3</span>, <span class="dt">buff_shp =</span> <span class="st">'circle'</span>, <span class="dt">stat =</span> <span class="st">'mean'</span>)</code></pre></div>
-<p>Buffering is defined in terms of cells, not meters. A buffer of <code>n</code> cells implies that the raster extracted will be <code>2n + 1</code> cells wide and high, centered on the cell into which the supplied point of interest falls.</p>
-<p>Note that for datasets that have many points within a small area, it will be more efficient to extract rasters covering the dataset bounding box before extracting point summaries using existing <code>raster</code> package functions.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># get the average predicted clay content for 60-100cm within ~300m of a point</span></a>
+<a class="sourceLine" id="cb7-2" title="2">avg_clay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_soils_point.html">get_soils_point</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="dv">5</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">153</span>, <span class="fl">-27.5</span>),</a>
+<a class="sourceLine" id="cb7-3" title="3">                            <span class="dt">buff =</span> <span class="dv">3</span>, <span class="dt">buff_shp =</span> <span class="st">'circle'</span>, <span class="dt">stat =</span> <span class="st">'mean'</span>)</a></code></pre></div>
+<p>Buffering is defined in terms of cells, not metres. A buffer of <code>n</code> cells implies that the raster extracted will be <code>2n + 1</code> cells wide and high, centered on the cell into which the supplied point of interest falls.</p>
+<p>Note that for datasets that have many points within a small area, it will be more efficient to download rasters covering the dataset bounding box before extracting point summaries using existing <code>raster</code> package functions.</p>
 </div>
 <div id="metadata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metadata" class="anchor"></a>Metadata</h2>
 <p>Service and coverage level metadata for soil and landscape data can be retrieved with <code><a href="../reference/metadata_soils.html">metadata_soils()</a></code> and <code><a href="../reference/metadata_lscape.html">metadata_lscape()</a></code>. For example,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tas_clay_mdc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/metadata_soils.html">metadata_soils</a></span>(<span class="st">'TAS'</span>, <span class="st">'CLY'</span>, <span class="dt">req_type =</span> <span class="st">'desc'</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">nat_clay_mdc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/metadata_soils.html">metadata_soils</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="dt">req_type =</span> <span class="st">'desc'</span>)</a></code></pre></div>
 <hr>
 </div>
   </div>

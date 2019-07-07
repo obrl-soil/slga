@@ -19,6 +19,9 @@
     <loc>http://obrl-soil.github.io/slga/reference/aoi_transform.html</loc>
   </url>
   <url>
+    <loc>http://obrl-soil.github.io/slga/reference/bne_surface_clay.html</loc>
+  </url>
+  <url>
     <loc>http://obrl-soil.github.io/slga/reference/check_avail.html</loc>
   </url>
   <url>
@@ -38,9 +41,6 @@
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/get_soils_raster.html</loc>
-  </url>
-  <url>
-    <loc>http://obrl-soil.github.io/slga/reference/ki_surface_clay.html</loc>
   </url>
   <url>
     <loc>http://obrl-soil.github.io/slga/reference/make_circ_mask.html</loc>

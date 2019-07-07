@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -118,18 +118,33 @@
       <small>Source: <a href='https://github.com/obrl-soil/slga/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="slga-1-0-0" class="section level1">
+    <div id="slga-102" class="section level1">
 <h1 class="page-header">
-<a href="#slga-1-0-0" class="anchor"></a>slga 1.0.0</h1>
+<a href="#slga-102" class="anchor"></a>slga 1.0.2</h1>
+<ul>
+<li>slight change to crs string fix addressing inconsistent behaviour across proj versions</li>
+<li>smaller example dataset for CRAN</li>
+</ul>
+</div>
+    <div id="slga-101" class="section level1">
+<h1 class="page-header">
+<a href="#slga-101" class="anchor"></a>slga 1.0.1</h1>
+<ul>
+<li>Little tweaks and tidyups</li>
+</ul>
+</div>
+    <div id="slga-100" class="section level1">
+<h1 class="page-header">
+<a href="#slga-100" class="anchor"></a>slga 1.0.0</h1>
 <ul>
 <li>Added functions <code><a href="../reference/get_soils_point.html">get_soils_point()</a></code> and <code><a href="../reference/get_lscape_point.html">get_lscape_point()</a></code>, which return non-spatial data summaries. The value for a pixel directly under a point can be requested, or statistical summaries of the area within <code>n</code> pixels of a point.</li>
 <li>API change in <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> - component names for requesting soils data are different (‘VAL’ vs ‘value’ etc)</li>
 <li>Functions <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> and <code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code> no longer write rasters to your working directory unless you tell them to (use option <code>write_out = TRUE</code>).</li>
 </ul>
 </div>
-    <div id="slga-0-8-0" class="section level1">
+    <div id="slga-080" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-8-0" class="anchor"></a>slga 0.8.0</h1>
+<a href="#slga-080" class="anchor"></a>slga 0.8.0</h1>
 <ul>
 <li>Refactored aoi processing and main request functions (all under-the-hood stuff)</li>
 <li>Bugfix - EPSG:4283 should no longer be misinterpreted as EPSG:4151 in other software (e.g. QGIS)</li>
@@ -137,18 +152,18 @@
 <li>progress bars for staged requests</li>
 </ul>
 </div>
-    <div id="slga-0-7-0" class="section level1">
+    <div id="slga-070" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-7-0" class="anchor"></a>slga 0.7.0</h1>
+<a href="#slga-070" class="anchor"></a>slga 0.7.0</h1>
 <ul>
 <li>http error handling</li>
 <li>staged requests where aoi larger than 1x1 degrees</li>
 <li>exported <code><a href="../reference/check_avail.html">check_avail()</a></code> for making sure a given soil attribute is available on a given product.</li>
 </ul>
 </div>
-    <div id="slga-0-6-0" class="section level1">
+    <div id="slga-060" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-6-0" class="anchor"></a>slga 0.6.0</h1>
+<a href="#slga-060" class="anchor"></a>slga 0.6.0</h1>
 <ul>
 <li>S3 methods for validating aoi (internal only). Covered: numeric vector, raster, rasterExtent, sf, sfc.</li>
 <li>Bugfix for tempfile names.</li>
@@ -157,17 +172,17 @@
 <li>Outputs in GDA94 like they should have been already.</li>
 </ul>
 </div>
-    <div id="slga-0-5-0" class="section level1">
+    <div id="slga-050" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-5-0" class="anchor"></a>slga 0.5.0</h1>
+<a href="#slga-050" class="anchor"></a>slga 0.5.0</h1>
 <ul>
 <li>data type fixes for lscape, more efficient download method.</li>
 <li>Added <code><a href="../reference/metadata_soils.html">metadata_soils()</a></code> and <code><a href="../reference/metadata_lscape.html">metadata_lscape()</a></code> to provide access to service metadata in XML or JSON format.</li>
 </ul>
 </div>
-    <div id="slga-0-4-0" class="section level1">
+    <div id="slga-040" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-4-0" class="anchor"></a>slga 0.4.0</h1>
+<a href="#slga-040" class="anchor"></a>slga 0.4.0</h1>
 <ul>
 <li>Add access to landscape datasets - API change per below.</li>
 <li>Renamed <code><a href="../reference/get_slga_data.html">get_slga_data()</a></code> to <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code>.</li>
@@ -176,28 +191,28 @@
 <li>Extended vignette to cover landscape dataset retrieval.</li>
 </ul>
 </div>
-    <div id="slga-0-3-0" class="section level1">
+    <div id="slga-030" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-3-0" class="anchor"></a>slga 0.3.0</h1>
+<a href="#slga-030" class="anchor"></a>slga 0.3.0</h1>
 <ul>
 <li>Updated README.md.</li>
 <li>Added travis and codecov.</li>
 </ul>
 </div>
-    <div id="slga-0-2-0" class="section level1">
+    <div id="slga-020" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-2-0" class="anchor"></a>slga 0.2.0</h1>
+<a href="#slga-020" class="anchor"></a>slga 0.2.0</h1>
 <ul>
-<li>Retrieval functionality wrapped in <code><a href="../reference/get_slga_data.html">get_slga_data()</a></code> to get raster values and confidence intervals in one object. For more complex requests involving multiple depth ranges, attributes, products or combinations thereof, use this with a map-style function e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">base::lapply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>.</li>
+<li>Retrieval functionality wrapped in <code><a href="../reference/get_slga_data.html">get_slga_data()</a></code> to get raster values and confidence intervals in one object. For more complex requests involving multiple depth ranges, attributes, products or combinations thereof, use this with a map-style function e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/lapply">base::lapply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>.</li>
 <li>Added product/attribute availability checking.</li>
 <li>Now using easier to remember names for products.</li>
 <li>Added unit tests.</li>
 <li>Added vignette.</li>
 </ul>
 </div>
-    <div id="slga-0-1-0" class="section level1">
+    <div id="slga-010" class="section level1">
 <h1 class="page-header">
-<a href="#slga-0-1-0" class="anchor"></a>slga 0.1.0</h1>
+<a href="#slga-010" class="anchor"></a>slga 0.1.0</h1>
 <ul>
 <li>basic functionality - ability to extract a single raster subset using a bounding box.</li>
 </ul>
@@ -208,15 +223,17 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#slga-1-0-0">1.0.0</a></li>
-        <li><a href="#slga-0-8-0">0.8.0</a></li>
-        <li><a href="#slga-0-7-0">0.7.0</a></li>
-        <li><a href="#slga-0-6-0">0.6.0</a></li>
-        <li><a href="#slga-0-5-0">0.5.0</a></li>
-        <li><a href="#slga-0-4-0">0.4.0</a></li>
-        <li><a href="#slga-0-3-0">0.3.0</a></li>
-        <li><a href="#slga-0-2-0">0.2.0</a></li>
-        <li><a href="#slga-0-1-0">0.1.0</a></li>
+        <li><a href="#slga-102">1.0.2</a></li>
+        <li><a href="#slga-101">1.0.1</a></li>
+        <li><a href="#slga-100">1.0.0</a></li>
+        <li><a href="#slga-080">0.8.0</a></li>
+        <li><a href="#slga-070">0.7.0</a></li>
+        <li><a href="#slga-060">0.6.0</a></li>
+        <li><a href="#slga-050">0.5.0</a></li>
+        <li><a href="#slga-040">0.4.0</a></li>
+        <li><a href="#slga-030">0.3.0</a></li>
+        <li><a href="#slga-020">0.2.0</a></li>
+        <li><a href="#slga-010">0.1.0</a></li>
       </ul>
     </div>
   </div>
