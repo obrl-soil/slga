@@ -21,7 +21,7 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
   fx <- '+init=EPSG:4283 '
   # cross-platform PROJ versioning shenanigans resolved by
-  if(grepl('^4', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+  if(grepl('^5', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
   # revisit the above if the rwinlib/gdal2 stack changes
   r@crs@projargs <- paste0(fx, r@crs@projargs)
   r
@@ -80,12 +80,12 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
     r <- raster::raster(out_dest)
     # argh
     fx <- '+init=EPSG:4283 '
-    if(grepl('^4', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+    if(grepl('^5', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
     r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   } else {
     fx <- '+init=EPSG:4283 '
-    if(grepl('^4', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+    if(grepl('^54', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
     r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   }
