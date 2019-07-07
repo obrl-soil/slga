@@ -25,7 +25,7 @@
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list
 #' @examples \dontrun{
-#'
+#'  cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
 #' }
 #' @export
 #'
@@ -44,6 +44,9 @@ metadata_soils <- function(product = NULL, attribute = NULL,
                                      req_type = 'desc'))
 
   this_metadata <- httr::GET(url = this_url) # WCS < 2.0 won't return JSON ;_;
+  if(httr::http_error(this_metadata)) {
+    stop(paste0('http error ', httr::status_code(this_metadata), '.'))
+  }
 
   if(format == 'native') {
     xml2::as_list(content(this_metadata, encoding = 'UTF-8'))
@@ -65,6 +68,9 @@ metadata_soils <- function(product = NULL, attribute = NULL,
 #' @return A list or xml document object, depending on the value of 'format'.
 #' @note Parameter `product` is optional for `req_type = 'desc'`, leave out to
 #'   get metadata for all available landscape products.
+#' @examples \dontrun{
+#'  slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
+#' }
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list
 #' @export
@@ -80,7 +86,10 @@ metadata_lscape <- function(product  = NULL,
            'cap'  = make_lscape_url(product = product, req_type = 'cap'),
            'desc' = make_lscape_url(product = product, req_type = 'desc'))
 
-  this_metadata <- httr::GET(url = this_url) # WCS < 2.0 won't return JSON ;_;
+  this_metadata <- httr::GET(url = this_url)
+  if(httr::http_error(this_metadata)) {
+    stop(paste0('http error ', httr::status_code(this_metadata), '.'))
+  }
 
   if(format == 'native') {
     xml2::as_list(content(this_metadata, encoding = 'UTF-8'))
