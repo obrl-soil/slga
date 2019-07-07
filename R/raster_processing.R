@@ -19,9 +19,9 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
   r[which(raster::getValues(r) == -9999)] <- NA_real_
 
   # fix proj string to 4283 properly (4151 is otherwise identical :/)
-  fx <- '+init=EPSG:4283 '
+  fx <- '+init=epsg:4283 '
   # cross-platform PROJ versioning shenanigans resolved by
-  if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+  #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
   # revisit the above if the rwinlib/gdal2 stack changes
   r@crs@projargs <- paste0(fx, r@crs@projargs)
   r
@@ -79,13 +79,13 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
     }
     r <- raster::raster(out_dest)
     # argh
-    fx <- '+init=EPSG:4283 '
-    if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+    fx <- '+init=epsg:4283 '
+    #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
     r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   } else {
-    fx <- '+init=EPSG:4283 '
-    if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
+    fx <- '+init=epsg:4283 '
+    #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
     r@crs@projargs <- paste0(fx, r@crs@projargs)
     r
   }
