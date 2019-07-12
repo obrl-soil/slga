@@ -25,27 +25,29 @@ adapted from
   below.
 }
 \examples{
-\dontrun{
-library(raster)
-library(sf)
-# concept demo
-plot(sf::st_buffer(sf::st_point(c(0,0)), 5), axes = TRUE, reset = FALSE)
-plot(raster::raster(make_circ_mask(10),
-     xmn = -5, xmx = 5, ymn = -5, ymx = 5), add = TRUE)
+{
+  \dontrun{
+  library(raster)
+  library(sf)
+  # concept demo
+  plot(sf::st_buffer(sf::st_point(c(0,0)), 5), axes = TRUE, reset = FALSE)
+  plot(raster::raster(make_circ_mask(10),
+       xmn = -5, xmx = 5, ymn = -5, ymx = 5), add = TRUE)
 
-# test with real data
-poi <- c(152, -27)
-aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 3)
-slope <- get_lscape_data('SLPPC', aoi)
-plot(slope)
-masker <- raster(slope)
-masker[] <- make_circ_mask(5)
-slope <- slope + masker
-plot(slope)
-plot(st_point(poi), add = T, pch = 19, col = 'red')
-plot(sf::st_buffer(sf::st_centroid(sf::st_as_sfc(aoi)),
-     0.000833 * 5), add = TRUE)
+  # test with real data
+  poi <- c(152, -27)
+  aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 5)
+  slope <- get_lscape_data('SLPPC', aoi)
+  plot(slope)
+  masker <- raster(slope)
+  masker[] <- make_circ_mask(5)
+  slope <- slope + masker
+  plot(slope)
+  plot(st_point(poi), add = T, pch = 19, col = 'red')
+  plot(sf::st_buffer(sf::st_centroid(sf::st_as_sfc(aoi)),
+       0.000833 * 5), add = TRUE)
 
+  }
 }
 
 }

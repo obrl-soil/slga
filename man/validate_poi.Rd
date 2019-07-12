@@ -25,21 +25,23 @@ Get a bounding box from an x,y point and desired buffer distance
 This is for buffered data requests around a point.
 }
 \examples{
-\dontrun{
+{
+  \dontrun{
 
-library(raster)
-library(sf)
-library(slga)
+    library(raster)
+    library(sf)
+    library(slga)
 
-# buff 0 = extent of single cell
-poi <- c(152, -27)
-aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 0)
+    # buff 0 = extent of single cell
+    poi <- c(152, -27)
+    aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 0)
 
-# size 3 = 7x7 cells (centre cell and 3 in each direction)
-aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 3)
-slope <- get_lscape_data('SLPPC', aoi)
-plot(slope)
-plot(st_point(poi), add = TRUE, pch = 19, col = 'red')
+    # size 3 = 7x7 cells (centre cell and 3 in each direction)
+    aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 3)
+    slope <- get_lscape_data('SLPPC', aoi)
+    plot(slope)
+    plot(st_point(poi), add = TRUE, pch = 19, col = 'red')
+  }
 }
 
 }

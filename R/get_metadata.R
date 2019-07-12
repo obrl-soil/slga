@@ -24,8 +24,10 @@
 #' @return A list or xml document object, depending on the value of 'format'.
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list
-#' @examples \dontrun{
-#'  cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
+#' @examples {
+#'   \dontrun{
+#'    cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
+#'   }
 #' }
 #' @export
 #'
@@ -68,8 +70,10 @@ metadata_soils <- function(product = NULL, attribute = NULL,
 #' @return A list or xml document object, depending on the value of 'format'.
 #' @note Parameter `product` is optional for `req_type = 'desc'`, leave out to
 #'   get metadata for all available landscape products.
-#' @examples \dontrun{
-#'  slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
+#' @examples {
+#'   \dontrun{
+#'    slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
+#'   }
 #' }
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list

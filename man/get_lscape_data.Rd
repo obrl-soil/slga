@@ -40,14 +40,16 @@ services.
   }
 }
 \examples{
-\dontrun{
-# get slope data for central Brisbane
-aoi <- c(152.95, -27.55, 153.07, -27.45)
-bne_slope <- get_lscape_data(product = 'SLPPC', aoi = aoi, write_out = FALSE)
+{
+  \dontrun{
+    # get slope data for central Brisbane
+    aoi <- c(152.95, -27.55, 153.07, -27.45)
+    bne_slope <- get_lscape_data(product = 'SLPPC', aoi = aoi, write_out = FALSE)
 
-# get slope, aspect and relief class data for central Brisbane
-bne_SAR <- lapply(c('SLPPC', 'ASPCT', 'RELCL'), function(t) {
-  get_lscape_data(product = t, aoi = aoi, write_out = FALSE)
-})
+    # get slope, aspect and relief class data for central Brisbane
+    bne_SAR <- lapply(c('SLPPC', 'ASPCT', 'RELCL'), function(t) {
+      get_lscape_data(product = t, aoi = aoi, write_out = FALSE)
+  })
+  }
 }
 }

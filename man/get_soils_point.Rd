@@ -66,13 +66,15 @@ be more efficient to grab a raster covering the whole area and extract
 summary values yourself.
 }
 \examples{
-\dontrun{
+{
+  \dontrun{
 
-# get predicted clay value for 60-100cm at a point
-clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
+  # get predicted clay value for 60-100cm at a point
+  clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
 
-# get the average predicted clay content for 60-100cm within ~300m of a point
-avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(153, -27.5),
-                            buff = 3, buff_shp = 'circle', stat = 'mean')
+  # get the average predicted clay content for 60-100cm within ~300m
+  avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(153, -27.5),
+                              buff = 3, buff_shp = 'circle', stat = 'mean')
+  }
 }
 }

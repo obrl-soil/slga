@@ -40,13 +40,15 @@ be more efficient to grab a raster covering the whole area and extract
 summary values yourself.
 }
 \examples{
-\dontrun{
+{
+  \dontrun{
 
-# get the slope at a point
-slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
+     # get the slope at a point
+     slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
 
-# get the average slope within ~300m of a point
-avg_slope <- get_lscape_point('SLPPC', c(153, -27.5),
-                              buff = 3, buff_shp = 'circle', stat = 'mean')
-}
+     # get the average slope within ~300m of a point
+     avg_slope <- get_lscape_point('SLPPC', c(153, -27.5),
+                                   buff = 3, buff_shp = 'circle', stat = 'mean')
+     }
+ }
 }
