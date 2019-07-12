@@ -4,15 +4,18 @@
 \alias{tidy_lscape_data}
 \title{tidy landscape parameter rasters}
 \usage{
-tidy_lscape_data(r = NULL, product = NULL, write_out = NULL)
+tidy_lscape_data(r = NULL, product = NULL, write_out = FALSE,
+  filedir)
 }
 \arguments{
 \item{r}{raster object downloaded over WCS}
 
 \item{product}{character; the SLGA terrain product in question}
 
-\item{write_out}{Boolean, whether to write the processed dataset to the
-working directory as a GeoTiff.}
+\item{write_out}{Boolean, whether to write the retrieved dataset to disk.
+Defaults to FALSE.}
+
+\item{filedir}{directory in which to write files if write_out == TRUE.}
 }
 \value{
 a raster, but a better one

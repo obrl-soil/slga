@@ -5,7 +5,7 @@
 \title{Get SLGA soils data}
 \usage{
 get_soils_data(product = NULL, attribute = NULL, component = "ALL",
-  depth = NULL, aoi = NULL, write_out = FALSE)
+  depth = NULL, aoi = NULL, write_out = FALSE, filedir)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -41,8 +41,10 @@ interest. The vector may be specified directly in the order xmin, ymin,
 xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 or `raster` object.}
 
-\item{write_out}{Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff. Defaults to FALSE.}
+\item{write_out}{Boolean, whether to write the retrieved dataset to disk.
+Defaults to FALSE.}
+
+\item{filedir}{directory in which to write files if write_out == TRUE.}
 }
 \value{
 Raster stack or single raster, depending on the value of `component`.

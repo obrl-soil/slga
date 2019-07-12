@@ -78,7 +78,15 @@ bne_mrvbf <- get_lscape_data(product = 'MRVBF', aoi = aoi, write_out = FALSE)
 
 ## Saving data
 
-If you want to save a copy of the downloaded raster(s) to your working directory, you will need to specify `write_out = TRUE`. 
+If you want to save a copy of the downloaded raster(s) to disk, you will need to specify `write_out = TRUE` and supply a directory using the `filedir` parameter. A full path to an existing directory must be supplied, so any of the following styles will work:
+
+```{r direx, eval = FALSE}
+filedir = 'C:/data'
+filedir = getwd()
+filedir = file.path('C:', 'data')
+```
+
+Files are saved in GeoTIFF format with an appropriate datatype and an informative filename. Note that existing files will be overwritten if a file with a matching name is detected in the destination directory.
 
 ## Advanced querying
 

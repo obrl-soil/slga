@@ -116,8 +116,9 @@ get_soils_raster <- function(product   = NULL,
 #'   interest. The vector may be specified directly in the order xmin, ymin,
 #'   xmax, ymax, or the function can derive an aoi from the boundary of an `sf`
 #'   or `raster` object.
-#' @param write_out Boolean, whether to write the retrieved dataset to the
-#'   working directory as a GeoTiff. Defaults to FALSE.
+#' @param write_out Boolean, whether to write the retrieved dataset to disk.
+#'   Defaults to FALSE.
+#' @param filedir directory in which to write files if write_out == TRUE.
 #' @return Raster stack or single raster, depending on the value of `component`.
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
@@ -153,13 +154,18 @@ get_soils_data <- function(product   = NULL,
                            component = 'ALL',
                            depth     = NULL,
                            aoi       = NULL,
-                           write_out = FALSE) {
+                           write_out = FALSE,
+                           filedir) {
 
   component <- match.arg(component,
                           c('ALL', 'VAL', 'CIS', 'CLO', 'CHI'))
 
   if(!(depth %in% seq.int(6))) {
     stop('Please choose a value between 1 and 6 for depth.')
+  }
+
+  if(all(write_out == TRUE, missing(filedir))) {
+    stop('Please supply a destination directory.')
   }
 
   switch(component, 'ALL' = {
@@ -175,7 +181,7 @@ get_soils_data <- function(product   = NULL,
     if(write_out == TRUE) {
       out_name <- slga_filenamer(product = product, attribute = attribute,
                                  component = 'ALL', depth = depth)
-      out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
+      out_dest <- file.path(filedir, paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
@@ -199,7 +205,7 @@ get_soils_data <- function(product   = NULL,
     if(write_out == TRUE) {
       out_name <- slga_filenamer(product = product, attribute = attribute,
                                  component = 'CIS', depth = depth)
-      out_dest <- file.path(getwd(), paste0(out_name, '.tif'))
+      out_dest <- file.path(filedir, paste0(out_name, '.tif'))
       raster::writeRaster(s, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
@@ -215,7 +221,7 @@ get_soils_data <- function(product   = NULL,
                             component = 'VAL', depth = depth, aoi = aoi)
     v_name <- names(val)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(v_name, '.tif'))
+      out_dest <- file.path(filedir, paste0(v_name, '.tif'))
       raster::writeRaster(val, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       val <- raster::raster(out_dest)
@@ -231,7 +237,7 @@ get_soils_data <- function(product   = NULL,
                             component = 'CLO', depth = depth, aoi = aoi)
     c_nm <- names(clo)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(c_nm, '.tif'))
+      out_dest <- file.path(filedir, paste0(c_nm, '.tif'))
       raster::writeRaster(clo, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       clo <- raster::raster(out_dest)
@@ -247,7 +253,7 @@ get_soils_data <- function(product   = NULL,
                             component = 'CHI', depth = depth, aoi = aoi)
     c_nm <- names(chi)
     if(write_out == TRUE) {
-      out_dest <- file.path(getwd(), paste0(c_nm, '.tif'))
+      out_dest <- file.path(filedir, paste0(c_nm, '.tif'))
       raster::writeRaster(chi, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
       chi <- raster::raster(out_dest)
@@ -275,6 +281,7 @@ get_soils_data <- function(product   = NULL,
 #'   or `raster` object.
 #' @param write_out Boolean, whether to write the retrieved dataset to the
 #'   working directory as a GeoTiff. Defaults to FALSE.
+#' @param filedir directory in which to write files if write_out == TRUE.
 #' @return Raster dataset for a single landscape product.
 #' @note \itemize{
 #'   \item An aoi larger than 1x1 decimal degree is retrieveable, but be
@@ -301,7 +308,11 @@ get_soils_data <- function(product   = NULL,
 #'
 get_lscape_data <- function(product   = NULL,
                             aoi       = NULL,
-                            write_out = FALSE) {
+                            write_out = FALSE, filedir) {
+
+  if(all(write_out == TRUE, missing(filedir))) {
+    stop('Please supply a destination directory.')
+  }
 
   aoi <- validate_aoi(aoi, product)
 
@@ -337,5 +348,5 @@ get_lscape_data <- function(product   = NULL,
     raster::raster(out_temp)
   }
 
-  tidy_lscape_data(r, product, write_out)
+  tidy_lscape_data(r, product, write_out, filedir)
 }

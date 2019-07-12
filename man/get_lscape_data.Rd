@@ -4,7 +4,8 @@
 \alias{get_lscape_data}
 \title{Get SLGA landscape data}
 \usage{
-get_lscape_data(product = NULL, aoi = NULL, write_out = FALSE)
+get_lscape_data(product = NULL, aoi = NULL, write_out = FALSE,
+  filedir)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in
@@ -18,6 +19,8 @@ or `raster` object.}
 
 \item{write_out}{Boolean, whether to write the retrieved dataset to the
 working directory as a GeoTiff. Defaults to FALSE.}
+
+\item{filedir}{directory in which to write files if write_out == TRUE.}
 }
 \value{
 Raster dataset for a single landscape product.

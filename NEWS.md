@@ -1,3 +1,7 @@
+# slga 1.1.0
+
+  * User must now specify output directory when writing retrieved data to disk (CRAN rules).
+
 # slga 1.0.2
 
   * slight change to crs string fix addressing inconsistent behaviour across proj versions

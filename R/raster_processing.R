@@ -34,14 +34,15 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
 #'
 #' @param r raster object downloaded over WCS
 #' @param product character; the SLGA terrain product in question
-#' @param write_out Boolean, whether to write the processed dataset to the
-#'   working directory as a GeoTiff.
+#' @param write_out Boolean, whether to write the retrieved dataset to disk.
+#'   Defaults to FALSE.
+#' @param filedir directory in which to write files if write_out == TRUE.
 #' @return a raster, but a better one
 #' @keywords internal
 #' @importFrom raster crs getValues raster subs writeRaster
 #' @importFrom sf sf_extSoftVersion
 #'
-tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
+tidy_lscape_data <- function(r = NULL, product = NULL, write_out = FALSE, filedir) {
   names(r) <- paste0('SLGA_', product)
 
   # TPMSK needs reclassifying so you can mask with tpi + tpm
@@ -69,13 +70,13 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = NULL) {
   }
 
   if(write_out == TRUE) {
-    out_dest <- file.path(getwd(), paste0('SLGA_', product, '.tif'))
+    out_dest <- file.path(filedir, paste0('SLGA_', product, '.tif'))
     if(product %in% c('RELCL', 'MRVBF', 'TPIND', 'TPMSK')) {
-      raster::writeRaster(r, out_dest, datatype = 'INT2S',
-                          NAflag = -9999, overwrite = TRUE)
+      raster::writeRaster(r, out_dest, datatype = 'INT2S',  NAflag = -9999,
+                          overwrite = TRUE)
     } else {
-      raster::writeRaster(r, out_dest, datatype = 'FLT4S',
-                          NAflag = -9999, overwrite = TRUE)
+      raster::writeRaster(r, out_dest, datatype = 'FLT4S', NAflag = -9999,
+                          overwrite = TRUE)
     }
     r <- raster::raster(out_dest)
     # argh
