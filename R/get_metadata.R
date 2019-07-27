@@ -25,7 +25,7 @@
 #' @importFrom httr GET content
 #' @importFrom xml2 as_list
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'    cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
 #'   }
 #' }
@@ -71,7 +71,7 @@ metadata_soils <- function(product = NULL, attribute = NULL,
 #' @note Parameter `product` is optional for `req_type = 'desc'`, leave out to
 #'   get metadata for all available landscape products.
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'    slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
 #'   }
 #' }

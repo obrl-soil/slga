@@ -333,22 +333,13 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
 #' @importFrom sf st_crs st_coordinates
 #' @importFrom utils data
 #' @examples {
-#'   \dontrun{
-#'
-#'     library(raster)
-#'     library(sf)
-#'     library(slga)
-#'
-#'     # buff 0 = extent of single cell
 #'     poi <- c(152, -27)
-#'     aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 0)
+#'
+#'     # size 0 = extent of single cell
+#'     slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 0)
 #'
 #'     # size 3 = 7x7 cells (centre cell and 3 in each direction)
-#'     aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 3)
-#'     slope <- get_lscape_data('SLPPC', aoi)
-#'     plot(slope)
-#'     plot(st_point(poi), add = TRUE, pch = 19, col = 'red')
-#'   }
+#'     slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 3)
 #' }
 #'
 validate_poi <- function(poi = NULL, product = NULL, buff = 0) {

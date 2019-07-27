@@ -67,7 +67,7 @@ summary values yourself.
 }
 \examples{
 {
-  \dontrun{
+  \donttest{
 
   # get predicted clay value for 60-100cm at a point
   clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))

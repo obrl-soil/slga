@@ -28,7 +28,7 @@ Parameter `product` is optional for `req_type = 'desc'`, leave out to
 }
 \examples{
 {
-  \dontrun{
+  \donttest{
    slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
   }
 }

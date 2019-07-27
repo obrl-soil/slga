@@ -44,7 +44,7 @@
 #' summary values yourself.
 #' @importFrom raster as.data.frame cellStats raster stack
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'
 #'   # get predicted clay value for 60-100cm at a point
 #'   clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
@@ -157,7 +157,7 @@ get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
 #' @importFrom httr http_error
 #' @importFrom raster as.data.frame cellStats raster
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'
 #'      # get the slope at a point
 #'      slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))

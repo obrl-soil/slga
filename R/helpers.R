@@ -74,24 +74,24 @@ get_slga_data <- function(url = NULL, out_temp = NULL) {
 #'   potentially be applied to any raster/point data combination. See recipe
 #'   below.
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'   library(raster)
 #'   library(sf)
 #'   # concept demo
 #'   plot(sf::st_buffer(sf::st_point(c(0,0)), 5), axes = TRUE, reset = FALSE)
-#'   plot(raster::raster(make_circ_mask(10),
+#'   plot(raster::raster(slga:::make_circ_mask(10),
 #'        xmn = -5, xmx = 5, ymn = -5, ymx = 5), add = TRUE)
 #'
 #'   # test with real data
 #'   poi <- c(152, -27)
-#'   aoi <- validate_poi(poi = poi, product = 'SLPPC', buff = 5)
-#'   slope <- get_lscape_data('SLPPC', aoi)
+#'   aoi <- slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 5)
+#'   slope <- slga::get_lscape_data('SLPPC', aoi)
 #'   plot(slope)
 #'   masker <- raster(slope)
-#'   masker[] <- make_circ_mask(5)
+#'   masker[] <- slga:::make_circ_mask(5)
 #'   slope <- slope + masker
 #'   plot(slope)
-#'   plot(st_point(poi), add = T, pch = 19, col = 'red')
+#'   plot(sf::st_point(poi), add = TRUE, pch = 19, col = 'red')
 #'   plot(sf::st_buffer(sf::st_centroid(sf::st_as_sfc(aoi)),
 #'        0.000833 * 5), add = TRUE)
 #'

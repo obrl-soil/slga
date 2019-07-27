@@ -131,7 +131,7 @@ get_soils_raster <- function(product   = NULL,
 #'   whole-of-profile parameters.
 #'   }
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'     # get surface clay data for central Brisbane
 #'     aoi <- c(152.95, -27.55, 153.07, -27.45)
 #'     bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
@@ -297,7 +297,7 @@ get_soils_data <- function(product   = NULL,
 #' @importFrom raster getValues raster subs writeRaster
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @examples {
-#'   \dontrun{
+#'   \donttest{
 #'     # get slope data for central Brisbane
 #'     aoi <- c(152.95, -27.55, 153.07, -27.45)
 #'     bne_slope <- get_lscape_data(product = 'SLPPC', aoi = aoi, write_out = FALSE)

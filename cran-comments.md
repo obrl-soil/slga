@@ -4,13 +4,9 @@
 
 Comments addressed:
 
-  1. Please only capitalize sentence beginnings and names in the description text. 
-  2. Please omit any default path = getwd() in writing functions.
-  3. When creating the examples please keep in mind that the structure would be desirable [structure example followed]
+  1. Please unwrap the examples if they are executable in < 5 sec, or create additionally small toy examples to allow automatic testing, (or replace \dontrun{} with \donttest{}).
 
-  1. Changed case of Description field as requested 
-  2. User must now specify directory when writing to disk (version bump to 1.1.0 as a result)
-  3. Wrapped \dontrun{} examples in curly brackets (not completely sure what's being asked for there, sorry if I misunderstood)
+  1. Unwrapped and simplified one example, changed all others to \donttest{}
 
 ## Test environments
 

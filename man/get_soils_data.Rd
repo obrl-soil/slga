@@ -67,7 +67,7 @@ services.
 }
 \examples{
 {
-  \dontrun{
+  \donttest{
     # get surface clay data for central Brisbane
     aoi <- c(152.95, -27.55, 153.07, -27.45)
     bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',

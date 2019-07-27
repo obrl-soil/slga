@@ -41,7 +41,7 @@ summary values yourself.
 }
 \examples{
 {
-  \dontrun{
+  \donttest{
 
      # get the slope at a point
      slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
