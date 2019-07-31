@@ -11,7 +11,7 @@ Comments addressed:
 ## Test environments
 
   * Local: Windows 10, R 3.6.0 and Ubuntu 18.04 bionic, R 3.6.1 via WSL-2 (allows testing with newer GDAL/GEOS/PROJ stack also)
-  * Travis-CI (Ubuntu 14.04.5 LTS, R 3.6.0)
+  * Travis-CI (Ubuntu 16.04.6 LTS, R 3.6.1)
   * win-build via devtools::check_win_devel (R Under development (unstable) (2019-07-05 r76784))
 
 ## R CMD Check Results
