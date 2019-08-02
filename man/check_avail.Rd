@@ -8,10 +8,10 @@ check_avail(product = NULL, attribute = NULL)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Code' in
-code{\link[slga:slga_product_info]{slga_product_info}} where Type = 'Soil'.}
+\code{\link[slga:slga_product_info]{slga_product_info}} where Type = 'Soil'.}
 
 \item{attribute}{Character, one of the options from column 'Code' in
-code{\link[slga:slga_attribute_info]{slga_attribute_info}}.}
+\code{\link[slga:slga_attribute_info]{slga_attribute_info}}.}
 }
 \value{
 Logical; TRUE if available

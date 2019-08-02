@@ -4,9 +4,9 @@
 #' soils product.
 #'
 #' @param product Character, one of the options from column 'Code' in
-#'   code{\link[slga:slga_product_info]{slga_product_info}} where Type = 'Soil'.
+#'   \code{\link[slga:slga_product_info]{slga_product_info}} where Type = 'Soil'.
 #' @param attribute Character, one of the options from column 'Code' in
-#'   code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
+#'   \code{\link[slga:slga_attribute_info]{slga_attribute_info}}.
 #' @return Logical; TRUE if available
 #' @examples
 #' check_avail('NAT', 'CFG')
