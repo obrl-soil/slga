@@ -10,8 +10,8 @@ status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](htt
 
 `slga` offers the ability to download geographic subsets of raster data
 from the [Soil and Landscape Grid of
-Australia](http://www.clw.csiro.au/aclep/soilandlandscapegrid). The Grid
-was generated in 2014 from a compilation of Australian soil and
+Australia](http://www.clw.csiro.au/aclep/soilandlandscapegrid/). The
+Grid was generated in 2014 from a compilation of Australian soil and
 landscape data and contains a set of modelled soil attributes that meet
 the [globalsoilmap.net](http://globalsoilmap.net) specification.
 
@@ -41,6 +41,7 @@ parent dataset, with no hidden server-side resampling.
 
 ``` r
 library(raster)
+#> Warning: package 'raster' was built under R version 3.6.1
 #> Loading required package: sp
 library(slga)
 library(ggplot2)
