@@ -4,12 +4,9 @@
 
 Comments addressed:
 
-  1. Found the following (possibly) invalid URLs:
-     URL: http://www.clw.csiro.au/aclep/soilandlandscapegrid
-  2. examples for unexported functions had issues
+  1. Please unwrap the examples if they are executable in < 5 sec, or create additionally small toy examples to allow automatic testing, (or replace \dontrun{} with \donttest{}).
 
-  1. added trailing /, seems to have solved error(?) Can't replicate now anyway
-  2. Edited out extra brackets wrapping examples, added library(slga) call in examples to fix (failure was in trying to call unloaded data)
+  1. Unwrapped and simplified one example, changed all others to \donttest{}
 
 ## Test environments
 
