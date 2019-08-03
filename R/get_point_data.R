@@ -43,17 +43,14 @@
 #' be more efficient to grab a raster covering the whole area and extract
 #' summary values yourself.
 #' @importFrom raster as.data.frame cellStats raster stack
-#' @examples {
-#'   \donttest{
+#' @examples \donttest{
+#'  # get predicted clay value for 60-100cm at a point
+#'  clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
 #'
-#'   # get predicted clay value for 60-100cm at a point
-#'   clay_pt <- get_soils_point('NAT', 'CLY', 'VAL', 5, c(153,-27.5))
-#'
-#'   # get the average predicted clay content for 60-100cm within ~300m
-#'   avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(153, -27.5),
-#'                               buff = 3, buff_shp = 'circle', stat = 'mean')
-#'   }
-#' }
+#'  # get the average predicted clay content for 60-100cm within ~300m
+#'  avg_clay <- get_soils_point('NAT', 'CLY', 'ALL', 5, c(153, -27.5),
+#'                              buff = 3, buff_shp = 'circle', stat = 'mean')
+#'  }
 #' @export
 #'
 get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
@@ -156,17 +153,14 @@ get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
 #' summary values yourself.
 #' @importFrom httr http_error
 #' @importFrom raster as.data.frame cellStats raster
-#' @examples {
-#'   \donttest{
+#' @examples \donttest{
+#'  # get the slope at a point
+#'  slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
 #'
-#'      # get the slope at a point
-#'      slope_pt <- get_lscape_point('SLPPC', c(153,-27.5))
-#'
-#'      # get the average slope within ~300m of a point
-#'      avg_slope <- get_lscape_point('SLPPC', c(153, -27.5),
-#'                                    buff = 3, buff_shp = 'circle', stat = 'mean')
+#'  # get the average slope within ~300m of a point
+#'  avg_slope <- get_lscape_point('SLPPC', c(153, -27.5),
+#'                                buff = 3, buff_shp = 'circle', stat = 'mean')
 #'      }
-#'  }
 #' @export
 #'
 get_lscape_point <- function(product = NULL, poi = NULL,

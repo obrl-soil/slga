@@ -40,9 +40,7 @@ Retrieves metadata from Soil and Landscape Grid of Australia soils WCS
 endpoints in XML or list format.
 }
 \examples{
-{
-  \donttest{
-   cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
-  }
-}
+\donttest{
+ cly_md <- slga::metadata_soils('NAT', 'CLY', format = 'native')
+ }
 }

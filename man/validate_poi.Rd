@@ -26,13 +26,14 @@ This is for buffered data requests around a point.
 }
 \examples{
 {
-    poi <- c(152, -27)
+library(slga)
+poi <- c(152, -27)
 
-    # size 0 = extent of single cell
-    slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 0)
+# size 0 = extent of single cell
+slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 0)
 
-    # size 3 = 7x7 cells (centre cell and 3 in each direction)
-    slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 3)
+# size 3 = 7x7 cells (centre cell and 3 in each direction)
+slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 3)
 }
 
 }

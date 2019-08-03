@@ -333,13 +333,14 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
 #' @importFrom sf st_crs st_coordinates
 #' @importFrom utils data
 #' @examples {
-#'     poi <- c(152, -27)
+#' library(slga)
+#' poi <- c(152, -27)
 #'
-#'     # size 0 = extent of single cell
-#'     slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 0)
+#' # size 0 = extent of single cell
+#' slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 0)
 #'
-#'     # size 3 = 7x7 cells (centre cell and 3 in each direction)
-#'     slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 3)
+#' # size 3 = 7x7 cells (centre cell and 3 in each direction)
+#' slga:::validate_poi(poi = poi, product = 'SLPPC', buff = 3)
 #' }
 #'
 validate_poi <- function(poi = NULL, product = NULL, buff = 0) {

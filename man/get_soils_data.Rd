@@ -66,21 +66,19 @@ services.
   }
 }
 \examples{
-{
-  \donttest{
-    # get surface clay data for central Brisbane
-    aoi <- c(152.95, -27.55, 153.07, -27.45)
-    bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
-                                       component = 'ALL', depth = 1,
-                                       aoi = aoi, write_out = FALSE)
+\donttest{
+# get surface clay data for central Brisbane
+aoi <- c(152.95, -27.55, 153.07, -27.45)
+bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+                                   component = 'ALL', depth = 1,
+                                   aoi = aoi, write_out = FALSE)
 
-    # get estimated clay by depth for central Brisbane
-    bne_all_clay <- lapply(seq.int(6), function(d) {
-      get_soils_data(product = 'NAT', attribute = 'CLY',
-                     component = 'VAL', depth = d,
-                     aoi = aoi, write_out = FALSE)
-    })
-    bne_all_clay <- raster::brick(bne_all_clay)
-    }
+# get estimated clay by depth for central Brisbane
+bne_all_clay <- lapply(seq.int(6), function(d) {
+  get_soils_data(product = 'NAT', attribute = 'CLY',
+                 component = 'VAL', depth = d,
+                 aoi = aoi, write_out = FALSE)
+})
+bne_all_clay <- raster::brick(bne_all_clay)
 }
 }

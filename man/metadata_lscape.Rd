@@ -27,9 +27,7 @@ Parameter `product` is optional for `req_type = 'desc'`, leave out to
   get metadata for all available landscape products.
 }
 \examples{
-{
-  \donttest{
-   slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
-  }
-}
+\donttest{
+ slp_md <- slga::metadata_lscape('SLPPC', format = 'native')
+ }
 }
