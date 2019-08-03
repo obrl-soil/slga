@@ -76,7 +76,7 @@ services." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -131,7 +131,7 @@ services.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>"ALL"</span>,
-  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>depth</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>filedir</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,8 +178,12 @@ or `raster` object.</p></td>
     </tr>
     <tr>
       <th>write_out</th>
-      <td><p>Boolean, whether to write the retrieved dataset to the
-working directory as a GeoTiff. Defaults to FALSE.</p></td>
+      <td><p>Boolean, whether to write the retrieved dataset to disk.
+Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>filedir</th>
+      <td><p>directory in which to write files if write_out == TRUE.</p></td>
     </tr>
     </table>
     
@@ -202,8 +206,7 @@ working directory as a GeoTiff. Defaults to FALSE.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># get surface clay data for central Brisbane</span>
+    <pre class="examples"><div class='input'><span class='co'># get surface clay data for central Brisbane</span>
 <span class='no'>aoi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>152.95</span>, -<span class='fl'>27.55</span>, <span class='fl'>153.07</span>, -<span class='fl'>27.45</span>)
 <span class='no'>bne_surface_clay</span> <span class='kw'>&lt;-</span> <span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'NAT'</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='st'>'CLY'</span>,
                                    <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'ALL'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='fl'>1</span>,
@@ -214,9 +217,7 @@ working directory as a GeoTiff. Defaults to FALSE.</p></td>
   <span class='fu'>get_soils_data</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'NAT'</span>, <span class='kw'>attribute</span> <span class='kw'>=</span> <span class='st'>'CLY'</span>,
                  <span class='kw'>component</span> <span class='kw'>=</span> <span class='st'>'VAL'</span>, <span class='kw'>depth</span> <span class='kw'>=</span> <span class='no'>d</span>,
                  <span class='kw'>aoi</span> <span class='kw'>=</span> <span class='no'>aoi</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-})
-<span class='no'>bne_all_clay</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/brick'>brick</a></span>(<span class='no'>bne_all_clay</span>)
-<span class='co'># }</span></pre>
+})</div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='output co'>#&gt; <span class='message'>Assuming AOI coordinates are in EPSG:4283 and ordered correctly.</span></div><div class='input'><span class='no'>bne_all_clay</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/raster/topics/brick'>brick</a></span>(<span class='no'>bne_all_clay</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -76,7 +76,7 @@ about setting NA correctly" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -130,7 +130,8 @@ about setting NA correctly</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tidy_lscape_data</span>(<span class='kw'>r</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tidy_lscape_data</span>(<span class='kw'>r</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>write_out</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>filedir</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,8 +146,12 @@ about setting NA correctly</p>
     </tr>
     <tr>
       <th>write_out</th>
-      <td><p>Boolean, whether to write the processed dataset to the
-working directory as a GeoTiff.</p></td>
+      <td><p>Boolean, whether to write the retrieved dataset to disk.
+Defaults to FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>filedir</th>
+      <td><p>directory in which to write files if write_out == TRUE.</p></td>
     </tr>
     </table>
     
