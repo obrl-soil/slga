@@ -5,6 +5,8 @@
 status](https://travis-ci.com/obrl-soil/slga.svg?branch=master)](https://travis-ci.com/obrl-soil/slga)
 [![Coverage
 status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](https://codecov.io/github/obrl-soil/slga?branch=master)
+[![CRAN](http://www.r-pkg.org/badges/version/slga)](https://cran.r-project.org/package=slga)
+[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/slga)](http://www.r-pkg.org/pkg/slga)
 
 # slga
 
@@ -24,6 +26,12 @@ All products are returned in GDA94 long/lat (EPSG:4283) and have a cell
 resolution of 3" (roughly 90m).
 
 ## Installation
+
+Install from CRAN with
+
+``` r
+install.packages('slga')
+```
 
 Install from github with
 

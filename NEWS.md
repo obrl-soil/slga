@@ -1,4 +1,4 @@
-# slga 1.1.0
+# slga 1.1.0 [CRAN]
 
   * User must now specify output directory when writing retrieved data to disk (CRAN rules).
 
