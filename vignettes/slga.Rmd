@@ -13,7 +13,7 @@ editor_options:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
+  collapse = TRUE, warning = FALSE, message = FALSE,
   comment = "#>",
   fig.align = 'center', fig.width = 8, fig.height = 5, fig.caption = FALSE
 )

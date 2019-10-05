@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://obrl-soil.github.io/slga/index.html</loc>
+    <loc>http://obrl-soil.github.io/slga//index.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/aoi_align.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/aoi_align.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/aoi_convert.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/aoi_convert.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/aoi_overlaps.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/aoi_overlaps.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/aoi_tile.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/aoi_tile.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/aoi_transform.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/aoi_transform.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/bne_surface_clay.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/bne_surface_clay.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/check_avail.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/check_avail.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_lscape_data.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_lscape_data.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_lscape_point.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_lscape_point.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_slga_data.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_slga_data.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_soils_data.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_soils_data.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_soils_point.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_soils_point.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/get_soils_raster.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/get_soils_raster.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/make_circ_mask.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/make_circ_mask.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/make_lscape_url.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/make_lscape_url.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/make_point_url.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/make_point_url.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/make_soils_url.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/make_soils_url.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/metadata_lscape.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/metadata_lscape.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/metadata_soils.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/metadata_soils.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/slga-package.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/slga-package.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/slga_attribute_info.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/slga_attribute_info.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/slga_filenamer.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/slga_filenamer.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/slga_product_info.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/slga_product_info.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/tidy_lscape_data.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/tidy_lscape_data.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/tidy_soils_data.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/tidy_soils_data.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/validate_aoi.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/validate_aoi.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/reference/validate_poi.html</loc>
+    <loc>http://obrl-soil.github.io/slga//reference/validate_poi.html</loc>
   </url>
   <url>
-    <loc>http://obrl-soil.github.io/slga/articles/slga.html</loc>
+    <loc>http://obrl-soil.github.io/slga//articles/slga.html</loc>
   </url>
 </urlset>

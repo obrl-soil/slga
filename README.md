@@ -49,8 +49,6 @@ parent dataset, with no hidden server-side resampling.
 
 ``` r
 library(raster)
-#> Warning: package 'raster' was built under R version 3.6.1
-#> Loading required package: sp
 library(slga)
 library(ggplot2)
 ```

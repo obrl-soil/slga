@@ -4,6 +4,6 @@ pkgdown_sha: ~
 articles:
   slga: slga.html
 urls:
-  reference: http://obrl-soil.github.io/slga/reference
-  article: http://obrl-soil.github.io/slga/articles
+  reference: http://obrl-soil.github.io/slga//reference
+  article: http://obrl-soil.github.io/slga//articles
 
