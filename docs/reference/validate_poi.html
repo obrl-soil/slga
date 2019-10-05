@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>download SLGA landscape metadata — metadata_lscape • slga</title>
+<title>bbox from center point — validate_poi • slga</title>
 
 
 <!-- jquery -->
@@ -37,9 +37,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="download SLGA landscape metadata — metadata_lscape" />
-<meta property="og:description" content="Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format." />
+<meta property="og:title" content="bbox from center point — validate_poi" />
+<meta property="og:description" content="Get a bounding box from an x,y point and desired buffer distance" />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex" />
@@ -124,49 +123,56 @@ endpoints in XML or list format." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>download SLGA landscape metadata</h1>
-    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/get_metadata.R'><code>R/get_metadata.R</code></a></small>
-    <div class="hidden name"><code>metadata_lscape.Rd</code></div>
+    <h1>bbox from center point</h1>
+    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/aoi_processing.R'><code>R/aoi_processing.R</code></a></small>
+    <div class="hidden name"><code>validate_poi.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format.</p>
+    <p>Get a bounding box from an x,y point and desired buffer distance</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metadata_lscape</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>req_type</span> <span class='kw'>=</span> <span class='st'>"desc"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"native"</span>)</pre>
+    <pre class="usage"><span class='fu'>validate_poi</span>(<span class='kw'>poi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>poi</th>
+      <td><p>Numeric; length-2 vector of x, y coordinates or `sf` style point.</p></td>
+    </tr>
+    <tr>
       <th>product</th>
       <td><p>Character, one of the options from column 'Short_Name' in
-<code><a href='slga_product_info.html'>slga_product_info</a></code>, where 'Type' =
-'Landscape'.</p></td>
+<code><a href='slga_product_info.html'>slga_product_info</a></code>.</p></td>
     </tr>
     <tr>
-      <th>req_type</th>
-      <td><p>Character; one of 'cap' or 'desc'. Defaults to 'desc'.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>Character; one of 'xml' or 'native'. Defaults to 'native'.</p></td>
+      <th>buff</th>
+      <td><p>Integer, cell buffer around point. Defaults to 0 (single cell).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list or xml document object, depending on the value of 'format'.</p>
+    <p>sf style bbox or list of same, aligned to requested product, centered
+  on `point` and extending `buff` cells away from centre.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Parameter `product` is optional for `req_type = 'desc'`, leave out to
-  get metadata for all available landscape products.</p>
+    <p>This is for buffered data requests around a point.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
- <span class='no'>slp_md</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>slga</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/slga/man/metadata_lscape.html'>metadata_lscape</a></span>(<span class='st'>'SLPPC'</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>'native'</span>)
- <span class='co'># }</span></div></pre>
+    <pre class="examples"><div class='input'>{
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>slga</span>)
+<span class='no'>poi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>152</span>, -<span class='fl'>27</span>)
+
+<span class='co'># size 0 = extent of single cell</span>
+<span class='kw pkg'>slga</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/slga/man/validate_poi.html'>validate_poi</a></span>(<span class='kw'>poi</span> <span class='kw'>=</span> <span class='no'>poi</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'SLPPC'</span>, <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+
+<span class='co'># size 3 = 7x7 cells (centre cell and 3 in each direction)</span>
+<span class='kw pkg'>slga</span><span class='kw ns'>:::</span><span class='fu'><a href='https://rdrr.io/pkg/slga/man/validate_poi.html'>validate_poi</a></span>(<span class='kw'>poi</span> <span class='kw'>=</span> <span class='no'>poi</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'SLPPC'</span>, <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+}</div><div class='output co'>#&gt;      xmin      ymin      xmax      ymax 
+#&gt; 151.99708 -27.00292 152.00292 -26.99708 </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>download SLGA landscape metadata — metadata_lscape • slga</title>
+<title>Central Brisbane surface clay content — bne_surface_clay • slga</title>
 
 
 <!-- jquery -->
@@ -37,9 +37,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="download SLGA landscape metadata — metadata_lscape" />
-<meta property="og:description" content="Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format." />
+<meta property="og:title" content="Central Brisbane surface clay content — bne_surface_clay" />
+<meta property="og:description" content="A rasterStack containing modelled estimated percent clay content for central
+Brisbane, in South East Queensland." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex" />
@@ -124,57 +124,41 @@ endpoints in XML or list format." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>download SLGA landscape metadata</h1>
-    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/get_metadata.R'><code>R/get_metadata.R</code></a></small>
-    <div class="hidden name"><code>metadata_lscape.Rd</code></div>
+    <h1>Central Brisbane surface clay content</h1>
+    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>bne_surface_clay.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format.</p>
+    <p>A rasterStack containing modelled estimated percent clay content for central
+Brisbane, in South East Queensland.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metadata_lscape</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>req_type</span> <span class='kw'>=</span> <span class='st'>"desc"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"native"</span>)</pre>
+    <pre class="usage"><span class='no'>bne_surface_clay</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>product</th>
-      <td><p>Character, one of the options from column 'Short_Name' in
-<code><a href='slga_product_info.html'>slga_product_info</a></code>, where 'Type' =
-'Landscape'.</p></td>
-    </tr>
-    <tr>
-      <th>req_type</th>
-      <td><p>Character; one of 'cap' or 'desc'. Defaults to 'desc'.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>Character; one of 'xml' or 'native'. Defaults to 'native'.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A list or xml document object, depending on the value of 'format'.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <p>An object of class <code>RasterStack</code> of dimension 121 x 145 x 3.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Parameter `product` is optional for `req_type = 'desc'`, leave out to
-  get metadata for all available landscape products.</p>
+    <p>The dataset was retrieved from the National Soil Attributes Clay WCS on
+2019/07/07 using the demonstration code in
+<code><a href='get_soils_data.html'>get_soils_data</a></code>.</p>
+<p>The dataset has three named layers. The first is the estimated value, the
+second is the 5% confidence limit, and the third is the 95% confidence
+limit.</p>
+<p>The dataset is in WGS84 (EPSG:4326) and has a resolution of 3 arc seconds,
+which is approximately 80x90m when projected into EPSG:28355 or EPSG:3577.</p>
+<p>Note that some off-shore areas have a value of 0 rather than NA. A coastline
+masking layer will be required to safely remove these values.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
- <span class='no'>slp_md</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>slga</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/slga/man/metadata_lscape.html'>metadata_lscape</a></span>(<span class='st'>'SLPPC'</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>'native'</span>)
- <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

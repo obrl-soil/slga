@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>download SLGA landscape metadata — metadata_lscape • slga</title>
+<title>Get SLGA point landscape data — get_lscape_point • slga</title>
 
 
 <!-- jquery -->
@@ -37,9 +37,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="download SLGA landscape metadata — metadata_lscape" />
-<meta property="og:description" content="Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format." />
+<meta property="og:title" content="Get SLGA point landscape data — get_lscape_point" />
+<meta property="og:description" content="Get SLGA landscape covariate data at a point location." />
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex" />
@@ -124,17 +123,17 @@ endpoints in XML or list format." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>download SLGA landscape metadata</h1>
-    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/get_metadata.R'><code>R/get_metadata.R</code></a></small>
-    <div class="hidden name"><code>metadata_lscape.Rd</code></div>
+    <h1>Get SLGA point landscape data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/obrl-soil/slga/blob/master/R/get_point_data.R'><code>R/get_point_data.R</code></a></small>
+    <div class="hidden name"><code>get_lscape_point.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retrieves metadata from Soil and Landscape Grid of Australia landscape WCS
-endpoints in XML or list format.</p>
+    <p>Get SLGA landscape covariate data at a point location.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>metadata_lscape</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>req_type</span> <span class='kw'>=</span> <span class='st'>"desc"</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"native"</span>)</pre>
+    <pre class="usage"><span class='fu'>get_lscape_point</span>(<span class='kw'>product</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>poi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>0L</span>,
+  <span class='kw'>buff_shp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"square"</span>, <span class='st'>"circle"</span>), <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>"median"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,31 +141,53 @@ endpoints in XML or list format.</p>
     <tr>
       <th>product</th>
       <td><p>Character, one of the options from column 'Short_Name' in
-<code><a href='slga_product_info.html'>slga_product_info</a></code>, where 'Type' =
+<code><a href='slga_product_info.html'>slga_product_info</a></code>, where Type =
 'Landscape'.</p></td>
     </tr>
     <tr>
-      <th>req_type</th>
-      <td><p>Character; one of 'cap' or 'desc'. Defaults to 'desc'.</p></td>
+      <th>poi</th>
+      <td><p>WGS84 coordinates defining a point of interest. Supply an
+sf-style point object or a length-2 numeric vector (x, y).</p></td>
     </tr>
     <tr>
-      <th>format</th>
-      <td><p>Character; one of 'xml' or 'native'. Defaults to 'native'.</p></td>
+      <th>buff</th>
+      <td><p>Length-1 integer. Use if a summarised value around a point is desired.
+Defaults to 0L, which returns the exact value(s) of the pixel under the `poi`.
+A `buff` value of 1 will return a summary of the pixels in a one-cell range,
+etc.</p></td>
+    </tr>
+    <tr>
+      <th>buff_shp</th>
+      <td><p>One of 'square' or 'circle'. Use with buff &gt; 0.
+Defaults to 'square', in which case all values within the buffer are
+summarised. A circular mask is applied to the data before summarising
+otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>stat</th>
+      <td><p>Summary method applied where buff &gt; 0. Defaults to median. Other
+options include mean, modal, min, max, sd, IQR, quantile, and summary.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list or xml document object, depending on the value of 'format'.</p>
+    <p>An data.frame with requested values.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Parameter `product` is optional for `req_type = 'desc'`, leave out to
-  get metadata for all available landscape products.</p>
+    <p>If you have many points within a relatively small area, it will likely
+be more efficient to grab a raster covering the whole area and extract
+summary values yourself.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
- <span class='no'>slp_md</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>slga</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/slga/man/metadata_lscape.html'>metadata_lscape</a></span>(<span class='st'>'SLPPC'</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>'native'</span>)
- <span class='co'># }</span></div></pre>
+ <span class='co'># get the slope at a point</span>
+ <span class='no'>slope_pt</span> <span class='kw'>&lt;-</span> <span class='fu'>get_lscape_point</span>(<span class='st'>'SLPPC'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>153</span>,-<span class='fl'>27.5</span>))
+
+ <span class='co'># get the average slope within ~300m of a point</span>
+ <span class='no'>avg_slope</span> <span class='kw'>&lt;-</span> <span class='fu'>get_lscape_point</span>(<span class='st'>'SLPPC'</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>153</span>, -<span class='fl'>27.5</span>),
+                               <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>buff_shp</span> <span class='kw'>=</span> <span class='st'>'circle'</span>, <span class='kw'>stat</span> <span class='kw'>=</span> <span class='st'>'mean'</span>)
+     <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
