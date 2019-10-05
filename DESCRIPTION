@@ -4,8 +4,8 @@ Title: Data Access Tools for the Soil and Landscape Grid of Australia
 Version: 1.1.0
 Date: 2019-08-03
 Authors@R: c(
-    person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre')),
-    person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant')))
+    person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171")),
+    person("Ross", "Searle",  email = "ross.searle@csiro.au",  role = c('ant'), comment = c(ORCID = "0000-0003-0256-1496")))
 Description: Provides access to soil and landscape grid of Australia raster datasets via existing open geospatial consortium web coverage services. See <http://www.csiro.au/soil-and-landscape-grid>.  
 License: MIT + file LICENSE
 Depends:
