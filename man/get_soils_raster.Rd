@@ -4,8 +4,14 @@
 \alias{get_soils_raster}
 \title{Download single SLGA soils raster subset}
 \usage{
-get_soils_raster(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, aoi = NULL, skip_val = FALSE)
+get_soils_raster(
+  product = NULL,
+  attribute = NULL,
+  component = NULL,
+  depth = NULL,
+  aoi = NULL,
+  skip_val = FALSE
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

@@ -4,8 +4,7 @@
 \alias{tidy_lscape_data}
 \title{tidy landscape parameter rasters}
 \usage{
-tidy_lscape_data(r = NULL, product = NULL, write_out = FALSE,
-  filedir)
+tidy_lscape_data(r = NULL, product = NULL, write_out = FALSE, filedir)
 }
 \arguments{
 \item{r}{raster object downloaded over WCS}

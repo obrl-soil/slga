@@ -4,8 +4,14 @@
 \alias{metadata_soils}
 \title{download SLGA soils metadata}
 \usage{
-metadata_soils(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, req_type = "desc", format = "native")
+metadata_soils(
+  product = NULL,
+  attribute = NULL,
+  component = NULL,
+  depth = NULL,
+  req_type = "desc",
+  format = "native"
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

@@ -4,8 +4,12 @@
 \alias{slga_filenamer}
 \title{Filename generator}
 \usage{
-slga_filenamer(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL)
+slga_filenamer(
+  product = NULL,
+  attribute = NULL,
+  component = NULL,
+  depth = NULL
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Code' in

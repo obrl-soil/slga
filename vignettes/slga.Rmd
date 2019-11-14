@@ -7,8 +7,6 @@ vignette: >
   %\VignetteIndexEntry{Accessing SLGA Data}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: inline
 ---
 
 ```{r setup, include = FALSE}
@@ -57,7 +55,6 @@ aoi <- c(152.95, -27.55, 153.07, -27.45)
 bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
                                    component = 'ALL', depth = 1,
                                    aoi = aoi, write_out = FALSE)
-
 ```
 
 Note that valid `product` parameters are defined in `slga_product_info$Short_Name`, and valid `attribute` parameters in `slga_attribute_info$Code`. If a particular combination is not available, the function will fail gracefully.

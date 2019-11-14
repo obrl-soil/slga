@@ -4,8 +4,14 @@
 \alias{make_soils_url}
 \title{Make SLGA WCS URL}
 \usage{
-make_soils_url(product = NULL, attribute = NULL, component = NULL,
-  depth = NULL, aoi = NULL, req_type = "cov")
+make_soils_url(
+  product = NULL,
+  attribute = NULL,
+  component = NULL,
+  depth = NULL,
+  aoi = NULL,
+  req_type = "cov"
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

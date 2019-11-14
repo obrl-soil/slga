@@ -4,9 +4,16 @@
 \alias{get_soils_point}
 \title{Get SLGA point data}
 \usage{
-get_soils_point(product = NULL, attribute = NULL, component = "ALL",
-  depth = NULL, poi = NULL, buff = 0L, buff_shp = c("square",
-  "circle"), stat = "median")
+get_soils_point(
+  product = NULL,
+  attribute = NULL,
+  component = "ALL",
+  depth = NULL,
+  poi = NULL,
+  buff = 0L,
+  buff_shp = c("square", "circle"),
+  stat = "median"
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

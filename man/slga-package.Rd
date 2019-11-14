@@ -19,11 +19,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com}
+\strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com} (\href{https://orcid.org/0000-0002-7336-2171}{ORCID})
 
 Other contributors:
 \itemize{
-  \item Ross Searle \email{ross.searle@csiro.au} [bibliographic antecedent]
+  \item Ross Searle \email{ross.searle@csiro.au} (\href{https://orcid.org/0000-0003-0256-1496}{ORCID}) [bibliographic antecedent]
 }
 
 }

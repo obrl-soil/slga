@@ -4,8 +4,13 @@
 \alias{get_lscape_point}
 \title{Get SLGA point landscape data}
 \usage{
-get_lscape_point(product = NULL, poi = NULL, buff = 0L,
-  buff_shp = c("square", "circle"), stat = "median")
+get_lscape_point(
+  product = NULL,
+  poi = NULL,
+  buff = 0L,
+  buff_shp = c("square", "circle"),
+  stat = "median"
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

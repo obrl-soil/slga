@@ -62,9 +62,7 @@ bne_surface_clay <- get_slga_data(product = 'NAT', attribute = 'CLY',
                                   aoi = aoi, write_out = FALSE)
 ```
 
-<center>
-[![clay_plot_bris](man/figures/README-dplot-1.png)](https://obrl-soil.github.io/slga)
-</center>
+[![clay-plot-bne cen](man/figures/README-dplot-1.png)](https://obrl-soil.github.io/slga)
 
 See the package vignette for further detail.
 
@@ -75,5 +73,3 @@ While it is possible to download data for large extents using this package, plea
 ### Asking for help
 
 If you get stuck using this package or the data it provides, please post a question on [Stack Overflow](https://stackoverflow.com/) (for internet connectivity problems) or the [GIS StackExchange](https://gis.stackexchange.com/) (for raster/geospatial issues). This means that others can benefit from the discussion, and more people are available to help you. You're welcome to ping me in a comment on those websites or on twitter (@obrl_soil) to get my attention.
-
-*** 

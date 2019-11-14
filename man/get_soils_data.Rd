@@ -4,8 +4,15 @@
 \alias{get_soils_data}
 \title{Get SLGA soils data}
 \usage{
-get_soils_data(product = NULL, attribute = NULL, component = "ALL",
-  depth = NULL, aoi = NULL, write_out = FALSE, filedir)
+get_soils_data(
+  product = NULL,
+  attribute = NULL,
+  component = "ALL",
+  depth = NULL,
+  aoi = NULL,
+  write_out = FALSE,
+  filedir
+)
 }
 \arguments{
 \item{product}{Character, one of the options from column 'Short_Name' in

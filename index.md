@@ -61,13 +61,10 @@ bne_surface_clay <- get_slga_data(product = 'NAT', attribute = 'CLY',
                                   aoi = aoi, write_out = FALSE)
 ```
 
-<center>
+[![clay-plot-bne
+cen](man/figures/README-dplot-1.png)](https://obrl-soil.github.io/slga)
 
-[![clay\_plot\_bris](man/figures/README-dplot-1.png)](https://obrl-soil.github.io/slga)
-
-</center>
-
-See the  for further detail.
+See the package vignette for further detail.
 
 ### Warning\!
 
@@ -89,5 +86,3 @@ issues). This means that others can benefit from the discussion, and
 more people are available to help you. You’re welcome to ping me in a
 comment on those websites or on twitter (@obrl\_soil) to get my
 attention.
-
------
