@@ -281,21 +281,20 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   }
 
   # check crs, transform if not in 4283
-  ext <- if(is.na(attr(ext, 'crs')$epsg)) {
-    crs_bits <- sort(unlist(strsplit(attr(ext, 'crs')$proj4string, ' ')))
-    gda94_bits <- sort(unlist(strsplit(
-      '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs', ' ')))
-    if(!identical(crs_bits, gda94_bits)) {
-      message('Transforming aoi coordinates to EPSG:4283')
-      aoi_transform(ext, 4283)
-    } else {
-      ext
-    }
-  } else if(attr(ext, 'crs')$epsg != 4283) {
+  if(st_crs(ext)$input != 'EPSG:4283') {
+    #if(is.na(attr(ext, 'crs')$epsg)) {
+    #crs_bits <- sort(unlist(strsplit(attr(ext, 'crs')$proj4string, ' ')))
+    #gda94_bits <- sort(unlist(strsplit(
+    #  '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs', ' ')))
+    #if(!identical(crs_bits, gda94_bits)) {
+    #  message('Transforming aoi coordinates to EPSG:4283')
+    #  aoi_transform(ext, 4283)
+    #} else {
+    #  ext
+    #}
+    #} else if(attr(ext, 'crs')$epsg != 4283) {
     message('Transforming aoi coordinates to EPSG:4283')
-    aoi_transform(ext, 4283)
-  } else {
-    ext
+    ext <- aoi_transform(ext, 4283)
   }
 
   if(aoi_overlaps(ext, product) == FALSE) {

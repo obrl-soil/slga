@@ -4,7 +4,9 @@
 \name{bne_surface_clay}
 \alias{bne_surface_clay}
 \title{Central Brisbane surface clay content}
-\format{An object of class \code{RasterStack} of dimension 121 x 145 x 3.}
+\format{
+An object of class \code{RasterStack} of dimension 121 x 145 x 3.
+}
 \usage{
 bne_surface_clay
 }

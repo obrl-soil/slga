@@ -4,7 +4,8 @@
 \name{slga_product_info}
 \alias{slga_product_info}
 \title{SLGA Product Information}
-\format{A data frame with 23 observations and 14 variables \describe{
+\format{
+A data frame with 23 observations and 14 variables \describe{
 \item{Type}{Product Type - Soil or Landscape}
 \item{Product}{Product Name}
 \item{Short_Name}{Product short name}
@@ -21,7 +22,8 @@
   \code{\link[raster:origin]{raster::origin()}} for this dataset.}
 \item{ncol}{number of raster cells in x dimension}
 \item{nrow}{number of raster cells in y dimension}
-}}
+}
+}
 \source{
 See also
 \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}

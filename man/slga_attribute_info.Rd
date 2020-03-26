@@ -4,7 +4,8 @@
 \name{slga_attribute_info}
 \alias{slga_attribute_info}
 \title{SLGA Attribute Information}
-\format{A data frame with 14 observations and 4 variables \describe{
+\format{
+A data frame with 14 observations and 4 variables \describe{
 \item{Name}{Attribute name}
 \item{Code}{Short code for attribute}
 \item{Units}{Attribute measurement units}
@@ -14,7 +15,8 @@
 \item{SA}{Whether the attribute is available as part of this product.}
 \item{TAS}{Whether the attribute is available as part of this product.}
 \item{WA}{Whether the attribute is available as part of this product.}
-}}
+}
+}
 \source{
 See also
 \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}

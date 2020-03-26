@@ -210,5 +210,3 @@ test_that(
     expect_equal(v1, v5)
     )
 )
-
-

@@ -23,7 +23,7 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
   # cross-platform PROJ versioning shenanigans resolved by
   #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
   # revisit the above if the rwinlib/gdal2 stack changes
-  r@crs@projargs <- paste0(fx, r@crs@projargs)
+  raster::crs(r) <- paste0(fx, raster::crs(r))
   r
 }
 
@@ -82,12 +82,12 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = FALSE, filedi
     # argh
     fx <- '+init=epsg:4283 '
     #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
-    r@crs@projargs <- paste0(fx, r@crs@projargs)
+    raster::crs(r) <- paste0(fx, raster::crs(r))
     r
   } else {
     fx <- '+init=epsg:4283 '
     #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
-    r@crs@projargs <- paste0(fx, r@crs@projargs)
+    raster::crs(r) <- paste0(fx, raster::crs(r))
     r
   }
 }
