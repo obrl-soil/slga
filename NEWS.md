@@ -1,6 +1,7 @@
 # slga 1.1.1 [CRAN]
 
   * Update CRS handling to be compatible with modern PROJ; sf 0.9 is now required
+  * All urls are now https
 
 # slga 1.1.0 [CRAN]
 

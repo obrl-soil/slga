@@ -5,22 +5,22 @@
 status](https://travis-ci.com/obrl-soil/slga.svg?branch=master)](https://travis-ci.com/obrl-soil/slga)
 [![Coverage
 status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](https://codecov.io/github/obrl-soil/slga?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/slga)](https://cran.r-project.org/package=slga)
-[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/slga)](http://www.r-pkg.org/pkg/slga)
+[![CRAN](https://www.r-pkg.org/badges/version/slga)](https://cran.r-project.org/package=slga)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/slga)](https://www.r-pkg.org/pkg/slga)
 
 # slga
 
 `slga` offers the ability to download geographic subsets of raster data
 from the [Soil and Landscape Grid of
-Australia](http://www.clw.csiro.au/aclep/soilandlandscapegrid/). The
+Australia](https://www.clw.csiro.au/aclep/soilandlandscapegrid/). The
 Grid was generated in 2014 from a compilation of Australian soil and
 landscape data and contains a set of modelled soil attributes that meet
-the [globalsoilmap.net](http://globalsoilmap.net) specification.
+the globalsoilmap.net specification.
 
 Also available for download are a set of terrain and climate covariates
 considered useful in soils modelling. These are primarily derived from
-[GeoScience Australia’s](http://www.ga.gov.au) [SRTM DEM
-products](http://www.ga.gov.au/scientific-topics/national-location-information/digital-elevation-data).
+[GeoScience Australia’s](https://www.ga.gov.au) [SRTM DEM
+products](https://www.ga.gov.au/scientific-topics/national-location-information/digital-elevation-data).
 
 All products are returned in GDA94 long/lat (EPSG:4283) and have a cell
 resolution of 3" (roughly 90m).

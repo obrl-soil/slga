@@ -124,7 +124,7 @@ make_soils_url <- function(product = NULL, attribute = NULL,
 make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
 
   req_type <- match.arg(req_type, c('cap', 'cov', 'desc'))
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
+  url_root <- "https://www.asris.csiro.au/ArcGis/services/TERN"
   service_root <- "/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?"
 
   if(req_type == 'cap') {
@@ -211,7 +211,7 @@ make_lscape_url <- function(product = NULL, aoi = NULL, req_type = 'cov') {
 #'
 make_point_url <- function(product = NULL, poi = NULL) {
 
-  url_root <- "http://www.asris.csiro.au/ASRISApi/api/SLGA/simple/Drill?"
+  url_root <- "https://www.asris.csiro.au/ASRISApi/api/SLGA/simple/Drill?"
 
   paste0(url_root,
          'longitude=', poi[1], '&latitude=', poi[2],

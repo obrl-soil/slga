@@ -26,7 +26,7 @@ A data frame with 23 observations and 14 variables \describe{
 }
 \source{
 See also
-\url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
+\url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 }
 \usage{
 slga_product_info

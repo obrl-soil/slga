@@ -27,7 +27,7 @@ options(stringsAsFactors = FALSE)
 
 Two high-level wrapper functions, `get_soils_data()` and `get_lscape_data()`, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets `slga_attribute_info()` and `slga_product_info()`. They contain allowable values for some of the function inputs as well as key metadata.
 
-The two tables are derived from information on the [SLGA website](http://www.clw.csiro.au/aclep/soilandlandscapegrid) and in the WCS metadata documents.
+The two tables are derived from information on the [SLGA website](https://www.clw.csiro.au/aclep/soilandlandscapegrid) and in the WCS metadata documents.
 
 ## Soils data
 

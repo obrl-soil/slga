@@ -15,7 +15,7 @@
 #' \item{WA}{Whether the attribute is available as part of this product.}
 #' }
 #' @source See also
-#' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
+#' \url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 #'
 "slga_attribute_info"
 
@@ -46,7 +46,7 @@
 #' \item{nrow}{number of raster cells in y dimension}
 #' }
 #' @source See also
-#' \url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
+#' \url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 #'
 'slga_product_info'
 

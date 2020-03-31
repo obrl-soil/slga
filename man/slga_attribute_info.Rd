@@ -19,7 +19,7 @@ A data frame with 14 observations and 4 variables \describe{
 }
 \source{
 See also
-\url{http://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
+\url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html}
 }
 \usage{
 slga_attribute_info
