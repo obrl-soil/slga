@@ -28,7 +28,7 @@ make_soils_url <- function(product = NULL, attribute = NULL,
   utils::data('slga_attribute_info', envir = environment())
 
   req_type <- match.arg(req_type, c('cap', 'cov', 'desc'))
-  url_root <- "http://www.asris.csiro.au/ArcGis/services/TERN"
+  url_root <- "https://www.asris.csiro.au/ArcGis/services/TERN"
   product   <-
     match.arg(product,
               slga_product_info$Short_Name[which(slga_product_info$Type == 'Soil')])

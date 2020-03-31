@@ -51,7 +51,7 @@ test_that(
     aoi <- validate_aoi( c(143.75, -40.17, 144.18, -39.57), 'SLPPC'),
     val1 <- slga:::make_lscape_url('SLPPC', aoi),
     expect_is(val1, 'character'),
-    expect_equal(nchar(val1), 276),
+    expect_equal(nchar(val1), 277),
     expect_equal(val1, "https://www.asris.csiro.au/ArcGis/services/TERN/SRTM_attributes_3s_ACLEP_AU/MapServer/WCSServer?REQUEST=GetCoverage&SERVICE=WCS&VERSION=1.0.0&COVERAGE=6&CRS=EPSG:4283&BBOX=143.749583333896,-40.1704166669533,144.180416667236,-39.5695833336103&WIDTH=517&HEIGHT=721&FORMAT=GeoTIFF"),
     expect_error(slga:::make_lscape_url('bigfoot', aoi)),
     expect_error(slga:::make_lscape_url('ASPCT', 'leprechauns')),
