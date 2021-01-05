@@ -168,7 +168,6 @@ test_that(
     expect_equal(slga:::validate_aoi(val7a, 'NAT'), val1),
     val8 <- st_bbox(sf::st_transform(sf::st_as_sfc(aoi, crs = 4283), 28356)),
     val9 <- val8,
-    attr(val9, 'crs')$epsg <- NA,
     expect_equal(slga:::validate_aoi(val8, 'NAT'), slga:::validate_aoi(val9, 'NAT')),
     expect_equal(slga:::validate_aoi(val9, 'NAT'), slga:::validate_aoi(val9, 'NAT'))
   )
