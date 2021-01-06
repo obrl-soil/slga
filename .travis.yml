@@ -1,7 +1,7 @@
 language: R
 sudo: required
 r_packages:
-  # work around temporary travis + R 3.5 bug
+  - usethis
   - devtools
   - covr
   - lwgeom
