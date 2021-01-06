@@ -1,3 +1,7 @@
+# slga 1.1.2
+
+  * Bugfix in unit tests for compatibility with sf 0.9-7. No change in functionality.
+
 # slga 1.1.1 [CRAN]
 
   * Update CRS handling to be compatible with modern PROJ; sf 0.9 is now required

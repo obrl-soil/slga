@@ -1,14 +1,10 @@
 ## Release Summary
 
-Update for compatibility with sf 0.9 and newer versions of PROJ
-
-## Resubmission 
-
-Fixed broken url (globalsoilmap.net is not currently active)
+Update for compatibility with sf 0.9-7 - fixed breaking unit test
 
 ## Test environments
 
-  * Local: Windows 10, R 3.6.3 and Ubuntu 18.04 bionic, R 3.6.3 via WSL-2 (allows testing with newer GDAL/GEOS/PROJ stack also)
+  * Local: Windows 10, R 4.0.3 and Ubuntu 18.04 bionic, R 4.0.3 via WSL-2 (allows testing with newer GDAL/GEOS/PROJ stack also)
   * Travis-CI (Ubuntu 16.04.6 LTS, R 3.6.2)
   * win-build via devtools::check_win_devel (R version 4.0.0 alpha (2020-03-26 r78078)) and devtools::check_win_release (R 3.6.3)
 
