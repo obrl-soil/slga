@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -47,7 +47,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -64,7 +64,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/obrl-soil/slga">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -78,13 +78,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="slga_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Accessing SLGA Data</h1>
                         <h4 class="author"><span class="citation">@obrl_soil</span></h4>
             
-            <h4 class="date">2020-03-31</h4>
+            <h4 class="date">2021-01-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obrl-soil/slga/blob/master/vignettes/slga.Rmd"><code>vignettes/slga.Rmd</code></a></small>
       <div class="hidden name"><code>slga.Rmd</code></div>
@@ -94,9 +94,10 @@
     
     
 <p>This is a quick overview of how to retrieve data from the Soil and Landscape Grid of Australia.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r">library(raster)
-library(slga)
-options(stringsAsFactors = FALSE)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obrl-soil/slga">slga</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Two high-level wrapper functions, <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> and <code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code>, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code> and <code><a href="../reference/slga_product_info.html">slga_product_info()</a></code>. They contain allowable values for some of the function inputs as well as key metadata.</p>
 <p>The two tables are derived from information on the <a href="https://www.clw.csiro.au/aclep/soilandlandscapegrid">SLGA website</a> and in the WCS metadata documents.</p>
 <div id="soils-data" class="section level2">
@@ -106,20 +107,25 @@ options(stringsAsFactors = FALSE)</pre></body></html></div>
 <p>Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a></p>
 <p>The function <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a <code>raster</code> or <code>rasterStack</code> object.</p>
 <p>As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for central Brisbane is available with <code><a href="https://rdrr.io/r/utils/data.html">data('bne_surface_clay')</a></code>:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r">data('bne_surface_clay')
-bne_surface_clay
-#&gt; class      : RasterStack 
-#&gt; dimensions : 121, 145, 17545, 3  (nrow, ncol, ncell, nlayers)
-#&gt; resolution : 0.0008333333, 0.0008333333  (x, y)
-#&gt; extent     : 152.9496, 153.0704, -27.55042, -27.44958  (xmin, xmax, ymin, ymax)
-#&gt; crs        : +init=EPSG:4283 +proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs 
-#&gt; names      : NAT_CLY_VAL_000_005, NAT_CLY_CLO_000_005, NAT_CLY_CHI_000_005 
-#&gt; min values :           10.100820,           -3.681541,           23.713245 
-#&gt; max values :            33.95562,            19.32191,            48.78592</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'bne_surface_clay'</span><span class="op">)</span>
+<span class="va">bne_surface_clay</span>
+<span class="co">#&gt; class      : RasterStack </span>
+<span class="co">#&gt; dimensions : 121, 145, 17545, 3  (nrow, ncol, ncell, nlayers)</span>
+<span class="co">#&gt; resolution : 0.0008333333, 0.0008333333  (x, y)</span>
+<span class="co">#&gt; extent     : 152.9496, 153.0704, -27.55042, -27.44958  (xmin, xmax, ymin, ymax)</span>
+<span class="co">#&gt; crs        : +init=EPSG:4283 +proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs </span>
+<span class="co">#&gt; names      : NAT_CLY_VAL_000_005, NAT_CLY_CLO_000_005, NAT_CLY_CHI_000_005 </span>
+<span class="co">#&gt; min values :           10.100820,           -3.681541,           23.713245 </span>
+<span class="co">#&gt; max values :            33.95562,            19.32191,            48.78592</span></code></pre></div>
 <p><img src="clayplot.png" style="width:95.0%"></p>
 <p>Note that some open-water areas have 0 values rather than NA; these are difficult to remove safely without an adequate mask. You may need to generate one yourself, particularly if you are working along the coast.</p>
 <p>The query to retrieve the above maps looked like:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">aoi </pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">152.95</span>, <span class="op">-</span><span class="fl">27.55</span>, <span class="fl">153.07</span>, <span class="op">-</span><span class="fl">27.45</span><span class="op">)</span>
+<span class="va">bne_surface_clay</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_soils_data.html">get_soils_data</a></span><span class="op">(</span>product <span class="op">=</span> <span class="st">'NAT'</span>, attribute <span class="op">=</span> <span class="st">'CLY'</span>,
+                                   component <span class="op">=</span> <span class="st">'ALL'</span>, depth <span class="op">=</span> <span class="fl">1</span>,
+                                   aoi <span class="op">=</span> <span class="va">aoi</span>, write_out <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Note that valid <code>product</code> parameters are defined in <code>slga_product_info$Short_Name</code>, and valid <code>attribute</code> parameters in <code>slga_attribute_info$Code</code>. If a particular combination is not available, the function will fail gracefully.</p>
 </div>
 <div id="landscape-data" class="section level2">
@@ -127,7 +133,8 @@ bne_surface_clay
 <a href="#landscape-data" class="anchor"></a>Landscape data</h2>
 <p>18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a>.</p>
 <p><code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code> only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for central Brisbane is given by</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">bne_mrvbf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/get_lscape_data.html">get_lscape_data</a></span>(<span class="kw">product</span> <span class="kw">=</span> <span class="st">'MRVBF'</span>, <span class="kw">aoi</span> <span class="kw">=</span> <span class="no">aoi</span>, <span class="kw">write_out</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">bne_mrvbf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_lscape_data.html">get_lscape_data</a></span><span class="op">(</span>product <span class="op">=</span> <span class="st">'MRVBF'</span>, aoi <span class="op">=</span> <span class="va">aoi</span>, write_out <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="area-of-interest" class="section level2">
 <h2 class="hasAnchor">
@@ -138,28 +145,38 @@ bne_surface_clay
 <h2 class="hasAnchor">
 <a href="#saving-data" class="anchor"></a>Saving data</h2>
 <p>If you want to save a copy of the downloaded raster(s) to disk, you will need to specify <code>write_out = TRUE</code> and supply a directory using the <code>filedir</code> parameter. A full path to an existing directory must be supplied, so any of the following styles will work:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r">filedir = 'C:/data'
-filedir = getwd()
-filedir = file.path('C:', 'data')</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">filedir</span> <span class="op">=</span> <span class="st">'C:/data'</span>
+<span class="va">filedir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">filedir</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">'C:'</span>, <span class="st">'data'</span><span class="op">)</span></code></pre></div>
 <p>Files are saved in GeoTIFF format with an appropriate datatype and an informative filename. Note that existing files will be overwritten if a file with a matching name is detected in the destination directory.</p>
 </div>
 <div id="advanced-querying" class="section level2">
 <h2 class="hasAnchor">
 <a href="#advanced-querying" class="anchor"></a>Advanced querying</h2>
 <p>To retrieve data from e.g. more than one depth, you can use an iterator like <code><a href="https://rdrr.io/r/base/lapply.html">base::lapply()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code>. For instance, to retrieve estimated clay values for all depths over King Island, you could do the following:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"># not run
-bne_all_clay </pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># not run</span>
+<span class="va">bne_all_clay</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq.int</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/get_soils_data.html">get_soils_data</a></span><span class="op">(</span>product <span class="op">=</span> <span class="st">'NAT'</span>, attribute <span class="op">=</span> <span class="st">'CLY'</span>, component <span class="op">=</span> <span class="st">'VAL'</span>,
+                 depth <span class="op">=</span> <span class="va">d</span>, aoi <span class="op">=</span> <span class="va">aoi</span>, write_out <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span>
+<span class="va">bne_all_clay</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/brick.html">brick</a></span><span class="op">(</span><span class="va">bne_all_clay</span><span class="op">)</span></code></pre></div>
 <p>Similar iteration can be carried out with a vector of attributes or products. Note that while all the soils products align with each other, not all of the landscape products do. Stacking the latter together will require some pre-processing.</p>
 </div>
 <div id="point-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#point-data" class="anchor"></a>Point data</h2>
 <p>Data values for single-point locations within the grid can be retrieved using <code><a href="../reference/get_soils_point.html">get_soils_point()</a></code> or <code><a href="../reference/get_lscape_point.html">get_lscape_point()</a></code>, as follows:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">#not run
-clay_pt  </pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#not run</span>
+<span class="va">clay_pt</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_soils_point.html">get_soils_point</a></span><span class="op">(</span><span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="op">-</span><span class="fl">27.5</span><span class="op">)</span><span class="op">)</span>
+<span class="va">slope_pt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_lscape_point.html">get_lscape_point</a></span><span class="op">(</span><span class="st">'SLPPC'</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="op">-</span><span class="fl">27.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>A non-spatial dataframe of values is returned. Summaries of the area around a point can also be retrieved. The summary can be of a square or circular window around a point.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"># get the average predicted clay content for 60-100cm within ~300m of a point
-avg_clay </pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># get the average predicted clay content for 60-100cm within ~300m of a point</span>
+<span class="va">avg_clay</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_soils_point.html">get_soils_point</a></span><span class="op">(</span><span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="st">'VAL'</span>, <span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153</span>, <span class="op">-</span><span class="fl">27.5</span><span class="op">)</span>,
+                            buff <span class="op">=</span> <span class="fl">3</span>, buff_shp <span class="op">=</span> <span class="st">'circle'</span>, stat <span class="op">=</span> <span class="st">'mean'</span><span class="op">)</span></code></pre></div>
 <p>Buffering is defined in terms of cells, not metres. A buffer of <code>n</code> cells implies that the raster extracted will be <code>2n + 1</code> cells wide and high, centered on the cell into which the supplied point of interest falls.</p>
 <p>Note that for datasets that have many points within a small area, it will be more efficient to download rasters covering the dataset bounding box before extracting point summaries using existing <code>raster</code> package functions.</p>
 </div>
@@ -167,7 +184,8 @@ avg_clay </pre></body></html></div>
 <h2 class="hasAnchor">
 <a href="#metadata" class="anchor"></a>Metadata</h2>
 <p>Service and coverage level metadata for soil and landscape data can be retrieved with <code><a href="../reference/metadata_soils.html">metadata_soils()</a></code> and <code><a href="../reference/metadata_lscape.html">metadata_lscape()</a></code>. For example,</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">nat_clay_mdc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/metadata_soils.html">metadata_soils</a></span>(<span class="st">'NAT'</span>, <span class="st">'CLY'</span>, <span class="kw">req_type</span> <span class="kw">=</span> <span class="st">'desc'</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nat_clay_mdc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/metadata_soils.html">metadata_soils</a></span><span class="op">(</span><span class="st">'NAT'</span>, <span class="st">'CLY'</span>, req_type <span class="op">=</span> <span class="st">'desc'</span><span class="op">)</span></code></pre></div>
 <hr>
 </div>
   </div>
@@ -187,7 +205,7 @@ avg_clay </pre></body></html></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

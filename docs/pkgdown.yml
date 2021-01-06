@@ -1,9 +1,9 @@
-pandoc: 2.7.2
-pkgdown: 1.5.0
+pandoc: 2.7.3
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   slga: slga.html
-last_built: 2020-03-31T02:24Z
+last_built: 2021-01-06T20:30Z
 urls:
   reference: http://obrl-soil.github.io/slga//reference
   article: http://obrl-soil.github.io/slga//articles

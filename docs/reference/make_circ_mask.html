@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">slga</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -92,7 +92,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +109,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/obrl-soil/slga">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,7 +135,7 @@
     <p>Generates a circular masking matrix</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_circ_mask</span>(<span class='kw'>buff</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>make_circ_mask</span><span class='op'>(</span>buff <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,20 +161,28 @@ zone' and NA otherwise.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
- <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>raster</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</span></div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>slga</span>)
+ <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://rspatial.org/raster'>raster</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='input'> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</span></div><div class='input'> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/obrl-soil/slga'>slga</a></span><span class='op'>)</span>
  <span class='co'># concept demo</span>
- <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>st_buffer</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st.html'>st_point</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>)), <span class='fl'>5</span>), <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>reset</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='input'> <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='kw pkg'>raster</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></span>(<span class='kw pkg'>slga</span><span class='kw ns'>:::</span><span class='fu'>make_circ_mask</span>(<span class='fl'>5</span>),
-      <span class='kw'>xmn</span> <span class='kw'>=</span> -<span class='fl'>5</span>, <span class='kw'>xmx</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>ymn</span> <span class='kw'>=</span> -<span class='fl'>5</span>, <span class='kw'>ymx</span> <span class='kw'>=</span> <span class='fl'>5</span>), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='make_circ_mask-1.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_buffer</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>, axes <span class='op'>=</span> <span class='cn'>TRUE</span>, reset <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='input'> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>raster</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></span><span class='op'>(</span><span class='fu'>slga</span><span class='fu'>:::</span><span class='fu'>make_circ_mask</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>,
+      xmn <span class='op'>=</span> <span class='op'>-</span><span class='fl'>5</span>, xmx <span class='op'>=</span> <span class='fl'>5</span>, ymn <span class='op'>=</span> <span class='op'>-</span><span class='fl'>5</span>, ymx <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, legend <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='make_circ_mask-1.png' alt='' width='700' height='433' /></div><div class='input'>
  <span class='co'># test with real data</span>
- <span class='no'>poi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>152</span>, -<span class='fl'>27</span>)
- <span class='no'>aoi</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>slga</span><span class='kw ns'>:::</span><span class='fu'><a href='validate_poi.html'>validate_poi</a></span>(<span class='kw'>poi</span> <span class='kw'>=</span> <span class='no'>poi</span>, <span class='kw'>product</span> <span class='kw'>=</span> <span class='st'>'SLPPC'</span>, <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>5</span>)
- <span class='no'>slope</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='get_lscape_data.html'>get_lscape_data</a></span>(<span class='st'>'SLPPC'</span>, <span class='no'>aoi</span>)
- <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='no'>slope</span>)</div><div class='img'><img src='make_circ_mask-2.png' alt='' width='700' height='433' /></div><div class='input'> <span class='no'>masker</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></span>(<span class='no'>slope</span>)
- <span class='no'>masker</span>[] <span class='kw'>&lt;-</span> <span class='kw pkg'>slga</span><span class='kw ns'>:::</span><span class='fu'>make_circ_mask</span>(<span class='fl'>5</span>)
- <span class='no'>slope</span> <span class='kw'>&lt;-</span> <span class='no'>slope</span> + <span class='no'>masker</span>
- <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='no'>slope</span>)</div><div class='input'> <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st.html'>st_point</a></span>(<span class='no'>poi</span>), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>19</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>'red'</span>)</div><div class='input'> <span class='fu'><a href='https://rdrr.io/pkg/sf/man/plot.html'>plot</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>st_buffer</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>st_centroid</a></span>(<span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_as_sfc.html'>st_as_sfc</a></span>(<span class='no'>aoi</span>)),
-      <span class='fl'>0.000833</span> * <span class='fl'>5</span>), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_buffer does not correctly buffer longitude/latitude data</span></div><div class='output co'>#&gt; <span class='message'>dist is assumed to be in decimal degrees (arc_degrees).</span></div><div class='img'><img src='make_circ_mask-3.png' alt='' width='700' height='433' /></div><div class='input'>
- # }
+ <span class='va'>poi</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>152</span>, <span class='op'>-</span><span class='fl'>27</span><span class='op'>)</span>
+ <span class='va'>aoi</span> <span class='op'>&lt;-</span> <span class='fu'>slga</span><span class='fu'>:::</span><span class='fu'><a href='validate_poi.html'>validate_poi</a></span><span class='op'>(</span>poi <span class='op'>=</span> <span class='va'>poi</span>, product <span class='op'>=</span> <span class='st'>'SLPPC'</span>, buff <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+ <span class='va'>slope</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_lscape_data.html'>get_lscape_data</a></span><span class='op'>(</span><span class='st'>'SLPPC'</span>, <span class='va'>aoi</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in CRS definition</span></div><div class='input'> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>slope</span><span class='op'>)</span>
+</div><div class='img'><img src='make_circ_mask-2.png' alt='' width='700' height='433' /></div><div class='input'> <span class='va'>masker</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/raster/man/raster.html'>raster</a></span><span class='op'>(</span><span class='va'>slope</span><span class='op'>)</span>
+ <span class='va'>masker</span><span class='op'>[</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>slga</span><span class='fu'>:::</span><span class='fu'>make_circ_mask</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span>
+ <span class='va'>slope</span> <span class='op'>&lt;-</span> <span class='va'>slope</span> <span class='op'>+</span> <span class='va'>masker</span>
+ <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>slope</span><span class='op'>)</span>
+</div><div class='input'> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='va'>poi</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span>, pch <span class='op'>=</span> <span class='fl'>19</span>, col <span class='op'>=</span> <span class='st'>'red'</span><span class='op'>)</span>
+</div><div class='input'> <span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_buffer</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/geos_unary.html'>st_centroid</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_as_sfc.html'>st_as_sfc</a></span><span class='op'>(</span><span class='va'>aoi</span><span class='op'>)</span><span class='op'>)</span>,
+      <span class='fl'>0.000833</span> <span class='op'>*</span> <span class='fl'>5</span><span class='op'>)</span>, add <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid does not give correct centroids for longitude/latitude data</span></div><div class='output co'>#&gt; <span class='warning'>Warning: st_buffer does not correctly buffer longitude/latitude data</span></div><div class='output co'>#&gt; <span class='message'>dist is assumed to be in decimal degrees (arc_degrees).</span></div><div class='img'><img src='make_circ_mask-3.png' alt='' width='700' height='433' /></div><div class='input'>
+ <span class='co'># }</span>
 
 </div></pre>
   </div>
@@ -192,7 +200,7 @@ zone' and NA otherwise.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
