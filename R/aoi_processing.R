@@ -35,11 +35,11 @@ aoi_convert.numeric <- function(aoi = NULL) {
 #' @method aoi_convert Raster
 #'
 aoi_convert.Raster <- function(aoi = NULL) {
-  # PROJ version thing augh ffs
-  if(grepl('EPSG', aoi@crs@projargs)) {
-    aoi@crs@projargs <- gsub('EPSG', 'epsg', aoi@crs@projargs)
-    }
-  aoi_crs <- sf::st_crs(aoi@crs@projargs)
+  ## PROJ version thing augh ffs
+  #if(grepl('EPSG', aoi@crs@projargs)) {
+  #  aoi@crs@projargs <- gsub('EPSG', 'epsg', aoi@crs@projargs)
+  #  }
+  aoi_crs <- sf::st_crs(raster::crs(aoi))
   aoi <- raster::extent(aoi)
   sf::st_bbox(aoi, crs = aoi_crs)
 }
@@ -58,7 +58,6 @@ aoi_convert.Extent <- function(aoi = NULL) {
 #' @method aoi_convert sf
 #'
 aoi_convert.sf <- function(aoi = NULL) {
-  #aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
   sf::st_bbox(aoi)
 }
 
@@ -67,7 +66,6 @@ aoi_convert.sf <- function(aoi = NULL) {
 #' @method aoi_convert sfc
 #'
 aoi_convert.sfc <- function(aoi = NULL) {
-  #aoi <- sf::st_as_sfc(sf::st_bbox(aoi), crs = sf::st_crs(aoi))
   sf::st_bbox(aoi)
 }
 
@@ -281,18 +279,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   }
 
   # check crs, transform if not in 4283
-  if(st_crs(ext)$input != 'EPSG:4283') {
-    #if(is.na(attr(ext, 'crs')$epsg)) {
-    #crs_bits <- sort(unlist(strsplit(attr(ext, 'crs')$proj4string, ' ')))
-    #gda94_bits <- sort(unlist(strsplit(
-    #  '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs', ' ')))
-    #if(!identical(crs_bits, gda94_bits)) {
-    #  message('Transforming aoi coordinates to EPSG:4283')
-    #  aoi_transform(ext, 4283)
-    #} else {
-    #  ext
-    #}
-    #} else if(attr(ext, 'crs')$epsg != 4283) {
+  if(sf::st_crs(ext)$input != 'EPSG:4283') {
     message('Transforming aoi coordinates to EPSG:4283')
     ext <- aoi_transform(ext, 4283)
   }
@@ -307,7 +294,7 @@ validate_aoi <- function(aoi = NULL, product = NULL) {
   # check extent isn't too big. If it is, tile
   x_range <- abs(ext[1] - ext[3])
   y_range <- abs(ext[2] - ext[4])
-  # 0.001 below prevents unneccessary tiling due to aoi snap
+  # 0.001 below prevents unnecessary tiling due to aoi snap
   if(any(x_range > 1.001, y_range > 1.001)) {
     # returns a list of max 1x1' bboxes
     aoi_tile(ext, product)

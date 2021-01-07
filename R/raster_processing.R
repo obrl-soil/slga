@@ -8,22 +8,25 @@
 #' @return a raster, but a better one
 #' @keywords internal
 #' @importFrom raster crs getValues raster subs writeRaster
-#' @importFrom sf sf_extSoftVersion
+#' @importFrom sf sf_extSoftVersion st_crs
+#' @importFrom methods as
 #'
 tidy_soils_data <- function(r = NULL, out_name = NULL) {
+
+  # fix CRS to have correct WKB in comments
+  # rgdal's warning messages are spurious in this case and should disappear as
+  # r-spatial PROJ handling continues to evolve
+  suppressWarnings({
+  prj <- sf::st_crs(4283)
+  prj <- as(prj, 'CRS')
+  raster::crs(r) <- prj
+  })
 
   names(r) <- out_name
   # NB on the coast there are sometimes patches of offshore '0' values
   # they should be NA, but there's a risk of ditching onshore 0's
   # so can't safely remove, particularly with ci_low datasets
   r[which(raster::getValues(r) == -9999)] <- NA_real_
-
-  # fix proj string to 4283 properly (4151 is otherwise identical :/)
-  fx <- '+init=epsg:4283 '
-  # cross-platform PROJ versioning shenanigans resolved by
-  #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
-  # revisit the above if the rwinlib/gdal2 stack changes
-  raster::crs(r) <- paste0(fx, raster::crs(r))
   r
 }
 
@@ -40,10 +43,20 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
 #' @return a raster, but a better one
 #' @keywords internal
 #' @importFrom raster crs getValues raster subs writeRaster
-#' @importFrom sf sf_extSoftVersion
+#' @importFrom sf sf_extSoftVersion st_crs
+#' @importFrom methods as
 #'
 tidy_lscape_data <- function(r = NULL, product = NULL, write_out = FALSE, filedir) {
   names(r) <- paste0('SLGA_', product)
+
+  # fix CRS to have correct WKB in comments
+  # rgdal's warning messages are spurious in this case and should disappear as
+  # r-spatial PROJ handling continues to evolve
+  suppressWarnings({
+    prj <- sf::st_crs(4283)
+    prj <- as(prj, 'CRS')
+    raster::crs(r) <- prj
+  })
 
   # TPMSK needs reclassifying so you can mask with tpi + tpm
   if(product == 'TPMSK') {
@@ -78,16 +91,7 @@ tidy_lscape_data <- function(r = NULL, product = NULL, write_out = FALSE, filedi
       raster::writeRaster(r, out_dest, datatype = 'FLT4S', NAflag = -9999,
                           overwrite = TRUE)
     }
-    r <- raster::raster(out_dest)
-    # argh
-    fx <- '+init=epsg:4283 '
-    #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
-    raster::crs(r) <- paste0(fx, raster::crs(r))
-    r
-  } else {
-    fx <- '+init=epsg:4283 '
-    #if(grepl('^5|^6', sf::sf_extSoftVersion()[[3]])) { fx <- tolower(fx) }
-    raster::crs(r) <- paste0(fx, raster::crs(r))
-    r
+    raster::raster(out_dest)
   }
+  r
 }

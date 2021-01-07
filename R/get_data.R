@@ -68,16 +68,17 @@ get_soils_raster <- function(product   = NULL,
     close(pb)
     # https://gis.stackexchange.com/a/104109/76240 \o/
     dat$fun <- mean
-    do.call(raster::mosaic, dat)
+    # CRS warnings spurious and redundant with later amendment
+    suppressWarnings(do.call(raster::mosaic, dat))
 
   } else {
     out_temp <- paste0(tempfile(), '_SLGA_', out_name, '.tif')
     gr <- get_slga_data(url = this_url, out_temp)
     if(httr::http_error(gr)) {
       stop(paste0('http error ', httr::status_code(gr), '.'))
-      }
-    # read in temp and tidy up
-    raster::raster(out_temp)
+    }
+    # CRS warning spurious and redundant with later amendment
+    suppressWarnings(raster::raster(out_temp))
   }
 
   tidy_soils_data(r, out_name)
@@ -186,7 +187,6 @@ get_soils_data <- function(product   = NULL,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
       names(s) <- s_names
-      raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
@@ -210,7 +210,6 @@ get_soils_data <- function(product   = NULL,
                           overwrite = TRUE)
       s <- raster::stack(out_dest)
       names(s) <- s_names
-      raster::crs(s) <- paste0('+init=EPSG:4283 ', raster::crs(s))
       s
     } else {
       s
@@ -226,7 +225,6 @@ get_soils_data <- function(product   = NULL,
                           overwrite = TRUE)
       val <- raster::raster(out_dest)
       names(val) <- v_name
-      raster::crs(val) <- paste0('+init=EPSG:4283 ', raster::crs(val))
       val
     } else {
       val
@@ -242,7 +240,6 @@ get_soils_data <- function(product   = NULL,
                           overwrite = TRUE)
       clo <- raster::raster(out_dest)
       names(clo) <- c_nm
-      raster::crs(clo) <- paste0('+init=EPSG:4283 ', raster::crs(clo))
       clo
     } else {
       clo
@@ -258,7 +255,6 @@ get_soils_data <- function(product   = NULL,
                           overwrite = TRUE)
       chi <- raster::raster(out_dest)
       names(chi) <- c_nm
-      raster::crs(chi) <- paste0('+init=EPSG:4283 ', raster::crs(chi))
       chi
     } else {
       chi
@@ -335,7 +331,8 @@ get_lscape_data <- function(product   = NULL,
     }, x = this_url, i = seq_along(this_url))
     close(pb)
     dat$fun <- mean
-    do.call(raster::mosaic, dat)
+    # CRS warning spurious and redundant with later amendment
+    suppressWarnings(do.call(raster::mosaic, dat))
 
   } else {
     out_temp <- paste0(tempfile(), '_SLGA_', product, '.tif')
@@ -344,8 +341,8 @@ get_lscape_data <- function(product   = NULL,
     if(httr::http_error(gr)) {
       stop(paste0('http error ', httr::status_code(gr), '.'))
     }
-
-    raster::raster(out_temp)
+    # CRS warning spurious and redundant with later amendment
+    suppressWarnings(raster::raster(out_temp))
   }
 
   tidy_lscape_data(r, product, write_out, filedir)

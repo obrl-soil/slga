@@ -12,6 +12,7 @@ Depends:
     R (>= 2.10)
 Imports:
     httr,
+    methods,
     raster,
     sf (>= 0.9-0),
     utils,

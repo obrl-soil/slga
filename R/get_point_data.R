@@ -183,7 +183,8 @@ get_lscape_point <- function(product = NULL, poi = NULL,
     stop(paste0('http error ', httr::status_code(gr), '.'))
   }
   # read in tempfile and tidy up
-  data <- raster::raster(out_temp)
+  # CRS warning spurious and redundant with later amendment
+  suppressWarnings(data <- raster::raster(out_temp))
   data <- tidy_lscape_data(data, product, write_out = FALSE)
   d_nm <- names(data)
 

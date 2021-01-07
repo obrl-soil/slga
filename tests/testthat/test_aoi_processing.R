@@ -25,7 +25,7 @@ test_that(
                       class = "bbox", crs = sf::st_crs(28355)),
     val1 <- slga:::aoi_transform(aoi1),
     expect_is(val1, 'bbox'),
-    expect_equal(attr(val1, 'crs')$epsg, 4283),
+    expect_equal(attr(val1, 'crs')$input, 'EPSG:4283'),
     expect_equivalent(val1[1], 143.7221117),
     expect_equivalent(val1[2], -40.1699999),
     expect_equivalent(val1[3], 144.204006),
@@ -37,7 +37,7 @@ test_that(
                       class = "bbox", crs = sf::st_crs(3577)),
     val2 <- slga:::aoi_transform(aoi2),
     expect_is(val2, 'bbox'),
-    expect_equal(attr(val2, 'crs')$epsg, 4283),
+    expect_equal(attr(val2, 'crs')$input, 'EPSG:4283'),
     expect_equivalent(val2[1], 143.75),
     expect_equivalent(val2[2], -40.1966433),
     expect_equivalent(val2[3], 144.18),
@@ -66,9 +66,9 @@ test_that(
     val1 <- slga:::aoi_align(aoi, 'NAT'),
     val2 <- slga:::aoi_align(aoi, 'TAS'),
     expect_is(val1, 'bbox'),
-    expect_equal(attr(val1, 'crs')$epsg, 4283),
+    expect_equal(attr(val1, 'crs')$input, 'EPSG:4283'),
     expect_is(val2, 'bbox'),
-    expect_equal(attr(val2, 'crs')$epsg, 4283),
+    expect_equal(attr(val2, 'crs')$input, 'EPSG:4283'),
     expect_equivalent(val1[1], 143.749583),
     expect_equivalent(val1[2], -40.1704166),
     expect_equivalent(val1[3], 144.180416),
@@ -139,9 +139,9 @@ test_that(
     val1 <- slga:::validate_aoi(aoi, 'NAT'), # normal bbox input
     val2 <- slga:::validate_aoi(aoi, 'TAS'), # normal bbox input
     expect_is(val1, 'bbox'),
-    expect_equal(attr(val1, 'crs')$epsg, 4283),
+    expect_equal(attr(val1, 'crs')$input, 'EPSG:4283'),
     expect_is(val2, 'bbox'),
-    expect_equal(attr(val2, 'crs')$epsg, 4283),
+    expect_equal(attr(val2, 'crs')$input, 'EPSG:4283'),
     expect_error(slga:::validate_aoi(aoi, 'SA')), # no overlap
     # convert from simple
     aoi_simple <- c(143.75, -40.17, 144.18, -39.57),
@@ -182,8 +182,8 @@ test_that(
     v2 <- slga:::validate_poi(poi, 'NAT', buff = 3),
     expect_is(v1, 'bbox'),
     expect_is(v2, 'bbox'),
-    expect_equal(attr(v1, 'crs')$epsg, 4283),
-    expect_equal(attr(v2, 'crs')$epsg, 4283),
+    expect_equal(attr(v1, 'crs')$input, 'EPSG:4283'),
+    expect_equal(attr(v2, 'crs')$input, 'EPSG:4283'),
     expect_true(v1[1] < poi[1]), # v1 encloses poi
     expect_true(v1[2] < poi[2]),
     expect_true(v1[3] > poi[1]),
