@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   slga: slga.html
-last_built: 2021-01-06T20:30Z
+last_built: 2021-01-08T06:26Z
 urls:
   reference: http://obrl-soil.github.io/slga//reference
   article: http://obrl-soil.github.io/slga//articles
