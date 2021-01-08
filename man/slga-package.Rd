@@ -8,7 +8,7 @@
 \description{
 Provides access to Soil and Landscape Grid of Australia raster datasets via
 existing Open Geospatial Consortium Web Coverage Services. See
-\url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/}.
+\url{https://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html}.
 }
 \seealso{
 Useful links:

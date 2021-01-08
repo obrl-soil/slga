@@ -12,8 +12,8 @@ status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](htt
 
 `slga` offers the ability to download geographic subsets of raster data
 from the [Soil and Landscape Grid of
-Australia](https://www.clw.csiro.au/aclep/soilandlandscapegrid/). The
-Grid was generated in 2014 from a compilation of Australian soil and
+Australia](https://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html).
+The Grid was generated in 2014 from a compilation of Australian soil and
 landscape data and contains a set of modelled soil attributes that meet
 the globalsoilmap.net specification.
 

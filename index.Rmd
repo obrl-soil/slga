@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 # slga
 
-`slga` offers the ability to download geographic subsets of raster data from the [Soil and Landscape Grid of Australia](https://www.clw.csiro.au/aclep/soilandlandscapegrid/). The Grid was generated in 2014 from a compilation of Australian soil and landscape data and contains a set of modelled soil attributes that meet the globalsoilmap.net specification. 
+`slga` offers the ability to download geographic subsets of raster data from the [Soil and Landscape Grid of Australia](https://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html). The Grid was generated in 2014 from a compilation of Australian soil and landscape data and contains a set of modelled soil attributes that meet the globalsoilmap.net specification. 
 
 Also available for download are a set of terrain and climate covariates considered useful in soils modelling. These are primarily derived from [GeoScience Australia's](https://www.ga.gov.au) [SRTM DEM products](https://www.ga.gov.au/scientific-topics/national-location-information/digital-elevation-data).
 

@@ -22,7 +22,7 @@
 #'   GeoTIFF from the CSIRO Data Access Portal and crop out your AOI using GDAL.
 #' @keywords internal
 #' @importFrom httr content GET http_error status_code user_agent write_disk
-#' @importFrom raster getValues raster writeRaster
+#' @importFrom raster getValues mosaic raster writeRaster
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #'
 get_soils_raster <- function(product   = NULL,
@@ -288,7 +288,7 @@ get_soils_data <- function(product   = NULL,
 #'   Further resampling may be required for some applications.
 #'   }
 #' @importFrom httr content GET http_error status_code user_agent write_disk
-#' @importFrom raster getValues raster subs writeRaster
+#' @importFrom raster getValues mosaic raster subs writeRaster
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @examples \donttest{
 #' # get slope data for central Brisbane

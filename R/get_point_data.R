@@ -73,7 +73,8 @@ get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
       get_soils_raster(product, attribute, component = l,
                        depth, aoi, skip_val = TRUE)
       })
-   data <- raster::stack(data)
+   # CRS warning spurious and redundant with later amendment
+   data <- suppressWarnings(raster::stack(data))
   }
 
   if(component == 'CIS') {
@@ -81,7 +82,8 @@ get_soils_point <- function(product = NULL, attribute = NULL, component = 'ALL',
       get_soils_raster(product, attribute, component = l,
                        depth, aoi, skip_val = TRUE)
     })
-    data <- raster::stack(data)
+    # CRS warning spurious and redundant with later amendment
+    data <- suppressWarnings(raster::stack(data))
   }
 
   if(component %in% c('VAL', 'CLO', 'CHI')) {
@@ -184,7 +186,7 @@ get_lscape_point <- function(product = NULL, poi = NULL,
   }
   # read in tempfile and tidy up
   # CRS warning spurious and redundant with later amendment
-  suppressWarnings(data <- raster::raster(out_temp))
+  data <- suppressWarnings(raster::raster(out_temp))
   data <- tidy_lscape_data(data, product, write_out = FALSE)
   d_nm <- names(data)
 
