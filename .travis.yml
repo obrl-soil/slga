@@ -1,4 +1,9 @@
-language: R
+language: r
+r: 
+  - release
+  - devel
+env:
+  - _R_CHECK_DONTTEST_EXAMPLES_=false
 sudo: required
 r_packages:
   - gert
