@@ -5,13 +5,13 @@ r:
 env:
   - _R_CHECK_DONTTEST_EXAMPLES_=false
 sudo: required
-r_packages:
-  - gert
-  - usethis
-  - devtools
-  - covr
-  - lwgeom
-  - rgdal
+#r_packages:
+#  - gert
+#  - usethis
+#  - devtools
+#  - covr
+#  - lwgeom
+#  - rgdal
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
