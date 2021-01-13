@@ -84,7 +84,7 @@
       <h1 data-toc-skip>Accessing SLGA Data</h1>
                         <h4 class="author"><span class="citation">@obrl_soil</span></h4>
             
-            <h4 class="date">2021-01-08</h4>
+            <h4 class="date">2021-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/obrl-soil/slga/blob/master/vignettes/slga.Rmd"><code>vignettes/slga.Rmd</code></a></small>
       <div class="hidden name"><code>slga.Rmd</code></div>
@@ -99,12 +99,12 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/obrl-soil/slga">slga</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Two high-level wrapper functions, <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> and <code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code>, have been provided to manage downloads. To use them correctly, you should be aware of the package datasets <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code> and <code><a href="../reference/slga_product_info.html">slga_product_info()</a></code>. They contain allowable values for some of the function inputs as well as key metadata.</p>
-<p>The two tables are derived from information on the <a href="https://www.clw.csiro.au/aclep/soilandlandscapegrid">SLGA website</a> and in the WCS metadata documents.</p>
+<p>The two tables are derived from information on the <a href="https://www.clw.csiro.au/aclep/soilandlandscapegrid/index.html">SLGA website</a> and in the WCS metadata documents.</p>
 <div id="soils-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#soils-data" class="anchor"></a>Soils data</h2>
 <p>Soils data is available in a large number of combinations - each product has a set of available attributes (soil properties). Not all soil attributes are available within each product, but you can check which ones are available in <code><a href="../reference/slga_attribute_info.html">slga_attribute_info()</a></code>. Each soil attribute has six depth slices extending from the land surface to 2.0 metres below. Each soil attribute also has three associated values - the estimated value, plus its lower (5%) and upper (95%) confidence limits. Effectively, if you visited a single pixel on the Grid and sampled 100 points inside that pixel, you should expect that 90 of those samples would return values within those limits.</p>
-<p>Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a></p>
+<p>Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap/home?execution=e1s1">CSIRO Data Access Portal</a></p>
 <p>The function <code><a href="../reference/get_soils_data.html">get_soils_data()</a></code> is capable of pulling out data for one combination of product, soil attribute, and depth. It gives the option of returning any combination of value and confidence interval layers, either as a <code>raster</code> or <code>rasterStack</code> object.</p>
 <p>As a demonstration, the surface (0.0-0.05 metre) estimated percent clay content for central Brisbane is available with <code><a href="https://rdrr.io/r/utils/data.html">data('bne_surface_clay')</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -131,7 +131,7 @@
 <div id="landscape-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#landscape-data" class="anchor"></a>Landscape data</h2>
-<p>18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap">CSIRO Data Access Portal</a>.</p>
+<p>18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the <a href="https://data.csiro.au/dap/home?execution=e1s1">CSIRO Data Access Portal</a>.</p>
 <p><code><a href="../reference/get_lscape_data.html">get_lscape_data()</a></code> only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for central Brisbane is given by</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bne_mrvbf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_lscape_data.html">get_lscape_data</a></span><span class="op">(</span>product <span class="op">=</span> <span class="st">'MRVBF'</span>, aoi <span class="op">=</span> <span class="va">aoi</span>, write_out <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
