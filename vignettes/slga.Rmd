@@ -61,7 +61,7 @@ Note that valid `product` parameters are defined in `slga_product_info$Short_Nam
 
 ## Landscape data
 
-18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap).
+18 landscape datasets are available, describing DEM-derived terrain attributes and climatic influences. These are considered to be effective environmental covariates in soil modelling exercises. Detailed metadata for each product can be found on the [CSIRO Data Access Portal](https://data.csiro.au/dap/home?execution=e1s1).
 
 `get_lscape_data()` only requires a product code and aoi, as each landscape attribute is a single raster surface. For example, the Multi-resolution Valley Bottom Flatness Index for central Brisbane is given by
 
