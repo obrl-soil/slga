@@ -1,6 +1,7 @@
 # slga 1.1.2
 
-  * Bugfix in unit tests for compatibility with sf 0.9-7. No change in functionality.
+  * Bugfix: removed one unit test for compatibility with sf 0.9-7
+  * Improved CRS handling behind the scenes. No change in functionality.
 
 # slga 1.1.1 [CRAN]
 
