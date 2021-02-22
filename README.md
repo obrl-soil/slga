@@ -56,16 +56,16 @@ library(ggplot2)
 ``` r
 # get surface clay content for King Island
 aoi <- c(152.95, -27.55, 153.07, -27.45)
-bne_surface_clay <- get_slga_data(product = 'NAT', attribute = 'CLY',
-                                  component = 'all', depth = 1,
-                                  aoi = aoi, write_out = FALSE)
+bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+                                   component = 'all', depth = 1,
+                                   aoi = aoi, write_out = FALSE)
 ```
 
 <img src="man/figures/README-dplot-1.png" width="90%" style="display: block; margin: auto;" />
 
 See the package vignette for further detail.
 
-### Warning\!
+### Warning!
 
 While it is possible to download data for large extents using this
 package, please be aware that the data volume can get large, and it will
@@ -87,4 +87,4 @@ more people are available to help you. You’re welcome to ping me in a
 comment on those websites or on twitter (@obrl\_soil) to get my
 attention.
 
------
+------------------------------------------------------------------------

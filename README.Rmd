@@ -57,9 +57,9 @@ library(ggplot2)
 ```{r demo, eval = FALSE}
 # get surface clay content for King Island
 aoi <- c(152.95, -27.55, 153.07, -27.45)
-bne_surface_clay <- get_slga_data(product = 'NAT', attribute = 'CLY',
-                                  component = 'all', depth = 1,
-                                  aoi = aoi, write_out = FALSE)
+bne_surface_clay <- get_soils_data(product = 'NAT', attribute = 'CLY',
+                                   component = 'all', depth = 1,
+                                   aoi = aoi, write_out = FALSE)
 ```
 
 ```{r dplot, echo = FALSE, results = 'hold'}
