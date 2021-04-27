@@ -92,6 +92,7 @@ get_slga_data <- function(url = NULL, out_temp = NULL) {
 #'  slope <- slope + masker
 #'  plot(slope)
 #'  plot(sf::st_point(poi), add = TRUE, pch = 19, col = 'red')
+#'  # note: if sf_use_s2 = TRUE, this buffer distance will be Small.
 #'  plot(sf::st_buffer(sf::st_centroid(sf::st_as_sfc(aoi)),
 #'       0.000833 * 5), add = TRUE)
 #'

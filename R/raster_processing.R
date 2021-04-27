@@ -46,7 +46,11 @@ tidy_soils_data <- function(r = NULL, out_name = NULL) {
 #' @importFrom sf sf_extSoftVersion st_crs
 #' @importFrom methods as
 #'
-tidy_lscape_data <- function(r = NULL, product = NULL, write_out = FALSE, filedir) {
+tidy_lscape_data <- function(r = NULL,
+                             product = NULL,
+                             write_out = FALSE,
+                             filedir) {
+
   names(r) <- paste0('SLGA_', product)
 
   # fix CRS to have correct WKB in comments

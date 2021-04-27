@@ -1,3 +1,7 @@
+# slga 1.2.0
+
+  * Added dependency on `s2` required by upcoming sf 1.0 release. This means checks on whether an aoi intersects a target layer can be run on the sphere, increasing accuracy. Code should run consistently whether sf is using s2 or GEOS.
+
 # slga 1.1.2
 
   * Bugfix: removed one unit test for compatibility with sf 0.9-7

@@ -15,7 +15,7 @@ aoi_align(aoi = NULL, product = NULL, snap = "out")
 \item{snap}{Character; 'near', 'in', or 'out'. Defaults to 'out'.}
 }
 \description{
-Cheerfully stolen from code{\link[raster:alignExtent]{raster::alignExtent}}
+Cheerfully stolen from \code{\link[raster:alignExtent]{raster::alignExtent}}
 and adapted to sf bbox objects. This is designed to prevent WCS server-side
 interpolation when requesting SLGA data.
 }

@@ -5,9 +5,10 @@ test_that(
   c(badx_aoi <- c(144.18, -40.17, 143.75, -39.57),
     bady_aoi <- c(143.75, -39.57, 144.18, -40.17),
     bado_aoi <- c(143.75, 144.18, -40.17, -39.57),
-    expect_error(slga:::aoi_convert(badx_aoi)),
-    expect_error(slga:::aoi_convert(bady_aoi)),
-    expect_error(slga:::aoi_convert(bado_aoi))
+    # error expected is about misordered coordinates
+    expect_error(slga:::aoi_convert.numeric(badx_aoi)),
+    expect_error(slga:::aoi_convert.numeric(bady_aoi)),
+    expect_error(slga:::aoi_convert.numeric(bado_aoi))
   )
 )
 
