@@ -79,6 +79,16 @@ aoi_convert.sfg <- function(aoi = NULL) {
   sf::st_bbox(new)
 }
 
+#' @rdname aoi_convert
+#' @inherit aoi_convert return
+#' @method aoi_convert s2_geography
+#'
+aoi_convert.s2_geography <- function(aoi = NULL) {
+  # s2 classes all come back into sf as 4326 so
+  sf::st_bbox(st_transform(st_as_sf(aoi), 4283))
+}
+
+
 #' Transform an AOI's CRS
 #'
 #' Transforms an `sf` style bounding box object into the specified coordinate
