@@ -8,6 +8,7 @@
 \alias{aoi_convert.sf}
 \alias{aoi_convert.sfc}
 \alias{aoi_convert.sfg}
+\alias{aoi_convert.s2_geography}
 \title{Convert AOI}
 \usage{
 aoi_convert(aoi = NULL)
@@ -23,6 +24,8 @@ aoi_convert(aoi = NULL)
 \method{aoi_convert}{sfc}(aoi = NULL)
 
 \method{aoi_convert}{sfg}(aoi = NULL)
+
+\method{aoi_convert}{s2_geography}(aoi = NULL)
 }
 \arguments{
 \item{aoi}{Numeric vector of bounding coordinates in xmin, ymin, xmax, ymax

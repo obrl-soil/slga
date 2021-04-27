@@ -8,7 +8,7 @@
 #' @keywords internal
 #' @rdname aoi_convert
 #' @importFrom raster extent
-#' @importFrom sf st_bbox st_crs st_as_sfc sf_extSoftVersion
+#' @importFrom sf st_as_sf st_as_sfc st_bbox st_crs st_transform
 #' @importFrom utils data
 #'
 aoi_convert <- function(aoi = NULL) {
@@ -85,9 +85,8 @@ aoi_convert.sfg <- function(aoi = NULL) {
 #'
 aoi_convert.s2_geography <- function(aoi = NULL) {
   # s2 classes all come back into sf as 4326 so
-  sf::st_bbox(st_transform(st_as_sf(aoi), 4283))
+  sf::st_bbox(sf::st_transform(sf::st_as_sf(aoi), 4283))
 }
-
 
 #' Transform an AOI's CRS
 #'
