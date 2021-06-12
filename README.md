@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis build
-status](https://travis-ci.com/obrl-soil/slga.svg?branch=master)](https://travis-ci.com/obrl-soil/slga)
 [![Coverage
 status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](https://codecov.io/github/obrl-soil/slga?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/slga)](https://cran.r-project.org/package=slga)
