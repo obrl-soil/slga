@@ -1,6 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![R-CMD-check](https://github.com/obrl-soil/slga/workflows/R-CMD-check/badge.svg)](https://github.com/obrl-soil/slga/actions)
 [![Coverage
 status](https://codecov.io/gh/obrl-soil/slga/branch/master/graph/badge.svg)](https://codecov.io/github/obrl-soil/slga?branch=master)
 [![CRAN](https://www.r-pkg.org/badges/version/slga)](https://cran.r-project.org/package=slga)
