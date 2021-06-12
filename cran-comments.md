@@ -14,13 +14,11 @@ Update for compatibility with sf 1.0
 
   * Local: 
     * Windows 0 errors | 0 warnings | 0 notes
-    * Ubuntu  0 errors | 0 warnings | 1 note (SSL error 60 on
-      https://www.clw.csiro.au/aclep/soilandlandscapegrid/ProductDetails-SoilAttributes.html,
-      local machine issue - domain cert reads as valid in browsers)
+    * Ubuntu  0 errors | 0 warnings | 0 notes
   * Github Actions: 0 errors | 0 warnings | 0 notes
   
-Note that running the examples inside `\donttest{}` wrappers on Ubuntu appears to generate an error related to R CMD check's environment - as near as I can tell it can't find the tempfile downloaded from the SLGA API. The examples work correctly on Ubuntu in a normal R session, and they also run correctly when using `devtools::run_examples(run_donttest = TRUE)`. No such problems are encountered on Windows.
- 
+Note that occasionally a server-side issue will cause an http 502 error when examples are run. Such errors are not persistent.
+  
 ## Downstream dependencies
 
 There are currently no downstream dependencies for this package.
