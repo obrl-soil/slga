@@ -22,6 +22,7 @@ Suggests:
     covr,
     knitr,
     pkgdown,
+    rgdal,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
