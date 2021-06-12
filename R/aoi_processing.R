@@ -121,33 +121,24 @@ aoi_transform <- function(aoi = NULL, crs = 4283) {
 #'   \code{\link[slga:slga_product_info]{slga_product_info}}.
 #' @return Logical, TRUE if overlap exists.
 #' @note Will return TRUE if bbox is over product but not over land.
-#' @importFrom sf sf_use_s2 st_as_sfc st_crs st_intersects
+#' @importFrom sf sf_use_s2 st_as_sfc st_bbox st_crs st_intersects
 #' @importFrom s2 s2_intersects_box
 #' @importFrom utils data
-#' @keywords internal
 #'
 aoi_overlaps <- function(aoi = NULL, product = NULL) {
   slga_product_info <- NULL
   utils::data('slga_product_info', envir = environment())
   prd <- slga_product_info[which(slga_product_info$Short_Name == product), ]
   prd <- c(prd[['xmin']], prd[['ymin']], prd[['xmax']], prd[['ymax']])
+  # s2 plays up if boxes are projected for this check
   prd_aoi <- structure(prd, names = c("xmin", "ymin", "xmax", "ymax"),
-                       class = "bbox", crs =  sf::st_crs(4283))
-  suppressMessages(
-    if(sf_use_s2() == FALSE) {
-      int <- sf::st_intersects(sf::st_as_sfc(aoi),
-                               sf::st_as_sfc(prd_aoi))
-      if(length(int[[1]]) == 0L) { FALSE } else { TRUE }
-      } else {
-        # prd_aoi draws below with linesegs of ~150m (layer perimeter / 100000).
-        # Lower detail level would be fine for a smaller coverage
-        s2::s2_intersects_box(
-          sf::st_as_sfc(aoi),
-          lng1 = prd_aoi[['xmin']], lat1 = prd_aoi[['ymin']],
-          lng2 = prd_aoi[['xmax']], lat2 = prd_aoi[['ymax']],
-          detail = 100000)
-      }
-    )
+                       class = "bbox", crs =  sf::st_crs(NA))
+  aoi <- sf::st_as_sfc(aoi)
+  sf::st_crs(aoi) <- NA
+  aoi <- sf::st_bbox(aoi)
+
+  int <- sf::st_intersects(sf::st_as_sfc(aoi), sf::st_as_sfc(prd_aoi))
+  if(length(int[[1]]) == 0L) { FALSE } else { TRUE }
   }
 
 #' Align AOI to product

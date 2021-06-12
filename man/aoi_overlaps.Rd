@@ -21,4 +21,3 @@ Confirms whether an AOI covers the requested product (wholly or partly).
 \note{
 Will return TRUE if bbox is over product but not over land.
 }
-\keyword{internal}
